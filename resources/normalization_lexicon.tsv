@@ -1,0 +1,62 @@
+# Normalization lexicon — yaygın yazım yanlışları + gayriresmî kısaltmalar (Türkçe, genel domain)
+# Format: yanlış/gayriresmî<TAB>doğru   (küçük harf; '#' ile başlayan satırlar yorum)
+# Elle derlendi (Ecem). Doğru yazımlar TDK Güncel Türkçe Sözlük / Yazım Kılavuzu'na göre
+# (https://sozluk.gov.tr). Çıktı birden çok kelime olabilir (herşey -> "her şey").
+# Not: Bu lexicon sentetik testte ölçülmez (döngüsel olur); gerçek gürültülü sette ölçülür.
+#
+# --- yaygın yazım yanlışları ---
+herkez	herkes
+yanlız	yalnız
+yalnış	yanlış
+orjinal	orijinal
+şöför	şoför
+makina	makine
+eşortman	eşofman
+entellektüel	entelektüel
+egzos	egzoz
+antreman	antrenman
+laboratuar	laboratuvar
+klavuz	kılavuz
+traş	tıraş
+mütevazi	mütevazı
+süpriz	sürpriz
+meyva	meyve
+cimnastik	jimnastik
+tesbit	tespit
+kapşon	kapüşon
+pantalon	pantolon
+bilimum	bilumum
+pisikoloji	psikoloji
+inşaallah	inşallah
+deyil	değil
+diil	değil
+# --- bitişik yazılan ayrı kelimeler ---
+herşey	her şey
+birşey	bir şey
+hiçbirşey	hiçbir şey
+yada	ya da
+şuan	şu an
+yinede	yine de
+pekçok	pek çok
+hergün	her gün
+herzaman	her zaman
+# --- gayriresmî kısaltmalar / sohbet dili ---
+slm	selam
+mrb	merhaba
+mrhb	merhaba
+tmm	tamam
+tşk	teşekkürler
+tşkr	teşekkürler
+saol	sağ ol
+sağol	sağ ol
+nbr	ne haber
+naber	ne haber
+napıyorsun	ne yapıyorsun
+bişey	bir şey
+bişi	bir şey
+hiçbişey	hiçbir şey
+cnm	canım
+kib	kendine iyi bak
+bnm	benim
+snn	senin
+inş	inşallah

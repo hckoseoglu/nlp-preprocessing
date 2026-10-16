@@ -86,11 +86,14 @@ Darboğaz riski: normalization için gürültülü test verisi — erken çözü
 ```
 nlp-preprocessing/
   data/UD_Turkish-BOUN/        # indi
+  data/normalization/          # elle hazırlanan gerçek gürültülü test seti (Ecem)
   resources/                   # stopword list, norm lexicon, SUFFIX lexicon (dış, cite'lı)
   src/
     io_conllu.py               # CoNLL-U parser → cümle/token/lemma/SpaceAfter
     tokenizer_baseline.py      # runtime için basit regex tokenizer
-    normalization.py           # token→token
+    normalization.py           # token→token (Ecem)
+    noise.py                   # sentetik gürültü üretici — normalization eval (Ecem)
+    eval_normalization.py      # normalization test-case tabloları (Ecem)
     stemming.py                # token→token (stem)
     stopword.py                # static + dynamic
     evaluate.py                # her task için metrik + test-case tabloları
@@ -115,6 +118,16 @@ stem sonrası tutulur.
 noktalama düzeni, yaygın yazım-hata lexicon'u.
 - Eval: UD temiz metne **sentetik gürültü** enjekte et (diakritik silme, tekrar harf, typo) →
   (gürültülü, temiz) çiftleri; token-level accuracy. + küçük gerçek gürültülü test seti.
+- (Ecem, 2026-10-16) Detaylar:
+  - Çıktı biçimi **Türkçe küçük harf** (İ→i, I→ı; stopword `casefold` + UD lemmalarıyla uyumlu).
+    Gold = UD formunun Türkçe küçük harfi. Metrik sadece harf içeren tokenlarda.
+  - Test case'ler: temiz (hiç bozulmamış), diakritik silme (tamamı / %30), büyük harf (`KITAP`),
+    harf tekrarı, typo, karışık. Dev'de geliştir, **test'te raporla**.
+  - Her satırda: düzeltmesiz baz skoru + sistem skoru + bozulan tokenları düzeltme oranı +
+    bozulmayanları koruma oranı (aksi halde "hiçbir şey yapmayan" sistem de %90 alır).
+  - Sözlük/frekanslar **yalnızca UD train**'den. Dış veri ancak skor yetmezse (Ecem kararı).
+  - Kısaltma/yazım lexicon'u (`tmm→tamam`) sentetik testte ölçülmez (gürültü aynı lexicon'dan
+    üretilirse döngüsel olur) → elle hazırlanan küçük gerçek gürültülü sette ölçülür.
 
 **Stemming** — rule-based suffix-stripping (longest-match; çekim + geniş yapım ekleri; ünlü uyumu,
 ünsüz yumuşaması alomorfları). Kendimiz yazıyoruz.
@@ -150,7 +163,8 @@ noktalama düzeni, yaygın yazım-hata lexicon'u.
 - [x] Stopword sırası → **normalize → stopword → stem** (stem öncesi, yüzey-form). Dynamic
       listeyi stem'lenmiş korpustan üretirsek tekrar gözden geçir.
 - [x] İş bölümü: **Hikmet → stemming**, **Ecem → normalization**, **stopword → paylaşımlı**.
-- [ ] Normalization eval'i için sentetik-gürültü yaklaşımı onaylandı mı?
+- [x] Normalization eval'i → **sentetik gürültü, yalnızca UD-BOUN** + elle hazırlanan küçük
+      gerçek gürültülü set (Ecem, 2026-10-16; Hikmet'e bilgi verilecek).
 - [ ] Suffix lexicon derleme yöntemi
 
 ---
@@ -175,8 +189,15 @@ noktalama düzeni, yaygın yazım-hata lexicon'u.
 - **Son güncelleme:** 2026-10-16
 
 ## Ecem
-- **Next task:** NORMALIZATION. normalization lexicon'u derle (resources/) → `normalization.py`;
-  sentetik gürültü ile (gürültülü, temiz) çiftleri oluştur, `evaluate.accuracy` ile ölç.
-- **Left off here:** Repo iskeleti hazır; `normalization.py` stub seni bekliyor. Ortak zemin
-  (`io_conllu.py`, `evaluate.py`) kullanıma hazır.
+- **Next task:** (1) `data/normalization/real_noisy.tsv`'e gerçek gürültülü küçük set (elle,
+  kaynaklı) → lexicon'u orada ölç. (2) Lexicon girişlerini TDK sözlüğünden doğrula. (3) Stopword
+  (paylaşımlı) — Hikmet'le bölüşülecek.
+- **Left off here:** NORMALIZATION çalışıyor + test edildi (`ecem` branch, yerel).
+  `python src/eval_normalization.py test` (Windows'ta `PYTHONUTF8=1`). UD-BOUN **test** sonuçları
+  (sistem accuracy / bozulan tokenları düzeltme):
+  temiz 98.6% · diakritik(tümü) 96.4% / 95.0% · diakritik(%30) 98.0% / 95.5% ·
+  büyük harf 97.6% / 96.8% · harf tekrarı 98.5% / 97.9% · typo(%10) 93.4% / 35.1% ·
+  karışık 94.9% / 88.2%. Zayıf nokta: typo düzeltme (doğru kelime çoğu zaman UD train sözlüğünde
+  yok); skor yetmezse dış kelime listesi gündeme gelir. Bileşenler `Normalizer(...)` bayraklarıyla
+  kapatılabilir (ablation hazır). Ayarlar dev'de seçildi (typo_margin=2.0, ctx_size=4, min_ctx=1).
 - **Son güncelleme:** 2026-10-16
