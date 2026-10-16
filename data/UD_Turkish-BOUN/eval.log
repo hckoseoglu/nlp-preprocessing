@@ -1,0 +1,43 @@
+Running the following version of UD tools:
+commit b39dc4111bb13658bc0c204b48bb78b492e45d2b
+Author: Dan Zeman <zeman@ufal.mff.cuni.cz>
+Date:   Tue May 5 17:01:41 2026 +0200
+Evaluating the following revision of UD_Turkish-BOUN:
+commit 210bcf98cd42aa0da4680dd4484577acf7294dab
+Merge: 7fed172 0def94a
+Author: Dan Zeman <zeman@ufal.mff.cuni.cz>
+CoNLL-U data file regular expression = '(.+)-ud-(train|dev|test)\.conllu'
+Language-treebank code (from CoNLL-U file name) = 'tr_boun'
+Language code (from CoNLL-U file name) = 'tr'
+Found the following data files: tr_boun-ud-dev.conllu, tr_boun-ud-test.conllu, tr_boun-ud-train.conllu
+Size: counted 125212 of 125212 words (nodes).
+Size: min(0, log((N/1000)**2)) = 9.66001660143674.
+Size: maximum value 13.815511 is for 1000000 words or more.
+Split: Found more than 10000 training words.
+Split: Found at least 10000 development words.
+Split: Found at least 10000 test words.
+Lemmas: source of annotation (from README) factor is 1.
+Universal POS tags: 16 out of 17 found in the corpus.
+Universal POS tags: source of annotation (from README) factor is 1.
+Features: 83391 out of 125212 total words have one or more features.
+Features: source of annotation (from README) factor is 1.
+Universal relations: 34 out of 37 found in the corpus.
+Universal relations: source of annotation (from README) factor is 1.
+Genres: found 2 out of 18 known.
+/net/work/people/zeman/unidep/tools/validate.py --lang tr --max-err=10 UD_Turkish-BOUN/tr_boun-ud-dev.conllu
+*** PASSED ***
+/net/work/people/zeman/unidep/tools/validate.py --lang tr --max-err=10 UD_Turkish-BOUN/tr_boun-ud-test.conllu
+*** PASSED ***
+/net/work/people/zeman/unidep/tools/validate.py --lang tr --max-err=10 UD_Turkish-BOUN/tr_boun-ud-train.conllu
+*** PASSED ***
+Validity: 1
+(weight=0.111111111111111) * (score{features}=1) = 0.111111111111111
+(weight=0.111111111111111) * (score{genres}=0.111111111111111) = 0.0123456790123457
+(weight=0.111111111111111) * (score{lemmas}=1) = 0.111111111111111
+(weight=0.37037037037037) * (score{size}=0.699215317516297) = 0.258968636117147
+(weight=0.0740740740740741) * (score{split}=1) = 0.0740740740740741
+(weight=0.111111111111111) * (score{tags}=0.941176470588235) = 0.104575163398693
+(weight=0.111111111111111) * (score{udeprels}=0.918918918918919) = 0.102102102102102
+(TOTAL score=0.774287876926584) * (availability=1) * (validity=1) = 0.774287876926584
+STARS = 4
+UD_Turkish-BOUN	0.774287876926584	4

@@ -1,0 +1,182 @@
+# CMPE 561 — Application Project 1: Turkish Preprocessing Toolkit
+
+> Bu dosya projenin **tek doğruluk kaynağı (source of truth)** ve ortak çalışma planıdır.
+> Hem Hikmet'in hem Ecem'in Claude session'ları bu planı takip eder. Değişiklik gerektiğinde
+> önce buna yazılır, sonra uygulanır. Her ilerlemeden sonra en alttaki **İlerleme Takibi**
+> alanları güncellenir.
+
+## Progress report (yazım)
+Google Doc: https://docs.google.com/document/d/17us7o9sWcMksMo_VYhHR-i3A4QS82oYJtnTyMJwZeJA/edit
+(PDF olarak export edilip 20.10.2026 23:59'a kadar e-mail ile gönderilecek.)
+
+## Ana kaynak (source of truth — gereksinimler)
+**`/Users/hikmetcankoseoglu/Desktop/cmpe561/Application Project 1.pdf`** — Projenin tüm
+gereksinimleri bu dokümandan gelir. Kapsam/karar tartışmalarında bu doküman belirleyicidir.
+Diğer kaynaklar (slaytlar, makaleler) `~/Desktop/cmpe561/` altındadır.
+
+## Takım
+- Hikmet Can Köseoğlu (koseogluhikmetcan@gmail.com)
+- Ecem Yıldırım
+- Group 07
+
+## Dil / teknoloji
+- Hedef dil: **Türkçe** (Erasmus değiliz).
+- Tüm kod **Python**. Kaynak kodun tamamı bize ait olmalı; dış kaynaklar ve araçlar açıkça
+  cite edilmeli.
+
+---
+
+## Kapsam — 5 preprocessing görevi
+1. **Tokenization** — rule-based **ve** ML-based (iki tokenizer). Özel varlıklar: URL, hashtag,
+   e-mail, MWE. ML için feature set'ler elle tasarlanır.
+2. **Sentence splitting** — rule-based **ve** ML-based (iki splitter). Tırnak içi EOS vb. zor
+   durumlar. Feature set'ler elle tasarlanır.
+3. **Normalization** — genel domain (haber vb.), domain'e özgü değil.
+4. **Stemming** — tüm çekim (inflectional) ekleri + geniş yapım (derivational) eki kapsamı.
+5. **Stopword elimination** — **static** (önceden tanımlı liste) **ve** **dynamic** (korpustan
+   metriklerle üretilen liste), genel domain.
+
+### ML kısıtı
+- Tokenization ve sentence splitting için: biri **Naïve Bayes** (kendimiz implement edeceğiz),
+  diğeri **Logistic Regression** (scikit-learn kullanılabilir). Hangi görevde hangisi? → **KARAR
+  BEKLİYOR**, rapor yazımından hemen önce netleşecek (ön eğilim: NB→splitting, LR→tokenization).
+- Başka klasik ML veya deep learning YASAK. Her iki görev de farklı feature set'lerle test
+  edilip başarı oranları karşılaştırılacak.
+
+### Başarı kriteri
+- Her 5 görevde en az **%90–95 başarı**. Her görev için uygun metrik, farklı test case'lerde
+  raporlanır.
+
+## Veri
+- Birincil: **UD Turkish-BOUN** (CoNLL-U) → `data/UD_Turkish-BOUN/`.
+  - train: 7803 cümle / 100.713 token · dev: 979 · test: 979
+  - Gold olarak verdikleri: `# text =` (cümle sınırı + detokenization), token sınırları +
+    `SpaceAfter=No` (tokenization), **3. kolon = lemma** (stemming eval), UPOS (stopword filtre).
+- Gerekli yerlerde dış veri (normalization için gürültülü/sosyal medya verisi veya sentetik
+  gürültü; MWE/suffix/normalization/stopword lexicon'ları).
+
+## Teslimler ve tarihler (STRICT)
+- **Progress report** — **20.10.2026 23:59**, PDF, **e-mail ile**. 5–10 sayfa, serbest stil.
+  Bu tarihte ~%70–80 tamam olmalı: korpuslar hazır; **normalization + stemming + stopword
+  tamamlanmış ve test edilmiş**; tokenization + splitting **tasarımına karar verilmiş**.
+  Aksi halde proje "incomplete".
+- **Final (Moodle)** — **03.11.2026 23:59**: kod (zip), system paper (PDF, 4–6 sayfa konferans
+  formatı, course web page template'i), work-sharing dokümanı (PDF, kişi bazında kim ne yaptı).
+- Demo: her grup için ayrıca ayarlanacak; genel domain metinleriyle de test edilecek.
+
+## LLM kullanım politikası
+- Rapor/paper kendi kelimelerimizle yazılacak. LLM'i spell/grammar dışında kullanırsak, kullanım
+  düzeyi rapor/paper sonunda **acknowledgment** olarak açıkça belirtilmeli.
+  (Örnek log: `~/Desktop/cmpe561/AI_Usage_Log_Mishra2011.md`.)
+
+---
+
+# PLAN
+
+## Roadmap (sıralı aşamalar — tarih yok, hedef rapor: 20 Eki)
+1. **Zemin:** CoNLL-U okuyucu, gold token/lemma/frekans çıkarımı, ortak `token→token` arayüzü;
+   dış kaynakların toplanması; iş bölümünün netleşmesi.
+2. **Stemming + Normalization:** ilk çalışan sürüm + eval harness.
+3. **Stopword** (static + dynamic): üç task'ın başarı tabloları, %90–95'e iterasyon.
+4. **Tokenization + splitting tasarımı** + progress report PDF + e-mail.
+
+Darboğaz riski: normalization için gürültülü test verisi — erken çözülmezse tıkanır.
+
+## Repo yapısı
+```
+nlp-preprocessing/
+  data/UD_Turkish-BOUN/        # indi
+  resources/                   # stopword list, norm lexicon, SUFFIX lexicon (dış, cite'lı)
+  src/
+    io_conllu.py               # CoNLL-U parser → cümle/token/lemma/SpaceAfter
+    tokenizer_baseline.py      # runtime için basit regex tokenizer
+    normalization.py           # token→token
+    stemming.py                # token→token (stem)
+    stopword.py                # static + dynamic
+    evaluate.py                # her task için metrik + test-case tabloları
+  reports/                     # progress report kaynakları
+```
+Ortak sözleşme: her task `List[str] -> List[str]` (veya detay taşıyan Token nesnesi).
+Çalışma-zamanı zinciri: **`normalize → stopword → stem`** (default). Stopword eleme tipik
+pipeline'da normalization sonrası, stemming **öncesi** gelir: stopword listeleri yüzey-form'dur,
+Türkçe stopword'ler de çoğunlukla çekimsiz işlev sözcükleri olduğundan stem'lemeden önce elemek
+standart ve güvenli. İstisna: dynamic stopword'ler stem'lenmiş korpustan üretilirse eleme de
+stem sonrası tutulur.
+
+## Tokenizer stratejisi (önemli)
+- **Dev/eval**: üç rapor-task'ı UD **gold token'ları** üstünde geliştirilir → bu üç task'ın
+  başarısı tokenizer kalitesine bağlı kalmaz.
+- **Runtime (ham metin)**: basit **regex baseline tokenizer** (whitespace + noktalama ayırma).
+  Saf whitespace-split YETERSİZ (Türkçe'de noktalama kelimeye yapışık). Gerçek rule-based + ML
+  tokenizer rapor sonrasına.
+
+## Task bazında yöntem + metrik (nasıl %90–95)
+**Normalization** — deasciification (`gelecegim→geleceğim`), case normalizasyonu, sayı/tarih/
+noktalama düzeni, yaygın yazım-hata lexicon'u.
+- Eval: UD temiz metne **sentetik gürültü** enjekte et (diakritik silme, tekrar harf, typo) →
+  (gürültülü, temiz) çiftleri; token-level accuracy. + küçük gerçek gürültülü test seti.
+
+**Stemming** — rule-based suffix-stripping (longest-match; çekim + geniş yapım ekleri; ünlü uyumu,
+ünsüz yumuşaması alomorfları). Kendimiz yazıyoruz.
+- Eval: çıktı vs UD lemma, accuracy. Uyarı: stem≠lemma — raporda belirtilir.
+
+**Stopword** — static: dış referans liste (cite'lı); dynamic: UD train'den frekans + metrik
+(TF, entropi/varyans, Zipf vb.) ile aday üretimi.
+- Eval: üretilen liste vs referans → precision/recall/F1; static vs dynamic karşılaştırması.
+
+## Tokenization & splitting — sadece *tasarım* (rapora)
+- Tokenizer: rule-based (URL/email/hashtag/MWE/sayı/noktalama regex'leri, UD `SpaceAfter`
+  referansı) + ML (split-noktası split/no-split sınıflama, elle feature'lar).
+- Splitter: rule-based (EOS işaretleri + kısaltma listesi + tırnak içi EOS) + ML (aday sınır
+  noktası boundary/değil; feature: önceki token, sonraki kelime büyük harf mi, kısaltma mı...).
+
+## Dış kaynaklar (hepsi cite'lı)
+- **Suffix lexicon — ZORUNLU** (opsiyonel değil). Spec ismen istiyor + rule-based stemmer'ın
+  çekirdeği. Düz liste yetmez: çekim/yapım katmanlaması, ünlü uyumu ve ünsüz yumuşaması
+  alomorfları gerekir. Derleme yöntemi (elle / dilbilgisi kaynağından cite ile) ayrı kalem.
+- Türkçe stopword listesi · normalization/typo lexicon · (opsiyonel) MWE lexicon ·
+  normalization için gürültülü örnek metin.
+
+## Progress report iskeleti (serbest stil, 5–10 sayfa, PDF, e-mail)
+1. Giriş / problem & kapsam (5 task)
+2. Korpuslar ve kaynaklar (UD-BOUN + derlenen lexicon'lar, hazırlık durumu)
+3. Tamamlanan 3 operasyon: yöntem + **metrik + test-case başarı tabloları**
+4. Tokenization & splitting **tasarım kararları** (rule-based + ML; NB vs LR; feature taslakları)
+5. Kalan iş planı & iş bölümü
+6. (gerekiyorsa) LLM-kullanım acknowledgment
+
+## Açık kararlar (netleşince buraya işaretle)
+- [ ] NB vs LR hangi task'ta (ön eğilim: NB→splitting, LR→tokenization)
+- [x] Stopword sırası → **normalize → stopword → stem** (stem öncesi, yüzey-form). Dynamic
+      listeyi stem'lenmiş korpustan üretirsek tekrar gözden geçir.
+- [x] İş bölümü: **Hikmet → stemming**, **Ecem → normalization**, **stopword → paylaşımlı**.
+- [ ] Normalization eval'i için sentetik-gürültü yaklaşımı onaylandı mı?
+- [ ] Suffix lexicon derleme yöntemi
+
+---
+
+# ORTAK ÇALIŞMA PROTOKOLÜ (Hikmet & Ecem session'ları)
+- Bu dosya ortak plandır; iki kişi de aynı planı takip eder. Plan değişikliği önce buraya yazılır.
+- Herkes **kendi** task'ında çalışır; ortak dosyalara (io_conllu, evaluate) dokunurken not düşer.
+- Her anlamlı ilerlemeden sonra aşağıdaki **İlerleme Takibi** alanı güncellenir (hem insan hem
+  agent takip edebilsin). "Next task" ve "Left off here" her zaman güncel tutulur.
+- Bir şey tamamlanıp test edildiğinde "Açık kararlar" / takip alanları işaretlenir.
+
+---
+
+# İLERLEME TAKİBİ
+> Her progress sonrası güncelle. Tarih ekle. Agent'lar bu alanlara bakarak devam eder.
+
+## Hikmet
+- **Next task:** STEMMING. Suffix lexicon'u derle (resources/) → `stemming.py` içinde
+  rule-based suffix-stripping; `io_conllu.lemma_pairs` + `evaluate.accuracy` ile ölç.
+- **Left off here:** Repo iskeleti kuruldu; `io_conllu.py` çalışıyor (gold token/lemma/frekans).
+  `stemming.py` stub hazır, implementasyon bekliyor.
+- **Son güncelleme:** 2026-10-16
+
+## Ecem
+- **Next task:** NORMALIZATION. normalization lexicon'u derle (resources/) → `normalization.py`;
+  sentetik gürültü ile (gürültülü, temiz) çiftleri oluştur, `evaluate.accuracy` ile ölç.
+- **Left off here:** Repo iskeleti hazır; `normalization.py` stub seni bekliyor. Ortak zemin
+  (`io_conllu.py`, `evaluate.py`) kullanıma hazır.
+- **Son güncelleme:** 2026-10-16
