@@ -1,0 +1,174 @@
+# Türkçe çekim eki lexicon'u (v0 — basit, düz liste, longest-match için)
+# Allomorf'lar ünlü uyumuna göre tek tek listelenmiştir.
+# '#' ile başlayan satırlar yorum. Kategoriler sonraki (morfotaktik) sürüm için not amaçlı.
+# Kaynak/referans: Snowball Türkçe stemmer (isim ekleri) + Türkçe dilbilgisi; fiil ekleri kendi derlememiz.
+
+# ================= İSİM ÇEKİMİ =================
+# -- çoğul --
+lar
+ler
+# -- iyelik --
+ım
+im
+um
+üm
+ımız
+imiz
+umuz
+ümüz
+ınız
+iniz
+unuz
+ünüz
+ları
+leri
+sı
+si
+su
+sü
+mız
+miz
+muz
+müz
+nız
+niz
+nuz
+nüz
+# -- hal ekleri --
+# yükleme (acc)
+yı
+yi
+yu
+yü
+# yönelme (dat)
+ya
+ye
+# bulunma (loc)
+da
+de
+ta
+te
+# ayrılma (abl)
+dan
+den
+tan
+ten
+# tamlayan (gen)
+ın
+in
+un
+ün
+nın
+nin
+nun
+nün
+# vasıta (ins)
+la
+le
+yla
+yle
+# eşitlik (equ)
+ca
+ce
+ça
+çe
+# ilgi (rel)
+ki
+
+# ================= FİİL ÇEKİMİ =================
+# -- olumsuzluk --
+ma
+me
+# -- kip / zaman / görünüş --
+ıyor
+iyor
+uyor
+üyor
+yor
+yacak
+yecek
+acak
+ecek
+mış
+miş
+muş
+müş
+malı
+meli
+dı
+di
+du
+dü
+tı
+ti
+tu
+tü
+sa
+se
+ar
+er
+ır
+ir
+ur
+ür
+# -- kişi ekleri --
+yım
+yim
+yız
+yiz
+sın
+sin
+sun
+sün
+sınız
+siniz
+sunuz
+sünüz
+# -- bileşik/ek-fiil & koşaç --
+dır
+dir
+dur
+dür
+tır
+tir
+tur
+tür
+ydı
+ydi
+ymış
+ymiş
+yse
+ysa
+ken
+# -- mastar --
+mak
+mek
+# -- zarf-fiil / sıfat-fiil (bazıları yapım sınırında) --
+arak
+erek
+ınca
+ince
+unca
+ünce
+dıkça
+dikçe
+madan
+meden
+ıp
+ip
+up
+üp
+
+# ================= TEK HARFLİ / KISA ORTAK EKLER =================
+# (acc/poss/dat vb. — longest-match önce uzunları dener, bunlar en sona kalır)
+yı
+a
+e
+ı
+i
+u
+ü
+m
+n
+k
+r
