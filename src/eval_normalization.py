@@ -2,8 +2,8 @@
 
 SAHİP: Ecem
 UD cümlelerini noise.py ile bozar, normalizer'a düzelttirir, orijinalle karşılaştırır.
-Gold = UD formunun Türkçe küçük harfi (+ noktalama birliği, bkz. normalization.canonical);
-metrik yalnızca harf içeren tokenlarda.
+Gold = UD formunun Türkçe küçük harfi (+ biçim birliği, bkz. normalization.canonical).
+Metrik harf içeren tokenlarda; "biçim" satırında tüm tokenlarda (noktalama ve sayılar dahil).
 Her satırda:
   baz       : düzeltmesiz (sadece Türkçe küçük harf) skoru — "hiçbir şey yapmasak" ne alırdık
   sistem    : normalizer'ın token accuracy'si
@@ -16,29 +16,37 @@ from __future__ import annotations
 
 import argparse
 import random
+import zlib
 from pathlib import Path
 
 from evaluate import accuracy
 from io_conllu import read_conllu
 from noise import corrupt, is_word
-from normalization import Normalizer, canonical
+from normalization import Normalizer, canonical, turkish_lower
 
 _DATA = Path(__file__).resolve().parent.parent / "data" / "UD_Turkish-BOUN"
 _REAL = Path(__file__).resolve().parent.parent / "data" / "normalization" / "real_noisy.tsv"
 
-# (rapordaki ad, gürültü tipi, oran)
+# (rapordaki ad, gürültü tipi, oran, ölçülen tokenlar: "word" = harf içeren / "all" = hepsi)
 CASES = [
-    ("temiz (bozulmamış)", "clean", 0.0),
-    ("diakritik silme (tümü)", "diacritics", 1.0),
-    ("diakritik silme (%30)", "diacritics", 0.3),
-    ("büyük harf (tümü)", "upper", 1.0),
-    ("harf tekrarı (%20)", "repeat", 0.2),
-    ("typo (%10)", "typo", 0.1),
-    ("karışık", "mixed", 0.0),
+    ("temiz (bozulmamış)", "clean", 0.0, "word"),
+    ("diakritik silme (tümü)", "diacritics", 1.0, "word"),
+    ("diakritik silme (%30)", "diacritics", 0.3, "word"),
+    ("büyük harf (tümü)", "upper", 1.0, "word"),
+    ("harf tekrarı (%20)", "repeat", 0.2, "word"),
+    ("typo (%10)", "typo", 0.1, "word"),
+    ("biçim (%50, tüm token)", "format", 0.5, "all"),
+    ("karışık", "mixed", 0.0, "word"),
 ]
 
 
-def run_case(sentences, normalizer: Normalizer, kind: str, rate: float, seed: int):
+def case_seed(name: str) -> int:
+    """Test case'in sabit seed'i (adından türetilir; tabloya case eklenince diğerleri değişmez)."""
+    return zlib.crc32(name.encode("utf-8"))
+
+
+def run_case(sentences, normalizer: Normalizer, kind: str, rate: float, seed: int,
+             scope: str = "word"):
     """Bir test case'i çalıştırır; (gold, baz, sistem, gürültülü) token listelerini döndürür."""
     rng = random.Random(seed)
     gold, base, pred, noisy_all = [], [], [], []
@@ -47,9 +55,9 @@ def run_case(sentences, normalizer: Normalizer, kind: str, rate: float, seed: in
         noisy = corrupt(clean, kind, rate, rng)
         out = normalizer.normalize_tokens(noisy)
         for c, n, o in zip(clean, noisy, out):
-            if is_word(c):
+            if scope == "all" or is_word(c):
                 gold.append(canonical(c))
-                base.append(canonical(n))
+                base.append(turkish_lower(n))
                 pred.append(o)
                 noisy_all.append(n)
     return gold, base, pred, noisy_all
@@ -79,7 +87,7 @@ def run_real(sents, normalizer: Normalizer):
         for c, n, o in zip(clean, noisy, out):
             if is_word(c):
                 gold.append(canonical(c))
-                base.append(canonical(n))
+                base.append(turkish_lower(n))
                 pred.append(o)
                 noisy_all.append(n)
     return gold, base, pred, noisy_all
@@ -112,16 +120,18 @@ def main() -> None:
     header = f"{'test case':<24} | {'baz':>6} | {'sistem':>6} | {'düzeltme':>8} | {'koruma':>6} | bozulan"
     print(header)
     print("-" * len(header))
-    runs = [(name, lambda i=i, k=kind, r=rate: run_case(sentences, normalizer, k, r, seed=561 + i))
-            for i, (name, kind, rate) in enumerate(CASES)]
+    runs = [(name, lambda n=name, k=kind, r=rate, sc=scope:
+             run_case(sentences, normalizer, k, r, seed=case_seed(n), scope=sc))
+            for name, kind, rate, scope in CASES]
     real = load_real(_REAL) if _REAL.exists() else []
     if real:
         runs.append(("gerçek gürültülü (elle)", lambda: run_real(real, normalizer)))
     for name, run in runs:
         gold, base, pred, noisy = run()
         sc = scores(gold, base, pred)
-        print(f"{name:<24} | {sc['baz']:6.2%} | {sc['sistem']:6.2%} | {sc['düzeltme']:8.2%} | "
-              f"{sc['koruma']:6.2%} | {sc['bozulan']}/{sc['n']}")
+        pct = lambda x, w: f"{'-':>{w}}" if x != x else f"{x:{w}.2%}"   # x != x: NaN
+        print(f"{name:<24} | {pct(sc['baz'], 6)} | {pct(sc['sistem'], 6)} | "
+              f"{pct(sc['düzeltme'], 8)} | {pct(sc['koruma'], 6)} | {sc['bozulan']}/{sc['n']}")
         if args.errors:
             errs = [(n, p, g) for n, p, g in zip(noisy, pred, gold) if p != g]
             for n, p, g in errs[:args.errors]:

@@ -2,16 +2,20 @@
 
 SAHİP: Ecem
 Bileşenler (sırayla, her token için):
-  1. noktalama birliği (’ -> ', “ ” -> ", – — -> -, … -> ...)
+  1. biçim birliği (Türkçe yazım standardı, TDK): Unicode NFC + görünmez karakterler; noktalama
+     (’ -> ', “ ” -> ", – — -> -, … / .. -> ..., !!! -> !); sayı/tarih (16/10/2026 -> 16.10.2026,
+     19:30 -> 19.30, 25% -> %25, 1,000,000 -> 1.000.000)
   2. Türkçe küçük harf (İ -> i, I -> ı; ama Türkçe bilmeyen BÜYÜK HARF'te I belirsizdir)
   3. yazım-hata/kısaltma lexicon'u (resources/normalization_lexicon.tsv)
   4. harf tekrarı kısaltma (çoooook -> çok)
   5. deasciification (gelecegim -> geleceğim): önce UD train sözlüğü (+ önceki kelime bağlamı);
      sözlükte yoksa kök (kelime başı) sözlüğü + kalan harfler için soldan sağa harf bağlamı
      istatistiği (her c/g/i/o/s/u için çevresindeki harflere bakılır -> ünlü uyumu yakalanır)
-  6. typo düzeltme: yalnızca Türkçe'ye benzemeyen kelimede (train'de görülmemiş harf üçlüsü);
-     1 düzenleme uzaklığındaki adaylardan sözlükte olan en sık olan, yoksa harf dizisi skoru
-     (karakter n-gram) en yüksek olan seçilir
+  6. typo düzeltme: kelime ne sözlükte var ne de "bilinen kök + bilinen ek" olarak
+     açıklanabiliyorsa (ya da train'de görülmemiş harf üçlüsü içeriyorsa) typo sayılır;
+     1 düzenleme uzaklığındaki geçerli adaylardan en olası olanı seçilir (kök ve ek sıklığı).
+     Geçerli aday yoksa harf dizisi skoru (karakter n-gram) en yüksek olan. Cümle ortasında
+     büyük harfle başlayan kelimelere (özel isim) dokunulmaz.
 Sözlük ve istatistikler yalnızca UD train'den. Değerlendirme: src/eval_normalization.py.
 Bkz. CLAUDE.md.
 
@@ -22,6 +26,7 @@ from __future__ import annotations
 
 import math
 import re
+import unicodedata
 from collections import Counter, defaultdict
 from pathlib import Path
 
@@ -37,8 +42,17 @@ _LEXICON = _ROOT / "resources" / "normalization_lexicon.tsv"
 _TR_LETTERS = set("çğıöşüâîûÇĞİÖŞÜÂÎÛ")
 _TO_ASCII = str.maketrans("çğıöşüâîû", "cgiosuaiu")
 _TR_OF = {"c": "ç", "g": "ğ", "i": "ı", "o": "ö", "s": "ş", "u": "ü"}
-_PUNCT = str.maketrans({"’": "'", "‘": "'", "“": '"', "”": '"', "„": '"', "«": '"', "»": '"',
-                        "–": "-", "—": "-"})
+_PUNCT = str.maketrans({"’": "'", "‘": "'", "‚": "'", "`": "'", "´": "'", "′": "'",
+                        "“": '"', "”": '"', "„": '"', "«": '"', "»": '"', "‹": '"', "›": '"',
+                        "–": "-", "—": "-", "―": "-", "‒": "-",
+                        "​": None, "‌": None, "‍": None, "⁠": None,
+                        "﻿": None, "­": None})   # görünmez karakterler silinir
+_DOTS = re.compile(r"^\.{2,}$")                                     # .. / .... -> ...
+_REPEAT_PUNCT = re.compile(r"^[!?]{2,}$")                           # !!! -> !, ?!?! -> ?!
+_DATE = re.compile(r"^(\d{1,2})[/-](\d{1,2})[/-](\d{4}|\d{2})(?=$|')")   # 16/10/2026
+_TIME = re.compile(r"^([01]?\d|2[0-3]):([0-5]\d)(?=$|')")                 # 19:30
+_PERCENT = re.compile(r"^(\d+(?:[.,]\d+)?)%(?=$|')")                       # 25%
+_THOUSANDS_EN = re.compile(r"^\d{1,3}(?:,\d{3}){2,}(?=$|')")               # 1,000,000
 _AMBIG_I = "\x01"           # Türkçe bilmeyen büyük harften gelen I: i mi ı mı belli değil
 _WORD = re.compile(r"^[^\W\d_]+(?:'[^\W\d_]+)*$")   # harflerden oluşan kelime (kesmeli olabilir)
 _RUN3 = re.compile(r"([^\W\d_])\1{2,}")              # aynı harfin 3+ tekrarı
@@ -58,9 +72,28 @@ def to_ascii(text: str) -> str:
     return text.translate(_TO_ASCII)
 
 
+def normalize_format(token: str) -> str:
+    """Biçim birliği (Türkçe yazım standardı, TDK; UD-BOUN da bu biçimi kullanır): Unicode NFC
+    (Mac'ten gelen ayrık ş = s + çengel gibi), görünmez karakterler, noktalama ve sayı/tarih."""
+    token = unicodedata.normalize("NFC", token).translate(_PUNCT).replace("…", "...")
+    if token == "''":
+        return '"'
+    if _DOTS.match(token):
+        return "..."
+    if _REPEAT_PUNCT.match(token):
+        return "".join(dict.fromkeys(token))
+    token = _DATE.sub(r"\1.\2.\3", token)
+    token = _TIME.sub(r"\1.\2", token)
+    token = _PERCENT.sub(r"%\1", token)
+    m = _THOUSANDS_EN.match(token)
+    if m:
+        token = m.group(0).replace(",", ".") + token[m.end():]
+    return token
+
+
 def canonical(token: str) -> str:
-    """Bir temiz tokenin beklenen çıktısı: noktalama birliği + Türkçe küçük harf (eval gold'u)."""
-    return turkish_lower(token.translate(_PUNCT).replace("…", "..."))
+    """Bir temiz tokenin beklenen çıktısı: biçim birliği + Türkçe küçük harf (eval gold'u)."""
+    return turkish_lower(normalize_format(token))
 
 
 def _trigrams(word: str) -> list[str]:
@@ -118,13 +151,21 @@ class Normalizer:
 
     def __init__(self, train_path: str | Path = _TRAIN, lexicon_path: str | Path = _LEXICON, *,
                  lexicon: bool = True, repeats: bool = True, deasciify: bool = True,
-                 context: bool = True, typos: bool = True, typo_min_freq: int = 2,
-                 typo_margin: float | None = 2.0, ctx_size: int = 4, min_ctx: int = 1):
+                 context: bool = True, typos: bool = True, typo_margin: float | None = 2.0,
+                 typo_min_freq: int | None = 30, min_stem: int = 2, min_end: int = 2,
+                 ctx_size: int = 4, min_ctx: int = 1):
         self.use_lexicon, self.use_repeats, self.use_deasciify = lexicon, repeats, deasciify
-        self.use_context, self.use_typos, self.typo_min_freq = context, typos, typo_min_freq
-        # sözlükte olmayan typo adayı, harf dizisi skoru orijinalden en az bu kadar yüksekse
-        # seçilir (None: yalnızca sözlükteki adaylar)
+        self.use_context, self.use_typos = context, typos
+        # Türkçe'ye benzeyen (harf üçlüleri görülmüş) ama sözlükte olmayan ve kök+ek olarak da
+        # açıklanamayan kelime, ancak 1 düzenleme ötesinde en az bu sıklıkta bir sözlük kelimesi
+        # varsa düzeltilir (None: bu tür kelimelere hiç dokunma)
+        self.typo_min_freq = typo_min_freq
+        # geçerli aday bulunamazsa: harf dizisi skoru orijinalden en az bu kadar yüksek olan
+        # aday seçilir (None: bu son çare kapalı)
         self.typo_margin = typo_margin
+        # "kök + ek" geçerliliği: kök en az min_stem harf, ek train'de en az min_end farklı
+        # kelimede son olarak görülmüş olmalı
+        self.min_stem, self.min_end = min_stem, min_end
         self.ctx_size, self.min_ctx = ctx_size, min_ctx
         self._pad = "#" * ctx_size
         self._build(Path(train_path))
@@ -182,6 +223,26 @@ class Normalizer:
                 for n in range(1, k + 1):
                     self.ctx[(n, left[i + k - n:i + k], ch, right[i + 1:i + 1 + n])][label] += 1
         self.ctx = dict(self.ctx)
+
+        # Kök + ek istatistiği (typo tespiti ve adayları için): sözlükteki bir kelime başka bir
+        # sözlük kelimesiyle başlıyorsa kalan kısım bir "ek"tir (öğretmenler = öğretmen + ler).
+        # Hem Türkçe harflerle hem ASCII anahtarlarla tutulur (Türkçe karaktersiz yazım için).
+        self.n_tokens = sum(self.freq.values())
+        self.key_freq: Counter[str] = Counter()
+        for w, f in self.freq.items():
+            self.key_freq[to_ascii(w)] += f
+        self.end_tr, self.end_ascii = Counter(), Counter()
+        vocab_tr = set(words)
+        vocab_ascii = {to_ascii(w) for w in words}
+        for w in words:
+            a = to_ascii(w)
+            for k in range(self.min_stem, len(w)):
+                if w[:k] in vocab_tr:
+                    self.end_tr[w[k:]] += 1
+                if a[:k] in vocab_ascii:
+                    self.end_ascii[a[k:]] += 1
+        self.n_end_tr = sum(self.end_tr.values())
+        self.n_end_ascii = sum(self.end_ascii.values())
 
         # Typo tespiti (görülmemiş harf üçlüsü) ve aday sıralama (karakter n-gram) için
         self.tri_tr = Counter(t for w in words for t in _trigrams(w))
@@ -281,20 +342,50 @@ class Normalizer:
             return any(self.tri_tr[t] == 0 for t in _trigrams(w))
         return any(self.tri_ascii[t] == 0 for t in _trigrams(to_ascii(w)))
 
+    def _word_logp(self, w: str, tr_keyboard: bool) -> float | None:
+        """Kelimenin log-olasılığı: sözlükteyse sıklığından, değilse en iyi "kök + ek"
+        ayrımından. Hiçbiriyle açıklanamıyorsa None (geçersiz kelime)."""
+        vocab = self.freq if tr_keyboard else self.key_freq
+        ends, n_end = (self.end_tr, self.n_end_tr) if tr_keyboard else (self.end_ascii, self.n_end_ascii)
+        if vocab.get(w):
+            return math.log(vocab[w] / self.n_tokens)
+        best = None
+        for k in range(self.min_stem, len(w)):
+            fs, fe = vocab.get(w[:k], 0), ends.get(w[k:], 0)
+            if fs and fe >= self.min_end:
+                lp = math.log(fs / self.n_tokens) + math.log(fe / n_end)
+                if best is None or lp > best:
+                    best = lp
+        return best
+
     def _correct_typo(self, w: str, tr_keyboard: bool, prev: str) -> str | None:
-        """1 düzenleme uzaklığındaki adaylardan: sözlükte olan en sık; yoksa harf üçlüleri
-        görülmüş ve harf dizisi skoru en yüksek olan. Bulunamazsa None."""
+        """Kelime geçerliyse None. Değilse 1 düzenleme uzaklığındaki geçerli adaylardan en
+        olası olanı (önceki kelimeyle birlikte görülmüşse küçük bir bonusla); geçerli aday yoksa
+        harf dizisi skoru en yüksek olanı döndürür."""
+        odd = self._looks_like_typo(w, tr_keyboard)
+        if not odd and (self.typo_min_freq is None or self._word_logp(w, tr_keyboard) is not None):
+            return None
         alphabet = _TR_ALPHABET if tr_keyboard else _ASCII_ALPHABET
         edits = _edits1(w, alphabet)
-        if tr_keyboard:
-            known = [c for c in edits if self.freq[c] >= self.typo_min_freq]
-        else:
-            known = [f for k in edits for f in self.by_key.get(k, ())
-                     if self.freq[f] >= self.typo_min_freq]
-        if known:
-            if self.use_context:
-                return max(known, key=lambda c: (self.bigram[(prev, c)], self.freq[c]))
-            return max(known, key=self.freq.__getitem__)
+        scored = []
+        for c in edits:
+            lp = self._word_logp(c, tr_keyboard)
+            if lp is not None:
+                if self.use_context and tr_keyboard:
+                    lp += math.log1p(self.bigram[(prev, c)])
+                scored.append((lp, c))
+        if not odd:
+            # Türkçe'ye benzeyen ama açıklanamayan kelime: yalnızca çok sık bir sözlük kelimesine
+            # düzelt (nadir ama doğru kelimeleri bozmamak için)
+            vocab = self.freq if tr_keyboard else self.key_freq
+            scored = [(lp, c) for lp, c in scored if vocab.get(c, 0) >= self.typo_min_freq]
+            if not scored:
+                return None
+        if scored:
+            best = max(scored)[1]
+            if tr_keyboard:
+                return best
+            return self._lookup(best, False, prev) or self._restore_by_context(best, False)
         if self.typo_margin is None:
             return None
         plausible = [c for c in edits if len(c) >= 2 and not self._looks_like_typo(c, tr_keyboard)]
@@ -310,7 +401,7 @@ class Normalizer:
 
     def normalize(self, token: str, prev: str = "<s>") -> str:
         """Tek bir tokeni normalize eder. `prev`: bir önceki tokenin normalize hâli."""
-        token = token.translate(_PUNCT).replace("…", "...")
+        token = normalize_format(token)
         if "://" in token or "@" in token or token.startswith("#"):
             return token                          # URL / e-mail / hashtag / mention: dokunma
         if not _WORD.match(token) or _ROMAN.match(token):
@@ -332,8 +423,8 @@ class Normalizer:
         found = self._lookup(w, tr_keyboard, prev)
         if found is not None:
             return found
-        if (self.use_typos and w.isalpha() and len(w) >= 4
-                and self._looks_like_typo(plain, tr_keyboard)):
+        proper_noun = token[:1].isupper() and prev != "<s>"   # cümle ortasında büyük harf
+        if self.use_typos and w.isalpha() and len(w) >= 4 and not proper_noun:
             fixed = self._correct_typo(plain if tr_keyboard else w, tr_keyboard, prev)
             if fixed is not None:
                 return fixed

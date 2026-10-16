@@ -8,6 +8,12 @@ sonuçlar tekrarlanabilsin. Bkz. CLAUDE.md "Normalization".
 from __future__ import annotations
 
 import random
+import re
+import unicodedata
+
+_DATE_DOT = re.compile(r"^(\d{1,2})\.(\d{1,2})\.(\d{4}|\d{2})(?=$|')")   # 16.10.2026
+_TIME_DOT = re.compile(r"^([01]?\d|2[0-3])\.([0-5]\d)(?=$|')")           # 19.30
+_PERCENT_PRE = re.compile(r"^%(\d+(?:[.,]\d+)?)(?=$|')")                  # %25
 
 _ASCII_MAP = str.maketrans("çğıöşüâîûÇĞİÖŞÜÂÎÛ", "cgiosuaiuCGIOSUAIU")
 _VOWELS = set("aeıioöuüâîûAEIİOÖUÜÂÎÛ")
@@ -68,12 +74,37 @@ def typo(token: str, rng: random.Random) -> str:
     return token[:i] + ch + token[i + 1:]
 
 
+def format_variant(token: str, rng: random.Random) -> str:
+    """Aynı tokenin standart dışı yazımı: kıvrık tırnak/kesme, uzun tire, … , !!!, 19:30,
+    16/10/2026, 25%, ayrık Unicode (Mac'ten kopyalanan metinde ş = s + çengel)."""
+    if token == '"':
+        return rng.choice(["“", "”", "''"])
+    if token == "...":
+        return rng.choice(["…", "..", "...."])
+    if token == "-":
+        return rng.choice(["–", "—"])
+    if token in ("!", "?"):
+        return token * rng.randint(2, 4)
+    m = _DATE_DOT.match(token)
+    if m:
+        sep = rng.choice("/-")
+        return f"{m[1]}{sep}{m[2]}{sep}{m[3]}{token[m.end():]}"
+    m = _TIME_DOT.match(token)
+    if m:
+        return f"{m[1]}:{m[2]}{token[m.end():]}"
+    m = _PERCENT_PRE.match(token)
+    if m:
+        return f"{m[1]}%{token[m.end():]}"
+    return unicodedata.normalize("NFD", token.replace("'", "’"))
+
+
 # --- Cümle düzeyinde bozma ---------------------------------------------------------
 
 def corrupt(tokens: list[str], kind: str, rate: float, rng: random.Random) -> list[str]:
-    """Bir cümlenin harf içeren tokenlarının `rate` kadarını `kind` tipiyle bozar.
+    """Bir cümlenin harf içeren tokenlarının `rate` kadarını `kind` tipiyle bozar
+    ("format" tipinde noktalama ve sayı tokenları da bozulur).
 
-    kind: "diacritics" | "upper" | "repeat" | "typo" | "mixed" | "clean"
+    kind: "diacritics" | "upper" | "repeat" | "typo" | "format" | "mixed" | "clean"
     "mixed": cümle %50 ihtimalle Türkçe karaktersiz yazılır (klavye cümle düzeyinde bir
     özelliktir), üstüne tokenların ~%10'unda harf tekrarı, ~%5'inde typo.
     """
@@ -96,8 +127,10 @@ def corrupt(tokens: list[str], kind: str, rate: float, rng: random.Random) -> li
 
     out = []
     for t in tokens:
-        if is_word(t) and rng.random() < rate:
-            if kind == "diacritics":
+        if (is_word(t) or kind == "format") and rng.random() < rate:
+            if kind == "format":
+                t = format_variant(t, rng)
+            elif kind == "diacritics":
                 t = strip_diacritics(t)
             elif kind == "upper":
                 t = naive_upper(t)
@@ -114,3 +147,5 @@ if __name__ == "__main__":
     ornek = "Fakülteyi bitirenler en uçtan göreve başlıyorlarmış .".split()
     for k in ("diacritics", "upper", "repeat", "typo", "mixed"):
         print(f"{k:<11}", " ".join(corrupt(ornek, k, 1.0, rng)))
+    bicim = ['"', "Saat", "19.30'da", "%25'lik", "...", "08.02.2007", "-", "Türkiye'nin", "!"]
+    print(f"{'format':<11}", [ascii(t) for t in corrupt(bicim, "format", 1.0, rng)])

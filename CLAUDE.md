@@ -122,7 +122,11 @@ noktalama düzeni, yaygın yazım-hata lexicon'u.
   - Çıktı biçimi **Türkçe küçük harf** (İ→i, I→ı; stopword `casefold` + UD lemmalarıyla uyumlu).
     Gold = UD formunun Türkçe küçük harfi. Metrik sadece harf içeren tokenlarda.
   - Test case'ler: temiz (hiç bozulmamış), diakritik silme (tamamı / %30), büyük harf (`KITAP`),
-    harf tekrarı, typo, karışık. Dev'de geliştir, **test'te raporla**.
+    harf tekrarı, typo, biçim (Unicode/noktalama/sayı-tarih; tüm tokenlarda ölçülür), karışık.
+    Dev'de geliştir, **test'te raporla**. Seed her case'in adından türetilir (sabit).
+  - Sayı/tarih/noktalama düzeni = Türkçe yazım standardı (TDK; UD de böyle): `16/10/2026 →
+    16.10.2026`, `19:30 → 19.30`, `25% → %25`, `… / .. → ...`, `!!! → !`, kıvrık tırnak/kesme →
+    düz, Unicode NFC. Ondalık (`1.38` / `1,38`) belirsiz olduğu için dokunulmaz.
   - Her satırda: düzeltmesiz baz skoru + sistem skoru + bozulan tokenları düzeltme oranı +
     bozulmayanları koruma oranı (aksi halde "hiçbir şey yapmayan" sistem de %90 alır).
   - Sözlük/frekanslar **yalnızca UD train**'den. Dış veri ancak skor yetmezse (Ecem kararı).
@@ -195,9 +199,13 @@ noktalama düzeni, yaygın yazım-hata lexicon'u.
 - **Left off here:** NORMALIZATION çalışıyor + test edildi (`ecem` branch, yerel).
   `python src/eval_normalization.py test` (Windows'ta `PYTHONUTF8=1`). UD-BOUN **test** sonuçları
   (sistem accuracy / bozulan tokenları düzeltme):
-  temiz 98.6% · diakritik(tümü) 96.4% / 95.0% · diakritik(%30) 98.0% / 95.5% ·
-  büyük harf 97.6% / 96.8% · harf tekrarı 98.5% / 97.9% · typo(%10) 93.4% / 35.1% ·
-  karışık 94.9% / 88.2%. Zayıf nokta: typo düzeltme (doğru kelime çoğu zaman UD train sözlüğünde
-  yok); skor yetmezse dış kelime listesi gündeme gelir. Bileşenler `Normalizer(...)` bayraklarıyla
-  kapatılabilir (ablation hazır). Ayarlar dev'de seçildi (typo_margin=2.0, ctx_size=4, min_ctx=1).
+  temiz 98.3% · diakritik(tümü) 96.3% / 94.9% · diakritik(%30) 97.7% / 95.2% ·
+  büyük harf 97.7% / 96.8% · harf tekrarı 98.2% / 98.2% · typo(%10) 94.2% / 46.5% ·
+  biçim 98.6% / 99.3% · karışık 95.2% / 89.0%. Sayı/tarih/noktalama düzeni eklendi (planın
+  normalization bileşenleri tamam). Zayıf nokta: typo düzeltme. Dev analizi: bozulan kelimelerin ~%35'i
+  Türkçe'ye benzediği için fark edilmiyor, ~%30'unun doğrusu UD train sözlüğünde yok, ~%2.5'i
+  başka gerçek kelimeye dönüşüyor. "Kök + ek" geçerlilik kontrolü eklendi (%35 → %46).
+  Daha fazlası için dış kelime listesi gerekir (Hikmet'le konuşulacak). Bileşenler
+  `Normalizer(...)` bayraklarıyla kapatılabilir (ablation hazır). Ayarlar dev'de seçildi
+  (typo_margin=2.0, typo_min_freq=30, min_stem=2, min_end=2, ctx_size=4, min_ctx=1).
 - **Son güncelleme:** 2026-10-16
