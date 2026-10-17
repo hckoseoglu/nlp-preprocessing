@@ -409,13 +409,15 @@ class Normalizer:
 
         w, tr_keyboard = self._lower(token)
         plain = w.replace(_AMBIG_I, "ı")
+        # BÜYÜK HARFLİ kısa token kısaltmadır (TM, ABD, TRT): lexicon'a sokma
+        use_lexicon = self.use_lexicon and not (token.isupper() and len(token) <= 4)
 
-        if self.use_lexicon and plain in self.lexicon:
+        if use_lexicon and plain in self.lexicon:
             return self.lexicon[plain]
         if self.use_repeats:
             w = self._collapse_repeats(w, tr_keyboard, prev)
             plain = w.replace(_AMBIG_I, "ı")
-            if self.use_lexicon and plain in self.lexicon:
+            if use_lexicon and plain in self.lexicon:
                 return self.lexicon[plain]
         if not self.use_deasciify:
             return plain

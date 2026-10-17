@@ -1,62 +1,38 @@
-# Normalization lexicon — yaygın yazım yanlışları + gayriresmî kısaltmalar (Türkçe, genel domain)
-# Format: yanlış/gayriresmî<TAB>doğru   (küçük harf; '#' ile başlayan satırlar yorum)
-# Elle derlendi (Ecem). Doğru yazımlar TDK Güncel Türkçe Sözlük / Yazım Kılavuzu'na göre
-# (https://sozluk.gov.tr). Çıktı birden çok kelime olabilir (herşey -> "her şey").
-# Not: Bu lexicon sentetik testte ölçülmez (döngüsel olur); gerçek gürültülü sette ölçülür.
+# Normalization lexicon — gayriresmî/yanlış yazım -> doğru yazım (Türkçe)
+# OTOMATİK ÜRETİLDİ: python src/build_lexicon.py  (elle düzenleme yerine script'i güncelle)
+# Kaynak: MultiLexNorm Türkçe train — Çolakoğlu, Sulubacak & Tantuğ (2019), ACL SRW;
+#         van der Goot et al. (2021), W-NUT. https://huggingface.co/datasets/robvanderg/MultiLexNorm
+# Doğrulama: doğru biçimin her kelimesi UD-BOUN train'de ya da TDK Güncel Türkçe Sözlük'te
+#         (https://sozluk.gov.tr) bulunur. Seçim kuralları: src/build_lexicon.py
+# Format: ham<TAB>doğru<TAB>tweet_sayısı<TAB>doğrulama   ('#?' satırları: doğrulanamadı,
+#         elle kontrol edilip başındaki '#?\t' silinirse lexicon'a girer)
+# Giriş: 23 aktif, 4 kontrol bekliyor
+bi	bir	48	UD
+valla	vallahi	6	TDK
+bide	bir de	4	UD
+bı	bir	4	UD
+allahın	allah'ın	3	UD
+maliyeatama	maliye atama	3	UD
+nolur	ne olur	3	UD
+suan	şu an	3	UD
+yokmu	yok mu	3	UD
+allahim	allah'ım	2	UD
+allahım	allah'ım	2	UD
+birde	bir de	2	UD
+bizene	bize ne	2	UD
+bişey	bir şey	2	UD
+burdan	buradan	2	UD
+dk	dakika	2	UD
+hergun	her gün	2	UD
+malesef	maalesef	2	UD
+nolmuş	ne olmuş	2	UD
+sağol	sağ ol	2	UD
+slm	selam	2	UD
+ulen	ulan	2	TDK
+yapiyo	yapıyor	2	UD
 #
-# --- yaygın yazım yanlışları ---
-herkez	herkes
-yanlız	yalnız
-yalnış	yanlış
-orjinal	orijinal
-şöför	şoför
-makina	makine
-eşortman	eşofman
-entellektüel	entelektüel
-egzos	egzoz
-antreman	antrenman
-laboratuar	laboratuvar
-klavuz	kılavuz
-traş	tıraş
-mütevazi	mütevazı
-süpriz	sürpriz
-meyva	meyve
-cimnastik	jimnastik
-tesbit	tespit
-kapşon	kapüşon
-pantalon	pantolon
-bilimum	bilumum
-pisikoloji	psikoloji
-inşaallah	inşallah
-deyil	değil
-diil	değil
-# --- bitişik yazılan ayrı kelimeler ---
-herşey	her şey
-birşey	bir şey
-hiçbirşey	hiçbir şey
-yada	ya da
-şuan	şu an
-yinede	yine de
-pekçok	pek çok
-hergün	her gün
-herzaman	her zaman
-# --- gayriresmî kısaltmalar / sohbet dili ---
-slm	selam
-mrb	merhaba
-mrhb	merhaba
-tmm	tamam
-tşk	teşekkürler
-tşkr	teşekkürler
-saol	sağ ol
-sağol	sağ ol
-nbr	ne haber
-naber	ne haber
-napıyorsun	ne yapıyorsun
-bişey	bir şey
-bişi	bir şey
-hiçbişey	hiçbir şey
-cnm	canım
-kib	kendine iyi bak
-bnm	benim
-snn	senin
-inş	inşallah
+# --- doğrulanamayanlar (elle kontrol) ---
+#?	rasûlullah	resulullah	3	-
+#?	sırasıtarımda	sırası tarımda	3	-
+#?	bangtana	bangtan'a	2	-
+#?	beklemiyodum	beklemiyordum	2	-

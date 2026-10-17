@@ -87,6 +87,7 @@ Darboğaz riski: normalization için gürültülü test verisi — erken çözü
 nlp-preprocessing/
   data/UD_Turkish-BOUN/        # indi
   data/normalization/          # elle hazırlanan gerçek gürültülü test seti (Ecem)
+  data/external/               # indirilen dış veri + önbellek (gitignore'da; build_lexicon.py üretir)
   resources/                   # stopword list, norm lexicon, SUFFIX lexicon (dış, cite'lı)
   src/
     io_conllu.py               # CoNLL-U parser → cümle/token/lemma/SpaceAfter
@@ -94,6 +95,7 @@ nlp-preprocessing/
     normalization.py           # token→token (Ecem)
     noise.py                   # sentetik gürültü üretici — normalization eval (Ecem)
     eval_normalization.py      # normalization test-case tabloları (Ecem)
+    build_lexicon.py           # normalization lexicon'unu MultiLexNorm'dan üretir (Ecem)
     stemming.py                # token→token (stem)
     stopword.py                # static + dynamic
     evaluate.py                # her task için metrik + test-case tabloları
@@ -132,6 +134,18 @@ noktalama düzeni, yaygın yazım-hata lexicon'u.
   - Sözlük/frekanslar **yalnızca UD train**'den. Dış veri ancak skor yetmezse (Ecem kararı).
   - Kısaltma/yazım lexicon'u (`tmm→tamam`) sentetik testte ölçülmez (gürültü aynı lexicon'dan
     üretilirse döngüsel olur) → elle hazırlanan küçük gerçek gürültülü sette ölçülür.
+  - (2026-10-16) Lexicon kaynağı: ilk sürüm LLM taslağıydı (cite edilemez) → **MultiLexNorm
+    Türkçe train**'den `src/build_lexicon.py` ile otomatik üretiliyor (Çolakoğlu, Sulubacak &
+    Tantuğ 2019, ACL SRW; van der Goot et al. 2021, W-NUT). Doğru biçimler UD train ya da TDK
+    Güncel Türkçe Sözlük ile doğrulanır; doğrulanamayanlar `#?` (elle kontrol). MultiLexNorm
+    **test** bölümüne dokunulmadı (hoca gerçek gürültü testi isterse kullanılabilir).
+    `.gitignore`'a `data/external/` eklendi (ortak dosya — Ecem notu).
+    Sonuç: **23 aktif** giriş (UD/TDK doğrulamalı), 4 `#?`. Seçim kuralları: yalnız "yaygın"
+    hatalar (≥2 farklı tweet; plandaki "yaygın yazım-hata lexicon'u"), doğru kelimelerle karışanlar
+    elenir (kader, olum/ölüm, bende), tek seferlik typo, süs karakterli yazım (αcı) ve küfür
+    alınmaz. İlk denemede 187 giriş vardı ama çoğu tek seferlik/garip olduğu için elendi.
+    UD test'te lexicon açık/kapalı fark yok. BÜYÜK HARFLİ ≤4 harfli token'lar (TM, ABD) kısaltma
+    sayılır, lexicon'a girmez.
 
 **Stemming** — rule-based suffix-stripping (longest-match; çekim + geniş yapım ekleri; ünlü uyumu,
 ünsüz yumuşaması alomorfları). Kendimiz yazıyoruz.
@@ -194,7 +208,9 @@ noktalama düzeni, yaygın yazım-hata lexicon'u.
 
 ## Ecem
 - **Next task:** (1) `data/normalization/real_noisy.tsv`'e gerçek gürültülü küçük set (elle,
-  kaynaklı) → lexicon'u orada ölç. (2) Lexicon girişlerini TDK sözlüğünden doğrula. (3) Stopword
+  kaynaklı) → lexicon'u orada ölç (hocaya sorulacak: gerçek set mi, sentetik mi). (2) Lexicon'daki
+  `#?` satırlarını (4, doğrulanamayan) gözden geçir — opsiyonel; aktif girişler otomatik
+  doğrulandı. (3) Stopword
   (paylaşımlı) — Hikmet'le bölüşülecek.
 - **Left off here:** NORMALIZATION çalışıyor + test edildi (`ecem` branch, yerel).
   `python src/eval_normalization.py test` (Windows'ta `PYTHONUTF8=1`). UD-BOUN **test** sonuçları
