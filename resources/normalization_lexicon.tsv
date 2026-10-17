@@ -6,13 +6,12 @@
 #         (https://sozluk.gov.tr) bulunur. Seçim kuralları: src/build_lexicon.py
 # Format: ham<TAB>doğru<TAB>tweet_sayısı<TAB>doğrulama   ('#?' satırları: doğrulanamadı,
 #         elle kontrol edilip başındaki '#?\t' silinirse lexicon'a girer)
-# Giriş: 23 aktif, 4 kontrol bekliyor
+# Giriş: 22 aktif, 3 kontrol bekliyor
 bi	bir	48	UD
 valla	vallahi	6	TDK
 bide	bir de	4	UD
 bı	bir	4	UD
 allahın	allah'ın	3	UD
-maliyeatama	maliye atama	3	UD
 nolur	ne olur	3	UD
 suan	şu an	3	UD
 yokmu	yok mu	3	UD
@@ -33,6 +32,5 @@ yapiyo	yapıyor	2	UD
 #
 # --- doğrulanamayanlar (elle kontrol) ---
 #?	rasûlullah	resulullah	3	-
-#?	sırasıtarımda	sırası tarımda	3	-
 #?	bangtana	bangtan'a	2	-
 #?	beklemiyodum	beklemiyordum	2	-

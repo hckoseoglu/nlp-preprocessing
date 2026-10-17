@@ -22,6 +22,8 @@ Seçim kuralları (her biri normalizer'ın başka bir adımı zaten çözüyorsa
      kişinin tek seferlik hatası (bipgi -> bilgi) ya da tek tweet'e özgü kelime alınmaz.
   7. Ham form yalnızca Türk alfabesindeki harflerden oluşur (αcı, чαşαmış gibi süs yazımlar yok).
   8. Küfür/hakaret içeren girişler alınmaz (genel alan / haber dili için gereksiz).
+  9. Kelime ortasında büyük harf olan ham formlar alınmaz: '#' işareti düşmüş hashtag'lerdir
+     (MaliyeAtama, SırasıTarımda -> tek bir kampanyaya özgü, genel Türkçe değil).
 Doğrulama: düzeltilmiş biçimin her kelimesi UD-BOUN train'de ya da TDK Güncel Türkçe Sözlük'te
 (https://sozluk.gov.tr) bulunmalı. Bulunamayanlar "#?" ile yorum satırı olarak yazılır (elle kontrol).
 
@@ -32,6 +34,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import time
 import urllib.parse
 import urllib.request
@@ -51,6 +54,7 @@ _TDK_URL = "https://sozluk.gov.tr/gts?ara={word}"
 _MIN_TWEETS = 2                                            # kural 6
 _TR_ALPHABET = set("abcçdefgğhıijklmnoöprsştuüvyzâîû'")    # kural 7
 _PROFANITY = {"orospu", "amına", "sik", "siktir", "piç", "göt", "ananı"}   # kural 8
+_CAMEL = re.compile(r"[a-zçğıöşü][A-ZÇĞİÖŞÜ]")                              # kural 9
 
 
 def _get_json(url: str, retries: int = 4, timeout: float = 15):
@@ -103,9 +107,12 @@ def select_pairs(sentences: list[list[tuple[str, str]]], ud_freq: Counter,
     """Kural 1-8'e göre lexicon girişlerini seçer: ham -> (doğru, görüldüğü tweet sayısı)."""
     fixes: dict[str, dict[str, set[int]]] = defaultdict(lambda: defaultdict(set))
     unchanged: Counter[str] = Counter()
+    camel: set[str] = set()
     for sid, sent in enumerate(sentences):
         for i, (o, n) in enumerate(sent):
             raw, norm = turkish_lower(o), turkish_lower(n)
+            if _CAMEL.search(o):
+                camel.add(raw)
             if raw == norm:
                 unchanged[raw] += 1
             elif i + 1 < len(sent) and sent[i + 1][1] == "":                # kural 5
@@ -134,6 +141,8 @@ def select_pairs(sentences: list[list[tuple[str, str]]], ud_freq: Counter,
         if not set(raw) <= _TR_ALPHABET:                                   # kural 7
             continue
         if _PROFANITY & set(norm.split(" ")):                              # kural 8
+            continue
+        if raw in camel:                                                   # kural 9
             continue
         if key_max[to_ascii(raw)] >= 3:                                    # kural 4a
             continue

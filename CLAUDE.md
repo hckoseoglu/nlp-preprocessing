@@ -140,12 +140,13 @@ noktalama düzeni, yaygın yazım-hata lexicon'u.
     Güncel Türkçe Sözlük ile doğrulanır; doğrulanamayanlar `#?` (elle kontrol). MultiLexNorm
     **test** bölümüne dokunulmadı (hoca gerçek gürültü testi isterse kullanılabilir).
     `.gitignore`'a `data/external/` eklendi (ortak dosya — Ecem notu).
-    Sonuç: **23 aktif** giriş (UD/TDK doğrulamalı), 4 `#?`. Seçim kuralları: yalnız "yaygın"
+    Sonuç: **22 aktif** giriş (UD/TDK doğrulamalı), 3 `#?`. Seçim kuralları: yalnız "yaygın"
     hatalar (≥2 farklı tweet; plandaki "yaygın yazım-hata lexicon'u"), doğru kelimelerle karışanlar
-    elenir (kader, olum/ölüm, bende), tek seferlik typo, süs karakterli yazım (αcı) ve küfür
-    alınmaz. İlk denemede 187 giriş vardı ama çoğu tek seferlik/garip olduğu için elendi.
-    UD test'te lexicon açık/kapalı fark yok. BÜYÜK HARFLİ ≤4 harfli token'lar (TM, ABD) kısaltma
-    sayılır, lexicon'a girmez.
+    elenir (kader, olum/ölüm, bende), tek seferlik typo, süs karakterli yazım (αcı), küfür ve
+    '#'i düşmüş hashtag'ler (kelime ortasında büyük harf: MaliyeAtama) alınmaz. İlk denemede 187
+    giriş vardı ama çoğu tek seferlik/garip olduğu için elendi.
+    UD test'te lexicon açık/kapalı fark yok (lexicon kelimeleri UD test'te hiç geçmiyor — domain
+    farkı). BÜYÜK HARFLİ ≤4 harfli token'lar (TM, ABD) kısaltma sayılır, lexicon'a girmez.
 
 **Stemming** — rule-based suffix-stripping (longest-match; çekim + geniş yapım ekleri; ünlü uyumu,
 ünsüz yumuşaması alomorfları). Kendimiz yazıyoruz.
@@ -207,11 +208,14 @@ noktalama düzeni, yaygın yazım-hata lexicon'u.
 - **Son güncelleme:** 2026-10-16
 
 ## Ecem
-- **Next task:** (1) `data/normalization/real_noisy.tsv`'e gerçek gürültülü küçük set (elle,
-  kaynaklı) → lexicon'u orada ölç (hocaya sorulacak: gerçek set mi, sentetik mi). (2) Lexicon'daki
-  `#?` satırlarını (4, doğrulanamayan) gözden geçir — opsiyonel; aktif girişler otomatik
-  doğrulandı. (3) Stopword
-  (paylaşımlı) — Hikmet'le bölüşülecek.
+- **Next task:** (1) **Hocanın cevabını bekle** (2026-10-17 mail atıldı: sentetik test yeterli
+  mi, yoksa gerçek gürültü için MultiLexNorm Türkçe **test** kısmı kullanılsın mı?).
+  Gerekirse plan: kuralları yalnız MultiLexNorm **train**'de geliştir (hata sayıları, lexicon
+  kapalı: yarım Türkçe karakter ~100 — bir kısmı â→a etiketleme farkı; soru eki `yokmu`/`mı`
+  uyumu 29; bitişik yazım 191; konuşma dili `gelcem`/`biliyo` 527) → her kuraldan sonra UD
+  tablosu düşmemeli → test kısmını en sonda **bir kez** çalıştır, tabloya satır ekle.
+  (2) Hikmet'le main'de: 3 kararın onayı (eval yöntemi, Türkçe küçük harf çıktı, lexicon kaynağı).
+  (3) Rapor 3.1 normalization bölümü (Ecem yazacak). (4) Lexicon'daki 3 `#?` satırı — opsiyonel.
 - **Left off here:** NORMALIZATION çalışıyor + test edildi (`ecem` branch, yerel).
   `python src/eval_normalization.py test` (Windows'ta `PYTHONUTF8=1`). UD-BOUN **test** sonuçları
   (sistem accuracy / bozulan tokenları düzeltme):
@@ -224,4 +228,7 @@ noktalama düzeni, yaygın yazım-hata lexicon'u.
   Daha fazlası için dış kelime listesi gerekir (Hikmet'le konuşulacak). Bileşenler
   `Normalizer(...)` bayraklarıyla kapatılabilir (ablation hazır). Ayarlar dev'de seçildi
   (typo_margin=2.0, typo_min_freq=30, min_stem=2, min_end=2, ctx_size=4, min_ctx=1).
-- **Son güncelleme:** 2026-10-16
+  (2026-10-17) Tablo yeniden çalıştırıldı, sayılar aynı; lexicon script'i birebir aynı dosyayı
+  üretiyor. Gerçek gürültü ön izlemesi (MultiLexNorm **train**, lexicon kapalı, rapora girmez):
+  %80.08 doğruluk.
+- **Son güncelleme:** 2026-10-17
