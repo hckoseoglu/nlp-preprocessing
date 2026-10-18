@@ -96,6 +96,7 @@ nlp-preprocessing/
     noise.py                   # sentetik gürültü üretici — normalization eval (Ecem)
     eval_normalization.py      # normalization test-case tabloları (Ecem)
     build_lexicon.py           # normalization lexicon'unu MultiLexNorm'dan üretir (Ecem)
+    real_data.py               # gerçek gürültülü test setleri: MultiLexNorm test, OSCAR-GEC test (Ecem)
     stemming.py                # token→token (stem)
     stopword.py                # static + dynamic
     evaluate.py                # her task için metrik + test-case tabloları
@@ -147,6 +148,27 @@ noktalama düzeni, yaygın yazım-hata lexicon'u.
     giriş vardı ama çoğu tek seferlik/garip olduğu için elendi.
     UD test'te lexicon açık/kapalı fark yok (lexicon kelimeleri UD test'te hiç geçmiyor — domain
     farkı). BÜYÜK HARFLİ ≤4 harfli token'lar (TM, ABD) kısaltma sayılır, lexicon'a girmez.
+  - (2026-10-18) **Gerçek gürültü testi** — hoca cevabı: "MultiLexNorm'u kullanabilirsiniz; yapay
+    hatalara ek olarak gerçek bir veri iyi olur; haber metni de olabilir ama doğrusu elle
+    hazırlanmalı." Hazır, elle düzeltilmiş haber verisi bulunamadı (HF, Boğaziçi, İTÜ, Koç, Sabancı
+    tarandı; ITU Web Treebank izinle alınıyor, yetişmez). Karar (Ecem): iki gerçek test seti,
+    **yalnızca test** (ayar yapılmaz, `eval_normalization.py test` içinde bir kez çalıştırılır;
+    dev'de gösterilmez), lexicon açık (train'den üretildi, testler hiç görülmedi), normalizer kodu
+    değişmez:
+    - **MultiLexNorm Türkçe test** (tweet, Çolakoğlu et al. 2019).
+    - **OSCAR-GEC test** (web metni: haber parçası, forum, yorum; Ersoy & Yıldız 2024,
+      arXiv:2405.15320; HF `asimokby/Turkish-GEC-Evaluation`, MIT). Gramer düzeltme (GEC) verisi.
+    Puanlama kuralları (sonuç görülmeden sabitlendi): ortak → harf içermeyen token, @mention,
+    #hashtag, URL puanlanmaz. MultiLexNorm → birleştirme (2+ token → 1 kelime) parçaları
+    puanlanmaz, bölme (yokmu → yok mu) puanlanır. OSCAR-GEC → düzeltilmemiş tokenlar puanlanır
+    (koruma); bir kaynak tokene dokunan düzeltme, iki taraftaki ayrı noktalama tokenları atıldıktan
+    sonra (a) yalnızca büyük/küçük harf, Türkçe karakter ya da kelime bölme farkıysa (etiketten
+    bağımsız; "o -> . O" dahil) veya (b) tek kelime → tek kelime olup etiketi SPELL/ORTH/OTHER ve
+    ASCII-katlanmış Damerau-Levenshtein uzaklığı ≤ 2 ise puanlanır; diğerleri (dilbilgisi
+    NOUN/VERB/..., kelime değişimi/ekleme, birleştirme, silme) puanlanmaz. Çoklu token düzeltmesi
+    kelime sayısı eşitse kelime kelime değerlendirilir. (Kural, sistem çalıştırılmadan önce veri
+    örneklerine bakılarak bir kez inceltildi: "o -> . O" kapsama alındı, "calisiyor -> çalışıyor
+    ve" dışarıda bırakıldı.)
 
 **Stemming** — rule-based suffix-stripping (longest-match; çekim + geniş yapım ekleri; ünlü uyumu,
 ünsüz yumuşaması alomorfları). Kendimiz yazıyoruz.
@@ -184,6 +206,8 @@ noktalama düzeni, yaygın yazım-hata lexicon'u.
 - [x] İş bölümü: **Hikmet → stemming**, **Ecem → normalization**, **stopword → paylaşımlı**.
 - [x] Normalization eval'i → **sentetik gürültü, yalnızca UD-BOUN** + elle hazırlanan küçük
       gerçek gürültülü set (Ecem, 2026-10-16; Hikmet'e bilgi verilecek).
+      (2026-10-18, hoca onayı) + gerçek gürültü: MultiLexNorm Türkçe test (tweet) + OSCAR-GEC
+      test (web metni). Elle hazırlanan haber seti opsiyonel (final'e).
 - [ ] Suffix lexicon derleme yöntemi
 
 ---
@@ -208,14 +232,14 @@ noktalama düzeni, yaygın yazım-hata lexicon'u.
 - **Son güncelleme:** 2026-10-16
 
 ## Ecem
-- **Next task:** (1) **Hocanın cevabını bekle** (2026-10-17 mail atıldı: sentetik test yeterli
-  mi, yoksa gerçek gürültü için MultiLexNorm Türkçe **test** kısmı kullanılsın mı?).
-  Gerekirse plan: kuralları yalnız MultiLexNorm **train**'de geliştir (hata sayıları, lexicon
-  kapalı: yarım Türkçe karakter ~100 — bir kısmı â→a etiketleme farkı; soru eki `yokmu`/`mı`
-  uyumu 29; bitişik yazım 191; konuşma dili `gelcem`/`biliyo` 527) → her kuraldan sonra UD
-  tablosu düşmemeli → test kısmını en sonda **bir kez** çalıştır, tabloya satır ekle.
-  (2) Hikmet'le main'de: 3 kararın onayı (eval yöntemi, Türkçe küçük harf çıktı, lexicon kaynağı).
-  (3) Rapor 3.1 normalization bölümü (Ecem yazacak). (4) Lexicon'daki 3 `#?` satırı — opsiyonel.
+- **Next task:** (1) Rapor 3.1'e gerçek gürültü satırlarını ekle (Ecem yazıyor). (2) Hikmet'le
+  main'de: kararların onayı (eval yöntemi + gerçek gürültü setleri, Türkçe küçük harf çıktı,
+  lexicon kaynağı, plandaki test türleri için eklenen harf tekrarı + typo adımları).
+  (3) Opsiyonel / final'e: elle düzeltilmiş küçük haber seti (`data/normalization/real_noisy.tsv`);
+  iyileştirmeler yalnız MultiLexNorm **train**'de geliştirilir (yarım Türkçe karakter `bır`/
+  `Gecmiş`, kelime bölme `oteldede → otelde de`, sözlüğü diğer UD Türkçe setleriyle büyütme) →
+  UD tablosu düşmemeli; gerçek test setleri yeniden çalıştırılırsa raporda belirtilir.
+  (4) Lexicon'daki 3 `#?` satırı — opsiyonel.
 - **Left off here:** NORMALIZATION çalışıyor + test edildi (`ecem` branch, yerel).
   `python src/eval_normalization.py test` (Windows'ta `PYTHONUTF8=1`). UD-BOUN **test** sonuçları
   (sistem accuracy / bozulan tokenları düzeltme):
@@ -231,4 +255,12 @@ noktalama düzeni, yaygın yazım-hata lexicon'u.
   (2026-10-17) Tablo yeniden çalıştırıldı, sayılar aynı; lexicon script'i birebir aynı dosyayı
   üretiyor. Gerçek gürültü ön izlemesi (MultiLexNorm **train**, lexicon kapalı, rapora girmez):
   %80.08 doğruluk.
-- **Son güncelleme:** 2026-10-17
+  (2026-10-18) Hoca gerçek veriyi önerdi → `src/real_data.py` + `eval_normalization.py test`'e iki
+  satır; **bir kez** çalıştırıldı (normalizer değişmedi, UD satırları aynı). Sonuç (baz / sistem /
+  düzeltme / koruma): **web (OSCAR-GEC test)** 78.0% / **90.1%** / 64.3% / 97.4% (54.728
+  token, 12.035'i bozuk; 5.072 token kapsam dışı düzeltme yüzünden puanlanmadı) · **tweet
+  (MultiLexNorm test)** 66.0% / **79.3%** / 47.6% / 95.7% (1.234 token). Lexicon katkısı: web
+  +0.2, tweet +0.8 puan. Hata dağılımı (web): Türkçe karakter %32 (gerçek metinde `bır`,
+  `gerçegı` gibi yarım/yanlış Türkçe harf), typo/kısaltma/konuşma dili %31, doğruyu bozma %21,
+  kelime bölme %16 (sistem bölmüyor). Tweet: konuşma dili/kısaltma %55, kelime bölme %17.
+- **Son güncelleme:** 2026-10-18

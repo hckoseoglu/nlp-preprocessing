@@ -1,9 +1,11 @@
-"""Normalization değerlendirmesi — sentetik gürültü test case'leri.
+"""Normalization değerlendirmesi — sentetik gürültü test case'leri + gerçek gürültülü test setleri.
 
 SAHİP: Ecem
 UD cümlelerini noise.py ile bozar, normalizer'a düzelttirir, orijinalle karşılaştırır.
 Gold = UD formunun Türkçe küçük harfi (+ biçim birliği, bkz. normalization.canonical).
 Metrik harf içeren tokenlarda; "biçim" satırında tüm tokenlarda (noktalama ve sayılar dahil).
+Yalnızca `test` çalıştırmasında iki gerçek gürültü satırı eklenir (bkz. real_data.py; ayar için
+kullanılmaz): OSCAR-GEC test (web metni) ve MultiLexNorm test (tweet).
 Her satırda:
   baz       : düzeltmesiz (sadece Türkçe küçük harf) skoru — "hiçbir şey yapmasak" ne alırdık
   sistem    : normalizer'ın token accuracy'si
@@ -23,6 +25,7 @@ from evaluate import accuracy
 from io_conllu import read_conllu
 from noise import corrupt, is_word
 from normalization import Normalizer, canonical, turkish_lower
+from real_data import multilexnorm_sentences, oscar_gec_sentences, scorable
 
 _DATA = Path(__file__).resolve().parent.parent / "data" / "UD_Turkish-BOUN"
 _REAL = Path(__file__).resolve().parent.parent / "data" / "normalization" / "real_noisy.tsv"
@@ -81,11 +84,13 @@ def load_real(path: Path) -> list[tuple[list[str], list[str]]]:
 
 
 def run_real(sents, normalizer: Normalizer):
+    """Gerçek gürültülü (gürültülü tokenlar, doğru biçimler) cümleleri; doğrusu None olan ya da
+    puanlanamayan (harfsiz, @, #, URL) tokenlar sayılmaz."""
     gold, base, pred, noisy_all = [], [], [], []
     for noisy, clean in sents:
         out = normalizer.normalize_tokens(noisy)
         for c, n, o in zip(clean, noisy, out):
-            if is_word(c):
+            if c is not None and scorable(n):
                 gold.append(canonical(c))
                 base.append(turkish_lower(n))
                 pred.append(o)
@@ -117,7 +122,7 @@ def main() -> None:
     normalizer = Normalizer()
 
     print(f"Normalization — UD-BOUN {args.split} ({len(sentences)} cümle)\n")
-    header = f"{'test case':<24} | {'baz':>6} | {'sistem':>6} | {'düzeltme':>8} | {'koruma':>6} | bozulan"
+    header = f"{'test case':<28} | {'baz':>6} | {'sistem':>6} | {'düzeltme':>8} | {'koruma':>6} | bozulan"
     print(header)
     print("-" * len(header))
     runs = [(name, lambda n=name, k=kind, r=rate, sc=scope:
@@ -126,11 +131,15 @@ def main() -> None:
     real = load_real(_REAL) if _REAL.exists() else []
     if real:
         runs.append(("gerçek gürültülü (elle)", lambda: run_real(real, normalizer)))
+    if args.split == "test":    # gerçek gürültü setleri yalnızca test (dev'de ayar yapılırken görünmez)
+        runs.append(("gerçek: web (OSCAR-GEC)", lambda: run_real(oscar_gec_sentences(), normalizer)))
+        runs.append(("gerçek: tweet (MultiLexNorm)",
+                     lambda: run_real(multilexnorm_sentences("test"), normalizer)))
     for name, run in runs:
         gold, base, pred, noisy = run()
         sc = scores(gold, base, pred)
         pct = lambda x, w: f"{'-':>{w}}" if x != x else f"{x:{w}.2%}"   # x != x: NaN
-        print(f"{name:<24} | {pct(sc['baz'], 6)} | {pct(sc['sistem'], 6)} | "
+        print(f"{name:<28} | {pct(sc['baz'], 6)} | {pct(sc['sistem'], 6)} | "
               f"{pct(sc['düzeltme'], 8)} | {pct(sc['koruma'], 6)} | {sc['bozulan']}/{sc['n']}")
         if args.errors:
             errs = [(n, p, g) for n, p, g in zip(noisy, pred, gold) if p != g]
