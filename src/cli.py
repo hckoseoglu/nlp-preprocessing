@@ -69,8 +69,9 @@ def load_items(args) -> tuple[list[Item], list]:
 class Steps:
     """Adımlar tembel yüklenir: yalnız istenen görevin kaynakları okunur."""
 
-    def __init__(self, args):
+    def __init__(self, args, dataset_mode: bool = False):
         self.args = args
+        self.dataset_mode = dataset_mode
         self._stemmer = None
         self._stopset = None
         self._normalize = None
@@ -115,7 +116,9 @@ class Steps:
     def stemmer(self):
         if self._stemmer is None:
             from stemmer import Config, Stemmer
-            cfg = Config(ranking=self.args.ranking)
+            # Ek-fiil parçacık tablosu (du, ydı, ken → y/i) UD'nin ayrı token yaptığı parçalar içindir; ham metinde
+            # bu parçalar sözcüğe bitişiktir, tablo yalnız "dur", "ise" gibi gerçek sözcükleri bozar → yalnız dataset modunda açık.
+            cfg = Config(ranking=self.args.ranking, use_copula=self.dataset_mode)
             self._stemmer = Stemmer(self.args.lexicon, cfg)
         return self._stemmer
 
@@ -249,8 +252,8 @@ def build_parser() -> argparse.ArgumentParser:
 def main(argv: list[str] | None = None) -> None:
     args = build_parser().parse_args(argv)
     items, sents = load_items(args)
-    steps = Steps(args)
     dataset_mode = bool(sents)
+    steps = Steps(args, dataset_mode)
     shown = items if (not dataset_mode or args.limit < 0) else items[:args.limit]
     records = [process(it, steps, args.task) for it in shown]
     if records:

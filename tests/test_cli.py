@@ -33,6 +33,13 @@ class CliTests(unittest.TestCase):
         out = run("normalize", "--text", "Gunes dogdu, cooook guzel!").strip()
         self.assertEqual(out, "güneş doğdu , çok güzel !")
 
+    def test_raw_text_passthrough_and_no_copula_table(self):
+        out = run("stem", "--text", "Dur orada! @ali_veli #nlp https://x.com/a ise burada").split()
+        self.assertEqual(out[0], "dur")                      # ham metinde ek-fiil tablosu kapalı: dur → i olmaz
+        for keep in ("@ali_veli", "#nlp", "https://x.com/a", "ise"):
+            self.assertIn(keep, out)
+        self.assertEqual(run("tokenize", "--text", "olur zaten ...... bilginize ?!").split(), ["olur", "zaten", "......", "bilginize", "?!"])
+
     def test_tokenize_and_tsv(self):
         self.assertEqual(run("tokenize", "--text", "Merhaba, dünya!").split(), ["Merhaba", ",", "dünya", "!"])
         tsv = run("stem", "--text", "evlerimizden", "--format", "tsv").splitlines()

@@ -123,6 +123,8 @@ class Stemmer:
         w0 = word.strip()
         if not w0 or not any(ch.isalpha() for ch in w0):
             return w0
+        if w0[0] in "@#" or "://" in w0 or ("@" in w0 and "." in w0):
+            return w0                                 # @mention, #hashtag, URL, e-posta: dokunma (ham metin)
         if "'" in w0 or "’" in w0:
             base = w0.replace("’", "'").split("'")[0]
             if not base:
