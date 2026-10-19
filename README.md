@@ -36,7 +36,9 @@ src/                   TÜM KOD
   cli.py                 CLI uygulaması (yukarıdaki görevler)
   io_conllu.py           CoNLL-U okuyucu (Sentence/Token/Word, SpaceAfter, MISC)
   tokenizer_baseline.py  ham metin için basit regex tokenizer (runtime)
-  normalization.py       normalization (Ecem)
+  normalization.py       normalization (Ecem): Normalizer, normalize / normalize_tokens
+  noise.py               sentetik gürültü üretici (normalization eval)
+  real_data.py           gerçek gürültülü test setleri (MultiLexNorm test, OSCAR-GEC test)
   stemming.py            ince sarmalayıcı → stemmer/ paketi
   evaluate.py            ortak metrik yardımcıları
   stopword/              stopword paketi: core.py (TF-IDF dinamik liste, static liste, eleme, P/R/F1)
@@ -52,12 +54,15 @@ src/                   TÜM KOD
     stopword_analyze.py      K-vs-F1, TF-IDF dağılımı → reports/stopword_{k_vs_f1,tfidf_curve}.png
     stopword_extrinsic.py    genre sınıflandırma testi (scikit-learn) → reports/stopword_extrinsic.png
     stopword_build_42bin.py  ikinci korpus (42bin_haber) ile dinamik liste karşılaştırması
+    norm_build_lexicon.py    resources/normalization_lexicon.tsv ← MultiLexNorm Türkçe train (indirir, data/external/)
+    norm_evaluate.py         normalization test-case tablosu: `norm_evaluate.py dev|test` (test: + gerçek gürültü setleri)
 lexicon/               stemmer kaynakları: roots.tsv suffixes.tsv morphotactics.tsv derived.tsv copula_fragments.tsv exceptions.tsv SOURCES.md
-resources/             stopword listeleri (stopwords_tr.txt static, stopwords_dynamic_boun.txt dinamik, stopwords_gold_ahmetax.txt referans)
+resources/             stopword listeleri (stopwords_tr.txt static, stopwords_dynamic_boun.txt dinamik, stopwords_gold_ahmetax.txt referans),
+                       normalization_lexicon.tsv (kısaltma/yazım-hata lexicon'u)
 tests/                 test_stemmer.py (72 örnek), test_cli.py (CLI duman testleri)
 results/               stemming değerlendirme çıktıları (tables*.md, errors_*.tsv, gold/roots istatistikleri)
 reports/               figürler (stemming_*.png, stopword_*.png) ve rapor taslakları
-data/                  UD_Turkish-BOUN (depoda değil)
+data/                  UD_Turkish-BOUN; normalization/real_noisy.tsv (elle); external/ (indirilen, gitignore)
 ```
 Ortak arayüz: her adım `List[str] -> List[str]`; çalışma-zamanı zinciri `normalize → stopword → stem`.
 

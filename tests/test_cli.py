@@ -29,6 +29,10 @@ class CliTests(unittest.TestCase):
         self.assertIn("kitap", recs[0]["output"])
         self.assertNotIn("bu", [t.lower() for t in recs[0]["output"]])
 
+    def test_normalize_text(self):
+        out = run("normalize", "--text", "Gunes dogdu, cooook guzel!").strip()
+        self.assertEqual(out, "güneş doğdu , çok güzel !")
+
     def test_tokenize_and_tsv(self):
         self.assertEqual(run("tokenize", "--text", "Merhaba, dünya!").split(), ["Merhaba", ",", "dünya", "!"])
         tsv = run("stem", "--text", "evlerimizden", "--format", "tsv").splitlines()
