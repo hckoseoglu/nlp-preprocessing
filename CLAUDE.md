@@ -382,6 +382,7 @@ python3 -m src.stemmer.stemmer kitabı gidiyordum                   # aday anali
 <venv>/python3 src/scripts/stem_evaluate.py --split dev --pos gold  # isteğe bağlı gold-POS girdisiyle karşılaştırma (üst sınır)
 <venv>/python3 src/scripts/stem_figures.py                         # reports/stemming_*.png (9 figür) + results/figures_data.json
 <venv>/python3 src/scripts/stem_pseudocode.py                      # reports/stemming_pseudocode.png (sözde kod figürü)
+<venv>/python3 src/scripts/stopword_pseudocode.py                  # reports/stopword_pseudocode.png (sözde kod figürü)
 python3 -m unittest tests.test_stemmer tests.test_cli          # testler
 ```
 TRmorph klonu depoda değil (`git clone https://github.com/coltekin/TRmorph`, commit fbceb11); roots.tsv üretilmiş halde depoda.

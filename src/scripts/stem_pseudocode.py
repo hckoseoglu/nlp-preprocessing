@@ -43,29 +43,33 @@ LINES = [
 ]
 
 
-def main() -> None:
-    fig_h = 0.29 * len(LINES) + 0.7
-    fig, ax = plt.subplots(figsize=(12.2, fig_h))
+def render(lines: list[tuple[str, str]], title: str, out: Path, width: float = 12.2) -> None:
+    """Satır listesini (metin, stil) 'listing' görünümlü figüre çevirir; yorum = en az iki boşluk + '#'."""
+    fig_h = 0.29 * len(lines) + 0.7
+    fig, ax = plt.subplots(figsize=(width, fig_h))
     ax.axis("off")
-    # açık gri kutu: "listing" görünümü
     ax.add_patch(plt.Rectangle((0, 0), 1, 1, transform=ax.transAxes, facecolor="#f9fafb", edgecolor="#d1d5db", lw=1))
     y = 0.975
-    step = 0.955 / len(LINES)
-    for text, style in LINES:
+    step = 0.955 / len(lines)
+    for text, style in lines:
         if text:
             code, _, comment = text.partition("  #")
             ax.text(0.015, y, code.rstrip("\n"), family="monospace", fontsize=10.2, va="top", ha="left",
                     color="#111827", fontweight="bold" if style == "kw" else "normal", transform=ax.transAxes)
             if comment:
-                # yorumları gri yaz: kodun bittiği yerden sonra aynı satıra
-                ax.text(0.015, y, " " * len(code) + "  #" + comment, family="monospace", fontsize=10.2, va="top", ha="left",
-                        color="#6b7280", transform=ax.transAxes)
+                ax.text(0.015, y, " " * len(code) + "  #" + comment, family="monospace", fontsize=10.2, va="top",
+                        ha="left", color="#6b7280", transform=ax.transAxes)
         y -= step
-    fig.suptitle("Rule-based stemmer: high-level pseudo-code", fontsize=12.5, y=0.995)
+    fig.suptitle(title, fontsize=12.5, y=0.995)
     fig.tight_layout(rect=(0, 0, 1, 0.965))
-    OUT.parent.mkdir(exist_ok=True)
-    fig.savefig(OUT, dpi=130, facecolor="white")
-    print("yazıldı:", OUT)
+    out.parent.mkdir(exist_ok=True)
+    fig.savefig(out, dpi=130, facecolor="white")
+    plt.close(fig)
+    print("yazıldı:", out)
+
+
+def main() -> None:
+    render(LINES, "Rule-based stemmer: high-level pseudo-code", OUT)
 
 
 if __name__ == "__main__":
