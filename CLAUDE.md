@@ -85,17 +85,29 @@ Darboğaz riski: normalization için gürültülü test verisi — erken çözü
 ## Repo yapısı
 ```
 nlp-preprocessing/
-  data/UD_Turkish-BOUN/        # indi
-  resources/                   # stopword list, norm lexicon, SUFFIX lexicon (dış, cite'lı)
-  src/
-    io_conllu.py               # CoNLL-U parser → cümle/token/lemma/SpaceAfter
+  run.py                       # TEK GİRİŞ NOKTASI — ince kabuk, src/cli.py'yi çağırır:
+                               #   run.py {tokenize|normalize|stopword|stem|pipeline} --text|--file|--split|--conllu [--eval] [--format text|tsv|json]
+  src/                         # TÜM KOD BURADA
+    cli.py                     # CLI uygulaması
+    io_conllu.py               # CoNLL-U parser → cümle/token/lemma/SpaceAfter/MISC
     tokenizer_baseline.py      # runtime için basit regex tokenizer
-    normalization.py           # token→token
-    stemming.py                # token→token (stem)
-    stopword.py                # static + dynamic
-    evaluate.py                # her task için metrik + test-case tabloları
-  reports/                     # progress report kaynakları
+    normalization.py           # token→token (Ecem)
+    stemming.py                # token→token (stem) — ince sarmalayıcı → stemmer/ paketi
+    evaluate.py                # ortak metrik yardımcıları
+    stopword/                  # stopword paketi: core.py (static + dynamic çekirdek; `from stopword import ...`)
+    stemmer/                   # STEMMING paketi (Hikmet): stemmer.py suffixes.py morphotactics.py phonology.py lexicon.py
+    scripts/                   # KAYNAK ÜRETİMİ + DENEYLER (görev ön-ekli, proje kökünden çalıştırılır):
+                               #   stem_gold.py stem_build_{gold,roots,fragments}.py stem_evaluate.py stem_figures.py
+                               #   stopword_{evaluate,analyze,extrinsic,build_42bin}.py
+  lexicon/                     # stemmer kaynakları: roots.tsv suffixes.tsv morphotactics.tsv derived.tsv copula_fragments.tsv exceptions.tsv SOURCES.md
+  resources/                   # stopword listeleri (static / dynamic / referans), norm lexicon (dış, cite'lı)
+  tests/                       # test_stemmer.py (72 örnek) test_cli.py (CLI duman testleri)
+  results/                     # stemming değerlendirme çıktıları: tables*.md errors_*.tsv gold/roots istatistikleri
+  reports/                     # figürler (stemming_*.png, stopword_*.png) + rapor taslakları
+  data/UD_Turkish-BOUN/        # korpus (depoda değil)
 ```
+Kural: kod yalnız `src/` altında (`src/scripts/` deneyler, gerisi import edilen kütüphane); kökte yalnız `run.py`, veri/kaynak
+klasörleri ve dokümanlar. Scriptler ve paketler yolu `Path(__file__).resolve().parents[2]` ile proje köküne göre kurar.
 Ortak sözleşme: her task `List[str] -> List[str]` (veya detay taşıyan Token nesnesi).
 Çalışma-zamanı zinciri: **`normalize → stopword → stem`** (default). Stopword eleme tipik
 pipeline'da normalization sonrası, stemming **öncesi** gelir: stopword listeleri yüzey-form'dur,
@@ -146,6 +158,22 @@ noktalama düzeni, yaygın yazım-hata lexicon'u.
 6. (gerekiyorsa) LLM-kullanım acknowledgment
 
 ## STEMMING — DETAYLI PLAN (Hikmet, `hikmet` branch)
+
+> **DURUM 2026-10-18 — TAMAMLANDI (v2): dev %94.1 / test %94.0** (tek sefer ölçüldü), lexical %94.3; baseline'lar
+> no-stem 44, prefix-5 47, Snowball 54, TurkishStemmer 55. Uygulanan tasarım aşağıdaki plandan şu noktalarda
+> **değişti** (karar: `~/Desktop/cmpe561/stemmer_superprompt_v3.md`):
+> - İki-mod (A/B) yerine **tek gold**: UD lemma + tip-seviyesi tutarlı `DerivedFrom` köküne indirgeme
+>   (`src/scripts/stem_gold.py`; kabul: ≥2 destek, tipin ≥%50'si DerivedFrom'lu, ön-ek, kök de lemma). Mod B kök test seti
+>   "sonraki adım".
+> - **Kök sözlüğü KULLANILIYOR**: TRmorph (MIT) + UD train kökleri (`lexicon/roots.tsv`, 26 269 satır); Eryiğit & Adalı
+>   sözlüksüz "en kısa kök" kuralı over-stemming yaptığı için seçim **log-frekans skoru** (en uzun kök %89.3 →
+>   korpusta-görülen-önce %91.5 → skor %94.1).
+> - Ek sözlüğü artık `lexicon/suffixes.tsv` (Oflazer notasyonu, 111 şablon → 541 allomorf) + `morphotactics.tsv`
+>   (13 durum FSA, ters DFS). `resources/suffixes_tr.txt` ve `src/eval_stemming.py` kaldırıldı.
+> - Değerlendirme: `src/scripts/stem_evaluate.py --split dev [--ablation]` veya `run.py stem --split dev --eval`; test **yalnız bir kez** çalıştırıldı — tekrar
+>   çalıştırma gerekirse raporda belirt. Tüm tablolar `results/tables.md`, rapor taslağı
+>   `results/progress_report_section.md`, kaynaklar `lexicon/SOURCES.md`.
+> - Ortak dosya notu: `src/io_conllu.Word`'e `misc` alanı eklendi (geriye uyumlu, default "_").
 
 ### Amaç
 Her Türkçe kelimeyi, **tüm çekim (inflectional)** eklerini ve **geniş bir yapım (derivational)**
@@ -211,16 +239,36 @@ kullanmaz" tanımına ve Eryiğit&Adalı yaklaşımına sadık).
 - Over-stemming (kök sözlüğü yoksa) · morfofonemik geri-kurgu hataları · UD lemma'daki `null`/
   kopula artıkları (filtreleniyor) · stem≠lemma kavramsal farkı (raporda açıkça belirtilir).
 
+## STOPWORD — DETAYLI PLAN (paylaşımlı)
+- **static**: dış genel-domain liste (stopwords-iso MIT / POS-kategorili tkorkunckaya GPL / HF 504).
+  Henüz indirilmedi. Gerekçe cite: Can et al. 2008, Metin & Karaoğlan 2017.
+- **dynamic**: **Achsan, Suhartanto, Wibowo, Dewi & Ismed (2023), IJACSA 14(2), TF-IDF yöntemi.**
+  - Doküman = **pseudo-doküman ≈ 20 cümle** (BOUN'da makale sınırı yok). Cümle granülerliği tf-idf'i
+    bozuyor (stopword "tüm dokümanlarda" varsayımı tutmaz) → gruplama şart.
+  - **Seed'li shuffle** ile gruplama (ardışık cümleler aynı kaynaktan = bağımlı; df/idf için bağımsızlık).
+  - En düşük koleksiyon-TF-IDF'li K kelime = stopword. tfidf = (Σ tf / df)·log(N/df).
+  - `idf` varyantı ablation olarak tutulur (tf-idf ≈ idf çıktı).
+- **Eval**: UPOS-proxy gold (kapalı-sınıf: ADP/AUX/CCONJ/SCONJ/DET/PRON/PART) → token-level P/R/F1.
+  K dev'de F1 ile seçilir (elbow değil). static ∪ dynamic birleşimi en iyi beklenir (Lo et al. 2005).
+- **Durum (dev):** dynamic TF-IDF K=75 → **F1=0.713** (P=0.696, R=0.731); idf ablation 0.712.
+  Kod: **`src/stopword/`** paketi (core.py) + `src/scripts/stopword_{evaluate,analyze,extrinsic,build_42bin}.py`, liste `resources/stopwords_tr.txt`.
+  CLI: `run.py stopword --text "..." [--list static|dynamic|union|intersection]`, `run.py stopword --split dev --eval`.
+  Görseller: `reports/stopword_*.png`. static(467)/dynamic(75)/union/∩ karşılaştırması `evaluate.py`'de
+  (test F1: static 0.735, dynamic 0.724, union 0.726/en yüksek recall, ∩ 0.736/en yüksek precision).
+  Artefakt: `du/dı/ken` AUX kopula parçaları (UD multi-word split) — filtrelenebilir.
+  Not: F1 %90 değil; UPOS-proxy + sadece-dynamic sınırı. static + union + metrik tartışması kaldı.
+
 ## Açık kararlar (netleşince buraya işaretle)
 - [ ] NB vs LR hangi task'ta (ön eğilim: NB→splitting, LR→tokenization)
 - [x] Stopword sırası → **normalize → stopword → stem** (stem öncesi, yüzey-form). Dynamic
       listeyi stem'lenmiş korpustan üretirsek tekrar gözden geçir.
 - [x] İş bölümü: **Hikmet → stemming**, **Ecem → normalization**, **stopword → paylaşımlı**.
 - [ ] Normalization eval'i için sentetik-gürültü yaklaşımı onaylandı mı?
-- [ ] Suffix lexicon derleme yöntemi (elle / mevcut envanterden cite'la)
-- [ ] Stemming: Mod A + Mod B iki-mod yaklaşımı onaylandı mı?
-- [ ] Stemming: kök sözlüğü (wordlist) kaynağı seçimi
-- [ ] Stemming: ana metrik = UD lemma exact-match accuracy onaylandı mı?
+- [x] Suffix lexicon derleme yöntemi → **elle, Oflazer (1994) notasyonu**; kaynaklar Göksel & Kerslake, Sak vd.,
+      Eryiğit & Adalı (`lexicon/suffixes.tsv`, `lexicon/SOURCES.md`)
+- [x] Stemming: Mod A + Mod B yerine **tek gold** (UD lemma + tip-seviyesi DerivedFrom indirgeme); Mod B kök seti → sonraki adım
+- [x] Stemming: kök sözlüğü → **TRmorph (Çöltekin 2010, MIT) + UD train kökleri**, UD lemma gürültüsü budanmış
+- [x] Stemming: ana metrik = **gold kök exact-match accuracy** (dev %94.1 / test %94.0); POS + alt küme kırılımları raporlanır
 
 ---
 
@@ -241,21 +289,42 @@ kullanmaz" tanımına ve Eryiğit&Adalı yaklaşımına sadık).
 > Her progress sonrası güncelle. Tarih ekle. Agent'lar bu alanlara bakarak devam eder.
 
 ## Hikmet
-- **Next task:** STEMMING v1 — over-stemming'i dizginle. Öncelik: (1) morfotaktik sıralı soyma
-  (her slot'tan en fazla bir ek: nominal case→poss→çoğul; verbal kişi→zaman→olumsuzluk),
-  (2) ünlü uyumu kısıtı, (3) morfofonemik onarım (kitab→kitap, gözlüğ→gözlük). Sonra re-eval.
-- **Left off here:** `hikmet` branch. STEMMING v0 YAZILDI ve ölçüldü:
-  - `resources/suffixes_tr.txt` (düz ek listesi), `src/stemming.py` (iteratif longest-match,
-    kalan>1 harf), `src/eval_stemming.py` (exact-vs-lemma, POS kırılımı + baseline).
-  - dev sonuç: bizim v0 **0.314** | no-op 0.463 | fixed-prefix-5 0.464 | **snowball 0.561**.
-  - POS: NOUN bizim 0.281 / snow 0.720 ; ADJ 0.254/0.701 ; **VERB bizim 0.333 / snow 0.150 (geçtik)**.
-  - Teşhis: OVER-stemming baskın (2383 over / 52 under). Suçlu: tek-harfli ünlü ekleri + kısa
-    ünsüzler + kısıt (uyum/morfotaktik) yokluğu.
-- **Son güncelleme:** 2026-10-16
+- **Next task:** (1) Progress report'a stemming bölümünü `results/progress_report_section.md`'den kendi
+  kelimelerimizle aktar (Google Doc), tabloları `results/tables.md`'den al; (2) stopword static+union+metrik
+  tartışmasını bitir; (3) tokenization/splitting tasarım kararları (NB vs LR). Stemming'de küçük kalanlar: `suy→su`
+  istisnası, kesmesiz büyük harfli OOV özel adlar (dev'de 45 token), isteğe bağlı POS girdisi.
+- **Left off here:** `hikmet` branch, **henüz commit edilmedi** (çalışma ağacında: run.py, stemmer/, lexicon/, scripts/, tests/,
+  results/, README, CLAUDE.md, src/stemming.py sarmalayıcı, src/io_conllu.py misc; silinen: src/eval_stemming.py,
+  resources/suffixes_tr.txt). **2026-10-19 repo düzeni:** tüm kod `src/` altında (`src/stemmer/`, `src/scripts/` görev ön-ekli
+  `stem_*`/`stopword_*`, `src/cli.py`); eski `scripts/evaluate.py`↔`src/evaluate.py` ad çakışması giderildi; **`run.py` CLI** eklendi (cümle/dosya/split üzerinde tokenize·normalize·stopword·stem·pipeline,
+  `--eval`, `--format text|tsv|json`); `tests/test_cli.py` eklendi. STEMMING v2 TAMAM ve ölçüldü:
+  - dev **%94.1** (NOUN 94.5 / VERB 91.8 / ADJ 89.2 / PROPN 93.0; derived 94.7; OOV 87.0), test **%94.0** (tek sefer).
+  - Baseline dev: no-stem 44.1 · prefix-5 46.7 · Snowball 53.9 · TurkishStemmer 54.7.
+  - Hata profili dev: 593 hata / 543 farklı — over 36 %, under 36 %, türetim-fazla 12 %, kopula-parçacığı 6 %
+    (gold'da iki sözleşme), belirsizlik 3 %. Uzun kuyruk + bağlamsız belirsizlik (doğan, çalışan, gelin).
+  - Testler: `python3 -m unittest tests.test_stemmer` (OK, 70+ örnek).
+  - **POS girdili sürüm** (`stem(word, pos=UPOS)`: fiil/isim ağı süzme + aynı-POS bonusu): dev 94.5 / test 94.2 — gold POS
+    yalnız +0.4/+0.2; kalan hatalar bağlamsız belirsizlikten çok UD/TRmorph sözlükselleşme farkı + gold gürültüsü.
+    Figürler: `reports/stemming_{system_comparison,pos_breakdown,subsets,ranking_ablation,error_classes,pos_filtered_eval,rule_only_pos_effect,snowball_pos}.png`;
+    rapor figürü (Tablo 7'nin yerine, yalnız test): `reports/stemming_test_breakdown.png`. Google Doc'ta Tablo 6 → tek cümle, Tablo 7 → Figure 1 (görsel elle eklenecek).
+  - **Kural-only + POS deneyi** (`Stemmer.rule_stem`, sözlüksüz): Snowball 53.9 → +fiil kuralı POS'suz 57.6 → +gold POS 63.4
+    (dev). POS 4–6 puan, sözlük+skor ~30 puan katıyor → Snowball'un zayıflığı POS'suzluktan değil sözlüksüzlükten.
+- **Son güncelleme:** 2026-10-19
 
-### Stemming değerlendirme komutu
-`<venv>/python3 src/eval_stemming.py [dev|test|train]`  (baseline için snowballstemmer gerekli;
-scratchpad venv'inde kurulu. Projeye eklenecekse requirements'a `snowballstemmer` ekle.)
+### Stemming komutları
+```
+python3 run.py stem --text "Kitapları okuyordum."            # CLI: kitap oku .   (stopword / pipeline / tokenize de aynı yolla)
+python3 run.py stem --split dev --eval [--pos]                 # gold token'larda kök doğruluğu (dev %94.1)
+python3 src/scripts/stem_build_gold.py                             # lexicon/derived.tsv + results/gold_stats.md
+python3 src/scripts/stem_build_roots.py --trmorph <TRmorph klonu>   # lexicon/roots.tsv (+ budama listesi results/roots_pruned.tsv)
+python3 src/scripts/stem_build_fragments.py                        # lexicon/copula_fragments.tsv
+<venv>/python3 src/scripts/stem_evaluate.py --split dev --ablation  # results/tables_dev.md, errors_dev.tsv (baseline için snowballstemmer, TurkishStemmer)
+python3 -m src.stemmer.stemmer kitabı gidiyordum                   # aday analizleri
+<venv>/python3 src/scripts/stem_evaluate.py --split dev --pos gold  # isteğe bağlı gold-POS girdisiyle karşılaştırma (üst sınır)
+<venv>/python3 src/scripts/stem_figures.py                         # reports/stemming_*.png (9 figür) + results/figures_data.json
+python3 -m unittest tests.test_stemmer tests.test_cli          # testler
+```
+TRmorph klonu depoda değil (`git clone https://github.com/coltekin/TRmorph`, commit fbceb11); roots.tsv üretilmiş halde depoda.
 
 ## Ecem
 - **Next task:** NORMALIZATION. normalization lexicon'u derle (resources/) → `normalization.py`;

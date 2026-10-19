@@ -14,6 +14,8 @@ _PATTERN = re.compile(
     (?:https?://\S+)            # URL
   | (?:[\w.+-]+@[\w-]+\.[\w.-]+) # e-mail
   | (?:[#@]\w+)                  # hashtag / mention
+  | (?:\d+(?:[.,:/]\d+)+(?:['’]\w+)?)   # sayı / saat / tarih (+kesmeli ek): 19.30'da  3,5  08.02.2007
+  | (?:\w+['’]\w+)              # kesmeli özel ad: İstanbul'daki (UD'de tek token)
   | \w+                         # kelime (unicode harf+rakam)
   | [^\s\w]                     # tek noktalama
     """,

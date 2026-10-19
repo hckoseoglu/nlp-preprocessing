@@ -1,0 +1,84 @@
+# Dinamik (TF-IDF) stopword listesi — 42bin_haber korpusu
+# Korpus: 42bin_haber (Kemik/Yıldız Teknik Üniv.), 41992 makale, 9736875 token, 284247 tip.
+# Yöntem: Achsan et al. (2023) koleksiyon-TF-IDF; her makale = bir doküman (native, chunk/shuffle yok).
+# En düşük TF-IDF'li ilk 75 kelime (artan sırada = en çok stopword).
+# UYARI (dürüst bulgu): büyük N (41992) + çok değişken makale uzunluğunda
+#   'en düşük TF-IDF = stopword' sezgisi BOZULUYOR. Gerçek stopword'lerin idf'i
+#   çökerken (ve: idf=0.17), uzun makalelerde 1 kez geçen nadir kelimeler en alta
+#   düşüyor → bu liste gerçek stopword değil, nadir uzun-kuyruk kelimelerdir.
+#   Ayrıntı/karşılaştırma: reports/stopword_42bin_comparison.png ve src/scripts/stopword_build_42bin.py.
+kesmekti
+yıpratılmadan
+çökertilmeli
+ihtilallerin
+yükselteceği
+verebilmeleri
+etkisizleşmesine
+bulanacaktır
+geriletilebilmesi
+ilerleyişine
+örseleyen
+soyunmuşlar
+müdahalecilerin
+meşruiyetten
+mahrumdur
+kılmadığı
+cevaplarımı
+mükerrerliği
+zaferimize
+esarete
+edilmişken
+çözemeyecek
+görevlilerdir
+savunmuştur
+yadırgamış
+küçümsemiş
+yakıştırmalarla
+kontrollerindeki
+teveccühüyle
+uzaklaştırılmıştır
+darağaçlarına
+daraltılmış
+seçkinlerini
+darbecilik
+müdahalecilik
+vesayetçilik
+örmüştür
+sergilememiştir
+kudsiyetini
+müdahalecilere
+sıvazlamayı
+yüreklendirmeyi
+mercidir
+yükseltmekten
+kaçınmışlardır
+hortlatıldığı
+demokrasisiz
+metazori
+gerçekleştiremediğimiz
+toparlanamamış
+durgunluklar
+zorlaştırmıştır
+daraltılmasında
+savunucularına
+andıçlar
+tetikçiliğini
+mekanizmalarından
+varolabilen
+meşrulaştırılma
+msp
+husumetlerinin
+sindirmeler
+daraltmıştır
+iyileşmezken
+seslendirilmeye
+daraltıldığını
+sınırlandırdığı
+büyükşehirlerinde
+dizaynını
+edilmem
+savsaklayıp
+itelemelerle
+ittifaklarına
+kavranamamaktadır
+ovuşturmayı

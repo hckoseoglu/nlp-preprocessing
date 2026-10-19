@@ -1,0 +1,19 @@
+# Düzensiz biçimler: yüzey → kanonik kök (POS). Stemmer bu yüzeyleri sözlük girdisi gibi eşler,
+# üstüne düzenli ekler soyulabilir (onlar-ın, onlar-a, bunlar-dan ...).
+# Kaynak: Göksel & Kerslake (2005) böl. 18 (zamir çekimi).
+# form	root	pos
+bana	ben	PRON
+sana	san	PRON
+benim	ben	PRON
+bizim	biz	PRON
+onlar	o	PRON
+bunlar	bu	PRON
+şunlar	şu	PRON
+# soru eki: UD lemma sözleşmesi 'mi' (mı/mu/mü → mi); sana → san (UD çoğunluk: 21 san / 6 sen)
+mı	mi	PART
+mu	mi	PART
+mü	mi	PART
+kü	ki	PART
+# konuşma dilinde son ünlüsü düşen gövdeler (ilerde, nerde); bur/or/şur eklenmedi (burnu→bura çakışması)
+iler	ileri	NOUN
+ner	nere	PRON

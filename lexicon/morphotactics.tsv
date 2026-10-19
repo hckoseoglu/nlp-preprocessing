@@ -1,0 +1,52 @@
+# Ek sırası FSA'sı (ileri yön): from_state  label  to_state
+# label = suffixes.tsv'deki id, ya da class adı (o sınıftaki tüm ekler), ya da EPS (boş geçiş).
+# Çöltekin (2010) Fig. 1–2 ve Oflazer (1994) Fig. B.1/B.2'nin sade hali. Kök durumları: N0 (isim/sıfat/zamir...),
+# V0 (fiil). Stemmer END'den geriye yürür; tür baştan verilmez — END'den hem isim hem fiil ağına girilir.
+#
+# ---- İsim ağı ----
+N0	PLUR	N1
+N0	EPS	N1
+N1	POSS	N2
+N1	EPS	N2
+N2	CASE	N3
+N2	CASE_N	N3
+N2	EPS	N3
+N3	KI	N0
+N3	EPS	END
+N3	COP	NV1
+N3	COP_DIR	NV1
+N3	COP_KEN	END
+N3	CPERS	END
+NV1	CPERS	END
+NV1	CPERSP	END
+NV1	EPS	END
+# ---- Fiil ağı ----
+V0	VOICE	V0
+V0	EPS	V1
+V0	ABIL	V0B
+V0B	NEG	V1N
+V0B	EPS	V1
+V0	NEG	V1N
+V0	NEGABIL	V1A
+V1A	NEG	V1N
+V1N	ABIL	V1
+V1N	EPS	V1
+V1N	TENSE_NEG	V2
+V1	TENSE	V2
+V2	EPS	V3
+V2	PERS3P_A	V2
+# ^ 3. çoğul -lAr ek-fiilden ÖNCE de gelebilir: gel-iyor-lar-dı, gel-ir-ler-di, gel-miş-ler-se (UD bunları geliyorlar + dı diye böler;
+#   ham metinde bütün sözcük gelir). Yalnız lAr; kişi ekleri sonrası V3'te.
+V2	TENSE2	V3
+V2	CONV2	END
+V3	PERS_A	END
+V3	PERS_B	END
+V3	EPS	END
+V1	VN	N0
+V1	PART	N0
+V1	CONV	END
+V1	IMP	END
+# ---- Türetim (kök durumları arası) ----
+N0	DER_NN	N0
+N0	DER_NV	V0
+V0	DER_VN	N0

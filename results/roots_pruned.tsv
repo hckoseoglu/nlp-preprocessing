@@ -1,0 +1,212 @@
+root	pos	freq	analysis
+örneğin	ADV	3	örnek[NOUN] ← örnek + POSS2S (repair=voicing)
+dünyaca	ADV	1	dünya[NOUN] ← dünya + EQU
+çoğu	PRON	3	çok[ADV] ← çok + POSS3S (repair=voicing)
+dolayısı	ADV	1	dolayı[NOUN] ← dolayı + POSS3S
+milletvekili	NOUN	4	milletvekil[NOUN] ← milletvekil + POSS3S
+ingilizce	NOUN	1	ingiliz[PROPN] ← ingiliz + EQU
+ardından	NOUN	3	art[NOUN] ← art + ABL+POSS2S (repair=voicing)
+bilir	VERB	2	bil[VERB] ← bil + AOR_I
+bunca	ADJ	3	bu[DET] ← bu + EQU+POSS2S
+öteki	NOUN	4	öte[NOUN] ← öte + KI
+birkaçı	PRON	2	birkaç[DET] ← birkaç + POSS3S
+keser	VERB	2	kes[VERB] ← kes + AOR_A
+ailece	ADV	1	aile[NOUN] ← aile + EQU
+için	ADV	2	iç[NOUN] ← iç + POSS2S
+müslümanlarca	ADV	1	müslüman[PROPN] ← müslüman + EQU+PLUR
+coşar	VERB	1	coş[VERB] ← coş + AOR_A
+yapın	VERB	1	yap[VERB] ← yap + IMP2P
+kiler	PART	3	ki[PART] ← ki + PLUR
+aylarca	ADV	1	ay[NOUN] ← ay + EQU+PLUR
+çeker	VERB	3	çek[VERB] ← çek + AOR_A
+dakikalarca	ADV	1	dakika[NOUN] ← dakika + EQU+PLUR
+izle	NOUN	3	iz[NOUN] ← iz + INS
+öteki	ADJ	3	öte[NOUN] ← öte + KI
+ödüllü	ADJ	1	ödül[NOUN] ← ödül + POSS3S (repair=doubling)
+nere	ADV	3	nere[PRON] ← ner + DAT
+italyanca	NOUN	1	italya[PROPN] ← italya + EQU+POSS2S
+sürece	ADV	1	süre[NOUN] ← süre + EQU
+bence	PRON	1	ben[PRON] ← ben + EQU
+sonraki	ADJ	2	sonra[ADV] ← sonra + KI
+dolayı	ADV	4	dolay[NOUN] ← dolay + POSS3S
+seksi	ADJ	2	seks[NOUN] ← seks + POSS3S
+aynı	ADV	3	ay[NOUN] ← ay + ACC_N
+şeyi	NOUN	1	şey[NOUN] ← şey + POSS3S
+mısırı	NOUN	1	mısır[PROPN] ← mısır + POSS3S
+miki	NOUN	2	mi[AUX] ← mi + KI
+ilişkin	ADJ	4	ilişki[NOUN] ← ilişki + POSS2S
+biri	ADV	3	bir[DET] ← bir + POSS3S
+bizim	PRON	3	biz[PRON] ← biz + POSS1S
+öylece	ADV	1	öyle[ADV] ← öyle + EQU
+altı	NOUN	3	alt[NOUN] ← alt + POSS3S
+sevim	ADJ	3	sev[PROPN] ← sev + POSS1S
+dey	VERB	1	de + y (kaynaştırma harfi lemma'da kalmış)
+adımlar	NOUN	1	adım[NOUN] ← adım + PLUR
+türkçe	NOUN	1	türk[PROPN] ← türk + EQU
+insan	VERB	3	in[VERB] ← in + PERS2S_A+COND (harmony_viol=1)
+artır	VERB	4	art[VERB] ← art + AOR_I
+disipline	ADJ	1	disiplin[NOUN] ← disiplin + DAT
+dan	PART	1	da[PART] ← da + POSS2S
+döner	VERB	4	dön[VERB] ← dön + AOR_A
+şimdiki	ADJ	1	şimdi[ADV] ← şimdi + KI
+saatlerce	NOUN	1	saat[NOUN] ← saat + EQU+PLUR (harmony_viol=1)
+ayda	NOUN	1	ay[NOUN] ← ay + LOC
+olmaz	VERB	4	ol[VERB] ← ol + AOR_NEG+NEG
+akıllıca	ADJ	2	akıl[NOUN] ← akıl + EQU+POSS3S (repair=doubling)
+yazar	VERB	3	yaz[VERB] ← yaz + AOR_A
+yurdu	NOUN	1	yurt[NOUN] ← yurt + POSS3S (repair=voicing)
+bura	NOUN	4	bura[PRON] ← bur + DAT
+hocam	NOUN	1	hoca[NOUN] ← hoca + POSS1S
+hoşça	ADV	1	hoş[ADJ] ← hoş + EQU
+bolca	ADV	1	bol[ADJ] ← bol + EQU
+ülkenin	NOUN	1	ülke[NOUN] ← ülke + GEN
+buradan	PRON	1	bura[PRON] ← bura + ABL
+alarm	VERB	2	al[VERB] ← al + PERS1S_A+AOR_A
+sonraları	NOUN	1	sonra[ADV] ← sonra + POSS3S+PLUR
+kısaca	NOUN	1	kısa[ADJ] ← kısa + EQU
+yıllarca	ADV	2	yıl[NOUN] ← yıl + EQU+PLUR
+kolayca	ADV	3	kolay[ADJ] ← kolay + EQU
+burada	PRON	1	bura[PRON] ← bura + LOC
+kimler	NOUN	3	kim[PRON] ← kim + PLUR
+asılı	ADV	1	asıl[ADJ] ← asıl + POSS3S
+sağla	ADJ	2	sağ[ADJ] ← sağ + INS
+sizinle	PRON	1	siz[PRON] ← siz + INS+POSS2S
+düşünür	VERB	4	düşün[VERB] ← düşün + AOR_I
+uzunca	ADV	2	uzun[ADJ] ← uzun + EQU
+dolayısı	NOUN	1	dolayı[NOUN] ← dolayı + POSS3S
+içim	ADJ	3	iç[NOUN] ← iç + POSS1S
+ten	PART	2	te[NOUN] ← te + POSS2S
+korkudan	NOUN	1	korku[NOUN] ← korku + ABL
+çağlar	NOUN	3	çağ[NOUN] ← çağ + PLUR
+çalın	VERB	1	çal[VERB] ← çal + IMP2P
+neler	NOUN	1	ne[PRON] ← ne + PLUR
+azı	ADV	3	az[ADV] ← az + POSS3S
+sayesinde	NOUN	1	saye[NOUN] ← saye + LOC_N+POSS3S
+kimsenin	PRON	1	kimse[NOUN] ← kimse + GEN
+beni	NOUN	1	ben[PRON] ← ben + POSS3S
+eti	NOUN	3	et[NOUN] ← et + POSS3S
+fazladan	ADV	1	fazla[ADV] ← fazla + ABL
+kaşa	NOUN	1	kaş[NOUN] ← kaş + DAT
+uyur	VERB	2	uyu[VERB] ← uyu + AOR_A
+atar	VERB	1	at[VERB] ← at + AOR_A
+aşa	VERB	2	aş[VERB] ← aş + OPT
+aşkımın	NOUN	1	aşk[NOUN] ← aşk + GEN+POSS1S
+bilincinde	NOUN	1	bilinç[NOUN] ← bilinç + LOC+POSS2S (repair=voicing)
+azı	ADJ	4	az[ADV] ← az + POSS3S
+izleri	NOUN	1	iz[NOUN] ← iz + POSS3S+PLUR
+oradaki	NOUN	1	ora[PRON] ← ora + KI+LOC
+sonunda	NOUN	4	son[ADJ] ← son + LOC+POSS2S
+kopar	VERB	3	kop[VERB] ← kop + AOR_A
+sesiyle	NOUN	1	ses[NOUN] ← ses + INS+POSS3S
+keşfi	NOUN	1	keşif[NOUN] ← keşif + POSS3S (repair=vowel_drop)
+hakiki	NOUN	3	hak[NOUN] ← hak + KI+POSS3S (harmony_viol=1)
+etti	VERB	1	et[VERB] ← et + PAST
+gökyüzünü	NOUN	1	gökyüzü[NOUN] ← gökyüzü + ACC+POSS2S
+sizi	PRON	1	siz[PRON] ← siz + POSS3S
+dolayısıyla	ADV	4	dolayı[NOUN] ← dolayı + INS+POSS3S
+devrim	ADJ	3	devir[NOUN] ← devir + POSS1S (repair=vowel_drop)
+efsanesi	NOUN	1	efsane[NOUN] ← efsane + POSS3S
+ruhça	NOUN	1	ruh[NOUN] ← ruh + EQU
+vücutça	ADV	1	vücut[NOUN] ← vücut + EQU
+başım	NOUN	1	baş[NOUN] ← baş + POSS1S
+ezer	VERB	1	ez[VERB] ← ez + AOR_A
+dursun	VERB	1	dur[VERB] ← dur + IMP3S
+zorunda	NOUN	1	zor[ADJ] ← zor + LOC+POSS2S
+ayrıca	NOUN	2	ayrı[ADJ] ← ayrı + EQU
+derince	ADJ	1	derin[ADJ] ← derin + EQU
+annem	ADJ	1	anne[NOUN] ← anne + POSS1S
+mektubu	NOUN	1	mektup[NOUN] ← mektup + POSS3S (repair=voicing)
+cumhurbaşkanı	NOUN	1	cumhurbaşkan[NOUN] ← cumhurbaşkan + POSS3S
+fazlasıyla	ADV	1	fazla[ADV] ← fazla + INS+POSS3S
+dıştan	ADV	1	dış[NOUN] ← dış + ABL
+kayan	NOUN	1	kaya[NOUN] ← kaya + POSS2S
+durur	VERB	1	dur[VERB] ← dur + AOR_I
+kimi	NOUN	4	kim[PRON] ← kim + POSS3S
+oğlum	NOUN	1	oğul[NOUN] ← oğul + POSS1S (repair=vowel_drop)
+şunun	NOUN	1	şu[DET] ← şu + GEN
+neden	PRON	2	ne[PRON] ← ne + ABL
+bankalar	NOUN	1	banka[NOUN] ← banka + PLUR
+birini	NOUN	1	biri[PRON] ← biri + ACC+POSS2S
+sürer	VERB	1	sür[VERB] ← sür + AOR_A
+fazlaca	ADV	1	fazla[ADV] ← fazla + EQU
+müntekim	NOUN	1	mi[PART] ← mü + POSS1S+KI+LOC_N
+erkekçe	ADV	1	erkek[NOUN] ← erkek + EQU
+elini	NOUN	1	el[NOUN] ← el + ACC+POSS2S
+kolayca	NOUN	1	kolay[ADJ] ← kolay + EQU
+taşıyoruz	VERB	1	taşı[VERB] ← taşı + PERS1P_B+PROG
+adımız	NOUN	1	ad[NOUN] ← ad + POSS1P
+şunca	ADJ	4	şu[DET] ← şu + EQU+POSS2S
+gözlerimi	NOUN	1	göz[NOUN] ← göz + ACC+POSS1S+PLUR
+makinesi	NOUN	1	makine[NOUN] ← makine + POSS3S
+burası	ADJ	1	bura[PRON] ← bura + POSS3S
+kin	ADP	2	ki[PART] ← ki + POSS2S
+raporu	NOUN	1	rapor[NOUN] ← rapor + POSS3S
+aynı	NOUN	2	ay[NOUN] ← ay + ACC_N
+büyükçe	ADV	1	büyük[ADJ] ← büyük + EQU
+kontrollü	ADV	1	kontrol[NOUN] ← kontrol + POSS3S (repair=doubling; harmony_viol=1)
+havasını	NOUN	1	hava[NOUN] ← hava + ACC_N+POSS3S
+görmez	VERB	1	gör[VERB] ← gör + AOR_NEG+NEG
+böylesine	ADV	2	böyle[ADV] ← böyle + DAT_N+POSS3S
+merkezi	NOUN	2	merkez[NOUN] ← merkez + POSS3S
+asılı	ADJ	1	asıl[ADJ] ← asıl + POSS3S
+yani	ADV	3	yan[NOUN] ← yan + POSS3S (harmony_viol=1)
+anay	VERB	1	ana + y (kaynaştırma harfi lemma'da kalmış)
+işleme	NOUN	1	işlem[NOUN] ← işlem + DAT
+istiyoruz	VERB	1	iste[VERB] ← iste + PERS1P_B+PROG
+hazin	NOUN	2	haz[NOUN] ← haz + POSS2S (harmony_viol=1)
+kaçar	VERB	1	kaç[VERB] ← kaç + AOR_A
+amerikan	ADJ	2	amerika[PROPN] ← amerika + POSS2S
+dostça	NOUN	1	dost[NOUN] ← dost + EQU
+aşağıda	NOUN	1	aşağı[NOUN] ← aşağı + LOC
+candan	ADJ	1	can[NOUN] ← can + ABL
+türkçe	ADJ	1	türk[PROPN] ← türk + EQU
+itibari	NOUN	4	itibar[NOUN] ← itibar + POSS3S (harmony_viol=1)
+nere	NOUN	3	nere[PRON] ← ner + DAT
+güzelce	ADV	1	güzel[ADJ] ← güzel + EQU
+adın	NOUN	1	ad[NOUN] ← ad + POSS2S
+dan	NOUN	1	da[PART] ← da + POSS2S
+fikri	ADJ	1	fikir[NOUN] ← fikir + POSS3S (repair=vowel_drop)
+çıkarız	VERB	1	çık[VERB] ← çık + PERS1P_B+AOR_A
+boyle	ADV	1	boy[NOUN] ← boy + INS (harmony_viol=1)
+ilerki	ADJ	1	ileri[NOUN] ← iler + KI
+muhammedi	NOUN	1	muhammed[PROPN] ← muhammed + POSS3S
+ikizler	NOUN	2	ikiz[NOUN] ← ikiz + PLUR
+elim	NOUN	2	el[NOUN] ← el + POSS1S
+adam	ADV	2	ada[NOUN] ← ada + POSS1S
+bize	PRON	1	biz[PRON] ← biz + DAT
+orası	PRON	1	ora[PRON] ← ora + POSS3S
+yollu	NOUN	1	yol[NOUN] ← yol + POSS3S (repair=doubling)
+uçar	VERB	1	uç[VERB] ← uç + AOR_A
+bine	VERB	1	bin[VERB] ← bin + OPT
+şekli	NOUN	1	şekil[NOUN] ← şekil + POSS3S (repair=vowel_drop)
+kim	ADV	2	ki[PART] ← ki + POSS1S
+dövün	VERB	1	döv[VERB] ← döv + IMP2P
+doya	VERB	2	doy[VERB] ← doy + OPT
+boyunca	ADV	1	boyun[NOUN] ← boyun + EQU
+yalnızca	ADJ	2	yalnız[ADV] ← yalnız + EQU
+halime	NOUN	1	hal[NOUN] ← hal + DAT+POSS1S (harmony_viol=1)
+beklesinler	VERB	1	bekle[VERB] ← bekle + IMP3P
+sonraları	ADV	1	sonra[ADV] ← sonra + POSS3S+PLUR
+durumun	NOUN	1	durum[NOUN] ← durum + POSS2S
+sönmez	VERB	1	sön[VERB] ← sön + AOR_NEG+NEG
+bence	ADV	1	ben[PRON] ← ben + EQU
+aileme	NOUN	1	aile[NOUN] ← aile + DAT+POSS1S
+hakkı	NOUN	1	hak[NOUN] ← hak + POSS3S (repair=doubling)
+kollu	ADJ	1	kol[NOUN] ← kol + POSS3S (repair=doubling)
+sergisi	NOUN	1	sergi[NOUN] ← sergi + POSS3S
+insanlar	NOUN	1	insan[NOUN] ← insan + PLUR
+cenneti	NOUN	1	cennet[NOUN] ← cennet + POSS3S
+büyükçe	ADJ	1	büyük[ADJ] ← büyük + EQU
+illa	ADV	2	il[NOUN] ← il + INS (harmony_viol=1)
+ekonomide	NOUN	1	ekonomi[NOUN] ← ekonomi + LOC
+olaylara	NOUN	1	olay[NOUN] ← olay + DAT+PLUR
+gülümser	VERB	1	gülümse[VERB] ← gülümse + AOR_A
+hayatta	NOUN	1	hayat[NOUN] ← hayat + LOC
+sıkça	ADV	1	sık[ADV] ← sık + EQU
+kimler	PRON	1	kim[PRON] ← kim + PLUR
+sever	VERB	1	sev[VERB] ← sev + AOR_A
+makineleri	NOUN	1	makine[NOUN] ← makine + POSS3S+PLUR
+cumhuriyeti	NOUN	1	cumhuriyet[NOUN] ← cumhuriyet + POSS3S
+yakası	NOUN	1	yaka[NOUN] ← yaka + POSS3S
+mini	NOUN	2	mi[AUX] ← mi + ACC+POSS2S
+engelli	NOUN	1	engel[NOUN] ← engel + POSS3S (repair=doubling)

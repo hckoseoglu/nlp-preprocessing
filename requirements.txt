@@ -1,1 +1,6 @@
+# Çekirdek kod (run.py, stemmer/, src/) yalnız standart kütüphane kullanır.
+# Aşağıdakiler src/scripts/ altındaki deney/figür scriptleri ve baseline'lar içindir.
+matplotlib
 scikit-learn
+snowballstemmer
+TurkishStemmer
