@@ -1,0 +1,263 @@
+{
+ "system_comparison": {
+  "no-stem": {
+   "dev": 44.08183632734531,
+   "test": 43.94306480920654
+  },
+  "prefix5": {
+   "dev": 46.656686626746506,
+   "test": 46.65859075307894
+  },
+  "snowball": {
+   "dev": 53.902195608782435,
+   "test": 53.866343630123154
+  },
+  "turkishstemmer": {
+   "dev": 54.71057884231537,
+   "test": 55.48152634766808
+  },
+  "ours": {
+   "dev": 94.08183632734531,
+   "test": 93.98344437714516
+  },
+  "ours_pos": {
+   "dev": 94.50099800399201,
+   "test": 94.19543710882293
+  }
+ },
+ "pos_breakdown_dev": {
+  "snowball": {
+   "NOUN": 68.8829071332436,
+   "VERB": 14.923998157531091,
+   "ADJ": 57.49690210656753,
+   "PROPN": 64.09921671018277,
+   "ADV": 53.50877192982456,
+   "PRON": 54.712041884816756
+  },
+  "ours": {
+   "NOUN": 94.50874831763123,
+   "VERB": 91.84707508060802,
+   "ADJ": 89.21933085501858,
+   "PROPN": 92.95039164490862,
+   "ADV": 96.14035087719299,
+   "PRON": 97.90575916230367
+  },
+  "ours_pos": {
+   "NOUN": 94.93943472409153,
+   "VERB": 92.95255642561031,
+   "ADJ": 89.09541511771995,
+   "PROPN": 93.08093994778068,
+   "ADV": 96.49122807017544,
+   "PRON": 97.90575916230367
+  }
+ },
+ "subsets_dev": {
+  "ours": {
+   "bare": 96.60402988453701,
+   "inflected": 91.9449160535748,
+   "derived": 94.70198675496688,
+   "oov": 87.0083432657926,
+   "copula": 85.06224066390041
+  },
+  "ours_pos": {
+   "bare": 96.55875028299751,
+   "inflected": 92.86926994906621,
+   "derived": 93.04635761589404,
+   "oov": 87.44537147397696,
+   "copula": 85.06224066390041
+  }
+ },
+ "test_breakdown": {
+  "overall": 93.98344437714516,
+  "pos": {
+   "NOUN": 94.66498103666245,
+   "VERB": 90.99590723055934,
+   "ADJ": 91.62995594713657,
+   "PROPN": 94.09158050221566,
+   "ADV": 93.75,
+   "PRON": 96.84542586750788
+  },
+  "subsets": {
+   "bare": 96.43923730760395,
+   "inflected": 92.03689759036145,
+   "derived": 92.5311203319502,
+   "oov": 87.65957446808511,
+   "copula": 78.33333333333333
+  },
+  "n_pos": {
+   "NOUN": 3955,
+   "VERB": 2199,
+   "ADJ": 681,
+   "PROPN": 677,
+   "ADV": 480,
+   "PRON": 317
+  },
+  "n_subsets": {
+   "bare": 4353,
+   "inflected": 5312,
+   "derived": 241,
+   "oov": 2585,
+   "copula": 180
+  }
+ },
+ "ranking_dev": {
+  "longest root in lexicon": 89.30139720558883,
+  "attested roots first, then longest": 91.49700598802396,
+  "frequency score (ours)": 94.08183632734531,
+  "frequency score + gold POS": 94.50099800399201
+ },
+ "ablation_delta_dev": {
+  "vowel harmony off": -0.049900199600799056,
+  "buffer-consonant rule off": 0.07984031936126712,
+  "consonant assimilation off": -0.029940119760482276,
+  "repair flags off": -0.03992015968064777,
+  "apostrophe / proper-noun path off": -0.01996007984033099,
+  "derivational stripping rules off": -0.5089820359281418,
+  "derivation map (train) off": -1.21756487025948,
+  "copula fragment table off": -2.0359281437125816
+ },
+ "error_classes_dev": {
+  "ours": {
+   "over-stemming": 215,
+   "under-stemming": 213,
+   "türetim-fazla-soyuldu (over; gold lemma'yı korur)": 71,
+   "türetim-soyulmadı (under)": 8,
+   "gold-gürültüsü/typo": 7,
+   "belirsizlik (iki geçerli kök)": 18,
+   "UD-kopula-parçacığı": 36,
+   "diğer": 10,
+   "fonoloji": 5,
+   "OOV-kök": 10
+  },
+  "ours_pos": {
+   "over-stemming": 221,
+   "under-stemming": 170,
+   "türetim-fazla-soyuldu (over; gold lemma'yı korur)": 69,
+   "türetim-soyulmadı (under)": 8,
+   "gold-gürültüsü/typo": 7,
+   "belirsizlik (iki geçerli kök)": 15,
+   "UD-kopula-parçacığı": 36,
+   "diğer": 10,
+   "fonoloji": 5,
+   "OOV-kök": 10
+  }
+ },
+ "pos_filtered_eval": {
+  "dev": {
+   "snowball": {
+    "all tokens": 53.902195608782435,
+    "nominals (NOUN/PROPN/ADJ/PRON/ADV)": 64.55128205128206,
+    "NOUN only": 68.8829071332436,
+    "VERB only": 14.923998157531091
+   },
+   "turkishstemmer": {
+    "all tokens": 54.71057884231537,
+    "nominals (NOUN/PROPN/ADJ/PRON/ADV)": 67.27564102564102,
+    "NOUN only": 73.6742934051144,
+    "VERB only": 12.298479963150621
+   },
+   "ours": {
+    "all tokens": 94.08183632734531,
+    "nominals (NOUN/PROPN/ADJ/PRON/ADV)": 93.99038461538461,
+    "NOUN only": 94.50874831763123,
+    "VERB only": 91.84707508060802
+   }
+  },
+  "test": {
+   "snowball": {
+    "all tokens": 53.866343630123154,
+    "nominals (NOUN/PROPN/ADJ/PRON/ADV)": 63.89525368248773,
+    "NOUN only": 68.52085967130215,
+    "VERB only": 14.91587085038654
+   },
+   "turkishstemmer": {
+    "all tokens": 55.48152634766808,
+    "nominals (NOUN/PROPN/ADJ/PRON/ADV)": 67.70867430441899,
+    "NOUN only": 74.58912768647282,
+    "VERB only": 13.324238290131879
+   },
+   "ours": {
+    "all tokens": 93.98344437714516,
+    "nominals (NOUN/PROPN/ADJ/PRON/ADV)": 94.30441898527005,
+    "NOUN only": 94.66498103666245,
+    "VERB only": 90.99590723055934
+   }
+  }
+ },
+ "rule_only_pos_effect": {
+  "dev": {
+   "Snowball (noun rules only)": {
+    "all tokens": 53.902195608782435,
+    "NOUN": 68.8829071332436,
+    "VERB": 14.923998157531091
+   },
+   "Snowball + verb rules, no POS (verb rule fires → treat as verb)": {
+    "all tokens": 57.56487025948104,
+    "NOUN": 56.527590847913864,
+    "VERB": 59.788116075541225
+   },
+   "Snowball + verb rules, gold POS (VERB → verb rules, others → Snowball)": {
+    "all tokens": 63.383233532934135,
+    "NOUN": 68.8829071332436,
+    "VERB": 58.68263473053892
+   },
+   "ours (lexicon + score, no POS)": {
+    "all tokens": 94.08183632734531,
+    "NOUN": 94.50874831763123,
+    "VERB": 91.84707508060802
+   },
+   "ours + gold POS": {
+    "all tokens": 94.50099800399201,
+    "NOUN": 94.93943472409153,
+    "VERB": 92.95255642561031
+   }
+  },
+  "test": {
+   "Snowball (noun rules only)": {
+    "all tokens": 53.866343630123154,
+    "NOUN": 68.52085967130215,
+    "VERB": 14.91587085038654
+   },
+   "Snowball + verb rules, no POS (verb rule fires → treat as verb)": {
+    "all tokens": 57.641833232384414,
+    "NOUN": 56.8141592920354,
+    "VERB": 59.07230559345157
+   },
+   "Snowball + verb rules, gold POS (VERB → verb rules, others → Snowball)": {
+    "all tokens": 63.4867756915001,
+    "NOUN": 68.52085967130215,
+    "VERB": 58.2537517053206
+   },
+   "ours (lexicon + score, no POS)": {
+    "all tokens": 93.98344437714516,
+    "NOUN": 94.66498103666245,
+    "VERB": 90.99590723055934
+   },
+   "ours + gold POS": {
+    "all tokens": 94.19543710882293,
+    "NOUN": 94.94310998735777,
+    "VERB": 90.99590723055934
+   }
+  }
+ },
+ "snowball_pos": {
+  "Snowball (noun rules only, no POS)": {
+   "all tokens": 53.866343630123154,
+   "NOUN": 68.52085967130215,
+   "ADJ": 54.77239353891336,
+   "VERB": 14.91587085038654
+  },
+  "Snowball + verb rules, no POS": {
+   "all tokens": 57.641833232384414,
+   "NOUN": 56.8141592920354,
+   "ADJ": 51.688693098384725,
+   "VERB": 59.07230559345157
+  },
+  "Snowball + verb rules, gold POS": {
+   "all tokens": 63.4867756915001,
+   "NOUN": 68.52085967130215,
+   "ADJ": 54.77239353891336,
+   "VERB": 58.2537517053206
+  }
+ }
+}

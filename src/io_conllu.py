@@ -27,6 +27,7 @@ class Word:
     upos: str
     feats: str = "_"
     space_after: bool = True  # MISC'te SpaceAfter=No yoksa True
+    misc: str = "_"           # ham MISC kolonu (DerivedFrom vb. için; stemming gold)
 
 
 @dataclass
@@ -97,7 +98,7 @@ def iter_conllu(path: str | Path) -> Iterator[Sentence]:
                 continue
 
             word = Word(idx=int(tid), form=form, lemma=lemma, upos=upos,
-                        feats=feats, space_after=space_after)
+                        feats=feats, space_after=space_after, misc=misc)
             words.append(word)
 
             if mwt_remaining > 0 and mwt_token is not None:

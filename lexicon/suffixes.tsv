@@ -1,0 +1,129 @@
+# Türkçe ek sözlüğü — Oflazer (1994) notasyonu: A={a,e} I={ı,i,u,ü} D={d,t} C={c,ç} K={k,ğ}
+# (x) = kaynaştırma/yardımcı ses (var/yok). Program başında allomorflara açılır (stemmer/suffixes.py).
+# Sütunlar: id  form  class  in  out   (in/out yalnız DER için; diğerlerinde "-")
+# Kaynaklar: Oflazer 1994; Göksel & Kerslake 2005 böl. 7–8; Sak, Güngör & Saraçlar 2011; Eryiğit & Adalı 2004.
+#
+# ---------------- İSİM ÇEKİMİ (NINF) ----------------
+PLUR	lAr	PLUR	-	-
+POSS1S	(I)m	POSS	-	-
+POSS2S	(I)n	POSS	-	-
+POSS3S	(s)I	POSS	-	-
+POSS1P	(I)mIz	POSS	-	-
+POSS2P	(I)nIz	POSS	-	-
+POSS3P	lArI	POSS	-	-
+ACC	(y)I	CASE	-	-
+DAT	(y)A	CASE	-	-
+LOC	DA	CASE	-	-
+ABL	DAn	CASE	-	-
+GEN	(n)In	CASE	-	-
+INS	(y)lA	CASE	-	-
+EQU	CA	CASE	-	-
+ACC_N	nI	CASE_N	-	-
+DAT_N	nA	CASE_N	-	-
+LOC_N	nDA	CASE_N	-	-
+ABL_N	nDAn	CASE_N	-	-
+KI	ki	KI	-	-
+KI_U	kü	KI	-	-
+# ---------------- EK-FİİL (NV) ----------------
+COP_PAST	(y)DI	COP	-	-
+COP_EVID	(y)mIş	COP	-	-
+COP_COND	(y)sA	COP	-	-
+COP_KEN	(y)ken	COP_KEN	-	-
+COP_DIR	DIr	COP_DIR	-	-
+CPERS1S	(y)Im	CPERS	-	-
+CPERS2S	sIn	CPERS	-	-
+CPERS1P	(y)Iz	CPERS	-	-
+CPERS2P	sInIz	CPERS	-	-
+CPERS3P	lAr	CPERS	-	-
+CPERSP1S	m	CPERSP	-	-
+CPERSP2S	n	CPERSP	-	-
+CPERSP1P	k	CPERSP	-	-
+CPERSP2P	nIz	CPERSP	-	-
+CPERSP3P	lAr	CPERSP	-	-
+# ---------------- FİİL ÇEKİMİ (VINF) ----------------
+# çatı
+PASS	(I)l	VOICE	-	-
+PASS_N	(I)n	VOICE	-	-
+RECP	(I)ş	VOICE	-	-
+CAUS_DIR	DIr	VOICE	-	-
+CAUS_T	(I)t	VOICE	-	-
+CAUS_IR	Ir	VOICE	-	-
+CAUS_AR	Ar	VOICE	-	-
+# olumsuzluk / yeterlik
+NEG	mA	NEG	-	-
+ABIL	(y)Abil	ABIL	-	-
+NEGABIL	(y)A	NEGABIL	-	-
+# zaman / kip
+PAST	DI	TENSE	-	-
+EVID	mIş	TENSE	-	-
+PROG	(I)yor	TENSE	-	-
+FUT	(y)AcAK	TENSE	-	-
+AOR_A	(A)r	TENSE	-	-
+AOR_I	(I)r	TENSE	-	-
+PROG2	mAktA	TENSE	-	-
+NECESS	mAlI	TENSE	-	-
+COND	sA	TENSE	-	-
+OPT	(y)A	TENSE	-	-
+AOR_NEG	z	TENSE_NEG	-	-
+# ikinci zaman (bileşik)
+PAST2	(y)DI	TENSE2	-	-
+EVID2	(y)mIş	TENSE2	-	-
+COND2	(y)sA	TENSE2	-	-
+DIR2	DIr	TENSE2	-	-
+KEN2	(y)ken	CONV2	-	-
+# emir
+IMP2P	(y)In	IMP	-	-
+IMP2PF	(y)InIz	IMP	-	-
+IMP3S	sIn	IMP	-	-
+IMP3P	sInlAr	IMP	-	-
+# kişi (A: -DI/-sA sonrası; B: diğer zamanlar sonrası)
+PERS1S_A	m	PERS_A	-	-
+PERS2S_A	n	PERS_A	-	-
+PERS1P_A	k	PERS_A	-	-
+PERS2P_A	nIz	PERS_A	-	-
+PERS3P_A	lAr	PERS_A	-	-
+PERS1S_B	(y)Im	PERS_B	-	-
+PERS2S_B	sIn	PERS_B	-	-
+PERS1P_B	(y)Iz	PERS_B	-	-
+PERS1P_OPT	lIm	PERS_B	-	-
+PERS2P_B	sInIz	PERS_B	-	-
+PERS3P_B	lAr	PERS_B	-	-
+# isim-fiil
+VN_MAK	mAk	VN	-	-
+VN_MA	mA	VN	-	-
+VN_IS	(y)Iş	VN	-	-
+# sıfat-fiil
+PART_AN	(y)An	PART	-	-
+PART_DIK	DIK	PART	-	-
+PART_ACAK	(y)AcAK	PART	-	-
+PART_MIS	mIş	PART	-	-
+PART_ASI	(y)AsI	PART	-	-
+# zarf-fiil
+CONV_IP	(y)Ip	CONV	-	-
+CONV_ARAK	(y)ArAk	CONV	-	-
+CONV_INCA	(y)IncA	CONV	-	-
+CONV_MADAN	mAdAn	CONV	-	-
+CONV_ALI	(y)AlI	CONV	-	-
+CONV_DIKCA	DIkçA	CONV	-	-
+CONV_MAKSIZIN	mAksIzIn	CONV	-	-
+# ---------------- TÜRETİM (DER) ----------------
+DER_LI	lI	DER_NN	N	ADJ
+DER_SIZ	sIz	DER_NN	N	ADJ
+DER_LIK	lIK	DER_NN	N	N
+DER_CI	CI	DER_NN	N	N
+DER_CIK	CIK	DER_NN	N	N
+DER_DAS	DAş	DER_NN	N	N
+DER_SAL	sAl	DER_NN	N	ADJ
+DER_CA	CA	DER_NN	N	ADV
+DER_LA	lA	DER_NV	N	V
+DER_LAS	lAş	DER_NV	N	V
+DER_LAN	lAn	DER_NV	N	V
+DER_ICI	(y)IcI	DER_VN	V	N
+DER_IM	(I)m	DER_VN	V	N
+DER_INTI	(I)ntI	DER_VN	V	N
+DER_GI	gI	DER_VN	V	N
+DER_KI	kI	DER_VN	V	N
+DER_GIN	gIn	DER_VN	V	ADJ
+DER_KIN	kIn	DER_VN	V	ADJ
+DER_IK	(I)K	DER_VN	V	ADJ
+DER_MAN	mAn	DER_VN	V	N

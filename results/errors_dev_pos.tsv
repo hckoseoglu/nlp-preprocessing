@@ -1,0 +1,515 @@
+form	gold	pred	upos	n	class
+sa	i	y	AUX	8	UD-kopula-parçacığı
+ken	i	y	AUX	5	UD-kopula-parçacığı
+suyunu	su	suyunu	NOUN	4	under-stemming
+yken	i	y	AUX	3	UD-kopula-parçacığı
+suyun	su	suy	NOUN	3	under-stemming
+altına	alt	altın	ADJ	3	under-stemming
+ardından	art	ardından	NOUN	2	belirsizlik (iki geçerli kök)
+tir	y	i	AUX	2	UD-kopula-parçacığı
+üstüne	üst	üstün	ADJ	2	under-stemming
+saçlı	saç	saçlı	ADJ	2	türetim-soyulmadı (under)
+yoksa	yoksa	yok	ADV	2	over-stemming
+beraber	beraber	berab	VERB	2	over-stemming
+yitirmiş	yit	yitir	VERB	2	under-stemming
+milli	mil	milli	ADJ	2	türetim-soyulmadı (under)
+hepsini	hep	hepsi	PRON	2	under-stemming
+dik	dik	y	ADJ	2	diğer
+kalbi	kalbi	kalp	NOUN	2	belirsizlik (iki geçerli kök)
+hepsi	hep	hepsi	PRON	2	under-stemming
+dı	i	y	AUX	2	UD-kopula-parçacığı
+yenir	ye	yen	VERB	2	under-stemming
+belirtti	belir	belirt	VERB	2	under-stemming
+alınıyor	al	alın	VERB	2	under-stemming
+işte	iş	işte	ADV	2	under-stemming
+taşınırdı	taşın	taşı	VERB	1	over-stemming
+gerçekleşir	gerçek	gerçekle	VERB	1	under-stemming
+öğretmenlik	öğretmenlik	öğretmen	NOUN	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+etsin	etsin	et	VERB	1	over-stemming
+anlatıcı	anlatıcı	anlatı	NOUN	1	over-stemming
+yarışmalar	yarış	yarışma	NOUN	1	türetim-soyulmadı (under)
+öykücülüğün	öykücülük	öykü	NOUN	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+yemiş	yemiş	ye	VERB	1	over-stemming
+refahlı	refahlı	refah	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+ümraniye	ümraniye	ümran	PROPN	1	over-stemming
+dinleyiciler	dinle	din	NOUN	1	over-stemming
+neşelendi	neşe	neşelen	VERB	1	under-stemming
+cifte	çifte	cifte	NOUN	1	gold-gürültüsü/typo
+artırdığına	artır	art	VERB	1	over-stemming
+incelik	incelik	ince	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+birsen	birsen	bir	PROPN	1	over-stemming
+gerçekleştirebilmek	gerçek	gerçekle	VERB	1	under-stemming
+uzaklaştı	uzak	uza	VERB	1	over-stemming
+burcunun	burç	burcu	NOUN	1	belirsizlik (iki geçerli kök)
+denemelerin	deneme	dene	VERB	1	over-stemming
+izinden	iz	izin	NOUN	1	under-stemming
+benzer	benze	benzer	NOUN	1	under-stemming
+batılı	batı	batıl	ADJ	1	under-stemming
+üretmek	üre	üret	VERB	1	under-stemming
+açıcı	açıcı	açı	ADJ	1	over-stemming
+ydı	i	y	AUX	1	UD-kopula-parçacığı
+dur	y	i	AUX	1	UD-kopula-parçacığı
+durmaz	durmaz	dur	VERB	1	over-stemming
+fıstıklı	fıstıklı	fıstık	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+yetişkinliğe	yetişkinlik	yetişkin	NOUN	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+erişince	eriş	eri	VERB	1	over-stemming
+kapılır	kap	kapıl	VERB	1	under-stemming
+mevkiiniz	mevkiiniz	mevkii	NOUN	1	over-stemming
+tı	i	y	AUX	1	UD-kopula-parçacığı
+stresin	stresin	stres	NOUN	1	over-stemming
+kadının	kad	kadın	ADJ	1	under-stemming
+artırdığını	artır	art	VERB	1	over-stemming
+belden	bel	belde	NOUN	1	under-stemming
+aldırış	aldır	al	VERB	1	over-stemming
+iyileştirmek	iyi	iyileş	VERB	1	under-stemming
+futbolculuğuyla	futbolculuk	futbol	NOUN	1	over-stemming
+zulmün	zulüm	zulmün	NOUN	1	diğer
+avusturyalıların	avusturyalı	avusturya	PROPN	1	over-stemming
+dağcılık	dağcı	dağ	NOUN	1	over-stemming
+sayılamayacağını	sayıl	say	VERB	1	over-stemming
+belirttim	belir	belirt	VERB	1	under-stemming
+nesnellikten	nesnellik	nesnel	NOUN	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+direniş	diren	direniş	ADJ	1	under-stemming
+siniz	y	sin	AUX	1	UD-kopula-parçacığı
+romalı	romalı	roma	PROPN	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+buluşmuş	buluş	bul	VERB	1	over-stemming
+şampiyona	şampiyon	şampiyona	NOUN	1	under-stemming
+çöpçülük	çöpçülük	çöpçü	NOUN	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+sağlığı	sağ	sağlık	PROPN	1	türetim-soyulmadı (under)
+hastalıkları	hastalık	hasta	PROPN	1	over-stemming
+birliği	birlik	bir	PROPN	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+resmi	resim	resmi	NOUN	1	fonoloji
+yapıştırılıyor	yapış	yap	VERB	1	over-stemming
+sararıp	sarar	sar	VERB	1	over-stemming
+artırmak	artır	art	VERB	1	over-stemming
+tür	i	tür	AUX	1	UD-kopula-parçacığı
+tükürüverir	tükür	tükürüv	VERB	1	under-stemming
+orasının	orası	ora	NOUN	1	over-stemming
+şimdiye	şimdiye	şimdi	NOUN	1	over-stemming
+askeri	asker	askeri	ADJ	1	under-stemming
+kapışıyorlar	kapış	kap	VERB	1	over-stemming
+sonradan	sonradan	sonra	ADV	1	over-stemming
+kullanıcıların	kullan	kul	NOUN	1	over-stemming
+ıssızlığı	ıssızlık	ıssız	NOUN	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+sonat"ını	sonat"	sonat"ını	NOUN	1	under-stemming
+akşehirliler	akşehirli	akşehir	PROPN	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+ahbaz	abhaz	ahbaz	PROPN	1	OOV-kök
+hiçbirimizle	hiçbiri	hiçbir	PRON	1	over-stemming
+koparma	kopar	kop	VERB	1	over-stemming
+tahmini	tahmini	tahmin	ADJ	1	over-stemming
+alın	alın	al	VERB	1	over-stemming
+kesin	kesin	kes	VERB	1	over-stemming
+bakışıp	bakış	bak	VERB	1	over-stemming
+gönderimi	gönderim	gönder	NOUN	1	over-stemming
+avantajlı	avantajlı	avantaj	ADJ	1	over-stemming
+birbirlerini	birbiri	birbir	NOUN	1	over-stemming
+gözaltına	gözalt	gözaltı	NOUN	1	under-stemming
+çaycı	çaycı	çay	NOUN	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+memurluğu	memurluk	memur	NOUN	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+takan	takan	taka	PROPN	1	over-stemming
+yaya	yay	yaya	NOUN	1	under-stemming
+sarıkatran	sarıkatran	sarıkatr	NOUN	1	over-stemming
+sistemli	sistemli	sistem	ADV	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+der	der	de	PROPN	1	over-stemming
+domatesli	domatesli	domates	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+yumurtalı	yumurtalı	yumurta	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+gerçekçileşerek	gerçekçileş	gerçek	VERB	1	over-stemming
+kalkınma	kalkın	kalk	VERB	1	over-stemming
+gerçekleştiğine	gerçek	gerçekle	VERB	1	under-stemming
+sıkça	sıkça	sık	ADV	1	over-stemming
+bilirkişilik	bilirkişilik	bilirkişi	NOUN	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+'ydi	i	'ydi	AUX	1	UD-kopula-parçacığı
+sırrı	sırrı	sır	NOUN	1	over-stemming
+çekiçli	çekiçli	çekiç	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+aldırdıkları	aldır	al	VERB	1	over-stemming
+çengeli	çengelli	çengel	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+satm	satın	satm	NOUN	1	diğer
+askeri	askeri	asker	NOUN	1	over-stemming
+hareketlilik	hareketli	hareket	NOUN	1	over-stemming
+topacım	topaç	topac	NOUN	1	fonoloji
+neredeyse	neredei	neredeyse	ADV	1	OOV-kök
+acınacak	acı	aç	VERB	1	belirsizlik (iki geçerli kök)
+kömürleşmiş	kömür	kömürleş	VERB	1	under-stemming
+giyimciler	giyimci	giyim	NOUN	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+"tekstilpark"ı	"tekstilpark"	"tekstilpark"ı	PROPN	1	under-stemming
+sözde	sözde	söz	ADJ	1	over-stemming
+öteki	öteki	öte	NOUN	1	over-stemming
+ıspartalılarda	ıspartalı	ısparta	NOUN	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+düzenli	düzenli	düzen	ADV	1	over-stemming
+buluşup	buluş	bul	VERB	1	over-stemming
+çırayların	çıray	çırayların	PROPN	1	under-stemming
+sınıflandırmış	sınıflan	sınıfla	VERB	1	over-stemming
+aracı	araç	aracı	NOUN	1	belirsizlik (iki geçerli kök)
+sarıldı	sar	sarıl	VERB	1	under-stemming
+yararlandığımız	yarar	yararlan	VERB	1	under-stemming
+yerde"nin	yerde	yerde"nin	NOUN	1	under-stemming
+dili	dil	dili	PROPN	1	under-stemming
+kamusunu	kamus	kamu	NOUN	1	over-stemming
+kamus'ül	kamus'ül	kamus	PROPN	1	over-stemming
+a'lam	a'lam	a	PROPN	1	over-stemming
+veril	ver	veril	VERB	1	under-stemming
+canlandırmak	can	canlan	VERB	1	under-stemming
+yılan	yılan	yıl	VERB	1	over-stemming
+belirtirken	belir	belirt	VERB	1	under-stemming
+besiçlerin	besiçlerin	besiç	PROPN	1	over-stemming
+burcunda	burç	burcu	NOUN	1	belirsizlik (iki geçerli kök)
+geçen	geç	geçen	ADJ	1	under-stemming
+meraklandırmadan	meraklan	merak	VERB	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+söyliyeyim	söyle	söyli	VERB	1	fonoloji
+düşürücü	düşürücü	düşür	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+dolmalık	dolmalık	dolma	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+off'lara	off'	off	NOUN	1	over-stemming
+kuşüzümü	kuşüz	kuşüzümü	NOUN	1	under-stemming
+alınır	al	alın	VERB	1	under-stemming
+bağdaşıklığını	bağdaşıklık	bağdaş	NOUN	1	over-stemming
+belirtmek	belir	belirt	VERB	1	under-stemming
+armani'de	armani	arma	PROPN	1	over-stemming
+sevişmeden	seviş	sev	VERB	1	over-stemming
+ödeme	ödeme	öde	VERB	1	over-stemming
+kalıp	kalıp	kal	VERB	1	over-stemming
+bağın	bağın	bağ	NOUN	1	over-stemming
+hatırlanır	hatır	hatırla	VERB	1	under-stemming
+bakın	bakı	bak	VERB	1	over-stemming
+pirene	piren	pire	PROPN	1	over-stemming
+güvenlikçi	güvenlikçi	güven	NOUN	1	over-stemming
+çıkartmaya	çık	çıkart	VERB	1	under-stemming
+demek	de	demek	ADV	1	under-stemming
+lı	li	lı	ADP	1	fonoloji
+rütbeli	rütbeli	rütbe	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+bulamayınca	bula	bul	VERB	1	over-stemming
+pakdemirli	pakdemir	pakdemirli	PROPN	1	under-stemming
+dinleyici	dinle	din	NOUN	1	over-stemming
+dinlenilen	dinle	dinlen	VERB	1	under-stemming
+dillendirme	dillen	dil	VERB	1	over-stemming
+çorumlu	çorumlu	çorum	PROPN	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+durduttuğu	dur	durduttuğu	VERB	1	under-stemming
+kabila'nın	kabila	kabil	PROPN	1	over-stemming
+şimdiden	şimdiden	şimdi	ADV	1	over-stemming
+haritasına	haritasına	harita	NOUN	1	over-stemming
+erman	erman	er	PROPN	1	over-stemming
+botokslanmamış	botokslan	botoks	VERB	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+sezgisel	sezgisel	sezgi	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+emekliye	emekli	emek	NOUN	1	over-stemming
+inceleyici	inceleyici	ince	ADJ	1	over-stemming
+deyiverir	deyiver	deyiv	VERB	1	over-stemming
+benzerlik	benzerlik	benzer	NOUN	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+esmerlikleri	esmerlik	esmer	NOUN	1	over-stemming
+oluveriyor	ol	oluver	VERB	1	under-stemming
+hindistancevizi	hindistancevizi	hindistanceviz	NOUN	1	over-stemming
+suyunun	su	suy	NOUN	1	under-stemming
+sağlam	sağla	sağlam	ADJ	1	under-stemming
+sabunlu	sabunlu	sabun	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+romancının	romacı	romancı	NOUN	1	OOV-kök
+tümüyle	tüm	tümüyle	NOUN	1	under-stemming
+yım	i	yı	AUX	1	UD-kopula-parçacığı
+önceden	önceden	önce	ADV	1	over-stemming
+alıştırılmaları	alış	al	VERB	1	over-stemming
+irdeleyici	irdeleyici	irdele	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+unutkanlık	unutkanlık	unutkan	NOUN	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+ymış	i	y	AUX	1	UD-kopula-parçacığı
+ederken	eder	et	VERB	1	belirsizlik (iki geçerli kök)
+gezginliğini	gezginlik	gezgin	NOUN	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+alışınca	al	alış	VERB	1	under-stemming
+bakınmaya	bakın	bak	VERB	1	over-stemming
+fazlalaşmış	fazlalaş	fazla	VERB	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+kıvançsız	kıvançsız	kıvançs	ADJ	1	over-stemming
+zafersiz	zafersiz	zafer	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+yarınsız	yarınsız	yarın	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+işçilikle	işçilik	iş	NOUN	1	over-stemming
+madagaskarda	madagaskarı	madagaskar	PROPN	1	over-stemming
+altınla	altın	alt	NOUN	1	over-stemming
+dünyevi	dünyev	dünyevi	NOUN	1	under-stemming
+arzu"su	arzu	arzu"su	NOUN	1	under-stemming
+birbirlerini	birbiri	birbir	PRON	1	over-stemming
+tanışıklığım	tanışıklık	tanışık	NOUN	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+gerçekdışı	gerçekdışı	gerçekdış	ADJ	1	over-stemming
+yer	yer	ye	VERB	1	over-stemming
+çoğu	çok	çoğu	NOUN	1	belirsizlik (iki geçerli kök)
+bakımsız	bakımsız	bakım	ADJ	1	over-stemming
+eksikli	eksikli	eksik	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+noksanlı	noksanlı	noksan	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+çifte	çift	çifte	NOUN	1	under-stemming
+care	care	car	NOUN	1	over-stemming
+balıkçısı	balıkçı	balık	PROPN	1	over-stemming
+burinata	burinat	burinata	PROPN	1	under-stemming
+zeki"yi	zeki"	zeki"yi	PROPN	1	under-stemming
+belirttiler	belir	belirt	VERB	1	under-stemming
+belirtiliyor	belir	belirt	VERB	1	under-stemming
+deli	de	deli	ADJ	1	under-stemming
+pirinçli	pirinçli	pirinç	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+herifçioğlu	herifçioğul	herifçioğlu	NOUN	1	OOV-kök
+katlanmak	katla	katlan	VERB	1	under-stemming
+gruplandırılır	gruplan	grup	VERB	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+"venüs"	venüs	"venüs"	PROPN	1	gold-gürültüsü/typo
+oynattığında	oynat	oyna	VERB	1	over-stemming
+yapışmamış	yapış	yap	VERB	1	over-stemming
+saatlerce	saatlerce	saat	PROPN	1	over-stemming
+oturtulacaksa	otur	oturt	VERB	1	under-stemming
+üretildiği	üre	üret	VERB	1	under-stemming
+provakosyana	provokasyon	provakosyana	NOUN	1	diğer
+zayıflıklarının	zayıflık	zayıf	NOUN	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+objektiflik	objektiflik	objektif	NOUN	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+pahalı	paha	pahalı	ADJ	1	under-stemming
+burcunuz	burç	burcu	NOUN	1	belirsizlik (iki geçerli kök)
+mükemmellik	mükemmellik	mükemmel	NOUN	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+kuvvetlendiriyordu	kuvvet	kuvvetlen	VERB	1	under-stemming
+ankaralı	ankaralı	ankara	PROPN	1	over-stemming
+büyükelçiliği'nin	büyükelçilik	büyükelçiliği	PROPN	1	OOV-kök
+önceki	önce	önceki	NOUN	1	under-stemming
+miami'li	miami'li	miami	PROPN	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+hırsız	hır	hırsız	NOUN	1	under-stemming
+uygulanabilirliği	uygulanabilirlik	uygulanabilirliği	NOUN	1	OOV-kök
+afaki	afaki	af	ADJ	1	over-stemming
+kırmızılı	kırmızı	kırmızılı	ADJ	1	under-stemming
+duygusallıkta	duygusallık	duygu	NOUN	1	over-stemming
+kendisi	kendisi	kendi	NOUN	1	over-stemming
+korumaların	koruma	koru	VERB	1	over-stemming
+korsanlığı	korsanlık	korsan	NOUN	1	over-stemming
+kasede	kase	kaset	NOUN	1	under-stemming
+çırpın	çırpın	çırp	VERB	1	over-stemming
+atletik	atletik	at	ADJ	1	over-stemming
+atletik	atletik	at	NOUN	1	over-stemming
+eğitimli	eğitimli	eğitim	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+'di	y	'di	AUX	1	UD-kopula-parçacığı
+oturttu	otur	oturt	VERB	1	under-stemming
+çıkışırlar	çıkış	çık	VERB	1	over-stemming
+dolayısıyla	dolayı	dolayısıyla	NOUN	1	under-stemming
+kışın	kış	kışın	NOUN	1	under-stemming
+işleme	işleme	işlem	NOUN	1	over-stemming
+izole	izol	izole	NOUN	1	under-stemming
+edilegelmiştir	et	edilegel	VERB	1	diğer
+dolu	dol	dolu	ADJ	1	under-stemming
+cumhuriyetçiler	cumhuriyetçi	cumhuriyet	NOUN	1	over-stemming
+geçiyormuşçasına	geç	geçiyormuşça	VERB	1	under-stemming
+gezdiriyorlardı	gez	gezdiriyor	VERB	1	under-stemming
+kıramam	kır	kıramam	VERB	1	under-stemming
+ivmenin	iv	ivme	NOUN	1	under-stemming
+uyumlaştırılmasını	uyum	uyu	VERB	1	over-stemming
+gökyüzü	gökyüz	gökyüzü	NOUN	1	under-stemming
+haklısın	haklı	hak	NOUN	1	over-stemming
+susuzluğun	susuzluk	su	NOUN	1	over-stemming
+kesinlikle	kesin	kesinlikle	NOUN	1	under-stemming
+zile	zil	zile	NOUN	1	under-stemming
+ta	da	ta	ADV	1	gold-gürültüsü/typo
+itibaren	itibar	itibaren	ADP	1	under-stemming
+vitra	vitra	vitir	PROPN	1	OOV-kök
+ödülü	ödülü	ödül	PROPN	1	over-stemming
+birer	bir	birer	NOUN	1	under-stemming
+dikkatlice	dikkat	dikkatlice	ADV	1	under-stemming
+kumandalı	kumandalı	kumanda	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+metinli	metinli	metin	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+yetkililer	yetkili	yetki	ADJ	1	over-stemming
+farketmişler	farketmiş	farket	VERB	1	over-stemming
+tohsimi	tohs	tohsimi	PROPN	1	under-stemming
+aza	aza	az	PROPN	1	over-stemming
+akira	akira	ak	PROPN	1	over-stemming
+yokoi	yoko	yokoi	PROPN	1	under-stemming
+dır	y	i	AUX	1	UD-kopula-parçacığı
+girişin	gir	giriş	NOUN	1	under-stemming
+gelişinin	gel	geliş	VERB	1	under-stemming
+yeryüzüne	yeryüzü	yeryüz	NOUN	1	over-stemming
+buharlaşır	buhar	buharlaş	VERB	1	under-stemming
+düşünememiş	tut	düşün	VERB	1	gold-gürültüsü/typo
+demliklerimizin	dem	demlik	NOUN	1	under-stemming
+sinirliliğini	sinirlilik	sinir	NOUN	1	over-stemming
+kabalaşabilir	kabalaş	kaba	VERB	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+kalanlara	kalan	kal	VERB	1	over-stemming
+pervasız	pervasız	perva	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+kızdırmayalım	kız	kızdır	VERB	1	under-stemming
+toplumlu	toplumlu	toplum	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+kesimli	kesimli	kesim	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+şadiye'ye	şadiye	şad	PROPN	1	over-stemming
+oduncu	oduncu	odun	NOUN	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+oyluğun	oyluk	oy	NOUN	1	over-stemming
+ölümsüzleşiyor	ölümsüzleş	öl	VERB	1	over-stemming
+sadeleştirilmesi	sadeleş	sade	VERB	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+öncülüğünde	öncü	ön	NOUN	1	over-stemming
+sessiz	sessiz	ses	NOUN	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+aşkın	aşk	aşkın	ADP	1	under-stemming
+sistemli	sistemli	sistem	NOUN	1	over-stemming
+kuşlar	kuşlar	kuş	NOUN	1	over-stemming
+sessizliğine	ses	sessiz	NOUN	1	under-stemming
+değerlendirme	değerlen	değer	VERB	1	over-stemming
+akü	akü	ak	NOUN	1	over-stemming
+fransız	fran	fransız	ADJ	1	under-stemming
+''soslar	sos	''soslar	NOUN	1	gold-gürültüsü/typo
+keyifli	keyifli	keyif	ADJ	1	over-stemming
+şahlanmasıyla	şahlan	şah	VERB	1	over-stemming
+diler	diler	y	VERB	1	OOV-kök
+kolaylaştıran	kolay	kolaylaş	VERB	1	under-stemming
+sayısı	sayıs	sayı	NOUN	1	over-stemming
+dolayında	dolay	dolayı	NOUN	1	under-stemming
+buluşabilirsiniz	buluş	bul	VERB	1	over-stemming
+doçentlik	doçentlik	doçent	NOUN	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+nihai	niha	nihai	ADJ	1	under-stemming
+safi	saif	safi	NOUN	1	OOV-kök
+raylı	raylı	ray	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+lesbiyen	lezbiyen	lesbi	NOUN	1	diğer
+13'u	13'	13	PROPN	1	over-stemming
+önceki	önce	önceki	ADP	1	under-stemming
+bakanlığı'nın	bakan	bakanlık	NOUN	1	türetim-soyulmadı (under)
+bloke	blok	bloke	NOUN	1	under-stemming
+kullanıcılarına	kullan	kul	NOUN	1	over-stemming
+duyurdu	duyur	duy	VERB	1	over-stemming
+abartılı	abartılı	abartı	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+mütevazı	mütevaz	mütevazı	ADJ	1	under-stemming
+seninle	seni	sen	PRON	1	over-stemming
+sarılmak	sar	sarıl	VERB	1	under-stemming
+gökyüzünde	gökyüz	gökyüzü	NOUN	1	under-stemming
+faydalanıp	faydalan	fayda	VERB	1	over-stemming
+ortanca	ortanca	orta	ADJ	1	over-stemming
+gerçekleştiren	gerçek	gerçekle	VERB	1	under-stemming
+görüştü	görüş	gör	VERB	1	over-stemming
+düşkündürler	düşkün	düş	VERB	1	over-stemming
+gidiyorlardı	git	gidiyor	VERB	1	diğer
+gözyaşı	gözyaş	gözyaşı	NOUN	1	under-stemming
+açgözlülük	açgözlülük	açgözlü	NOUN	1	over-stemming
+aşağılık	aşağılık	aşağı	ADJ	1	over-stemming
+birim	birim	biri	VERB	1	over-stemming
+ydü	i	y	AUX	1	UD-kopula-parçacığı
+kolluklu	kolluklu	kolluk	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+ayrılamıyorlardı	ayrıl	ayrılamıyor	VERB	1	under-stemming
+hayli	hay	hayli	NOUN	1	under-stemming
+havacılık	havacılık	hava	PROPN	1	over-stemming
+martının	martı	mart	NOUN	1	over-stemming
+'oğlum	oğul	'oğlum	NOUN	1	gold-gürültüsü/typo
+çoktan	çoktan	çok	ADV	1	over-stemming
+esenler	esen	ese	PROPN	1	over-stemming
+düzce	düzce	düz	PROPN	1	over-stemming
+vak'aları	vak'a	vak	NOUN	1	over-stemming
+küstahça	küstahça	küstah	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+diktatörce	diktatörce	diktatör	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+kararlaştırdık	karar	kararlaş	VERB	1	under-stemming
+alaycı	alaycı	alay	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+kinle	kin	ki	NOUN	1	over-stemming
+derdim	der	de	VERB	1	over-stemming
+çevrili	çevrili	çevri	NOUN	1	over-stemming
+illa	il	illa	NOUN	1	under-stemming
+arayışından	ara	arayış	NOUN	1	under-stemming
+kimliksizliğe	kimliksizlik	kim	NOUN	1	over-stemming
+küratörler	küratör	küratörler	NOUN	1	under-stemming
+halka	halk	halka	NOUN	1	under-stemming
+retrospektifini	retrospektif	retrospektifini	NOUN	1	under-stemming
+dansa	dans	da	VERB	1	over-stemming
+revelations"ı	revelations"	revelations"ı	PROPN	1	under-stemming
+popüler	popü	popüler	ADJ	1	under-stemming
+çıkarttılar	çık	çıkart	VERB	1	under-stemming
+ulaşıyorlarmış	ulaş	ulaşıyor	VERB	1	under-stemming
+beyni	beyin	bey	NOUN	1	over-stemming
+uyarıcıyı	uyarıcı	uyarı	NOUN	1	over-stemming
+hazır	haz	hazır	ADJ	1	under-stemming
+soyun	soyun	soy	VERB	1	over-stemming
+aromatiklere	aromatik	aromatiklere	NOUN	1	under-stemming
+adı	adı	ad	NOUN	1	over-stemming
+çavdarlı	çavdarlı	çavdar	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+düşmanca	düşmanca	düşman	ADJ	1	over-stemming
+alındı	al	alın	VERB	1	under-stemming
+derinlemesine	derinle	derinlemesine	VERB	1	under-stemming
+bunca	bunca	bu	ADJ	1	over-stemming
+elbette	elbet	elbette	NOUN	1	under-stemming
+kesir"den	kesir"	kesir"den	NOUN	1	under-stemming
+uzaya	uzay	uza	VERB	1	over-stemming
+burcun	burç	burcu	NOUN	1	belirsizlik (iki geçerli kök)
+aliye	aliye	ali	PROPN	1	over-stemming
+gene	gen	gene	ADV	1	under-stemming
+benzeşme	benzeş	benze	VERB	1	over-stemming
+hareketsizlikten	hareketsizlik	hareketsiz	NOUN	1	over-stemming
+kurum	kurum	kur	VERB	1	over-stemming
+nakliyeci	nakliyeci	nakliye	NOUN	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+golcü	golcü	gol	NOUN	1	over-stemming
+"tmsf'den	tmsf	"tmsf	PROPN	1	gold-gürültüsü/typo
+sayısal	sayısal	sayı	ADJ	1	over-stemming
+disiplinliydi	disiplinli	disiplin	NOUN	1	over-stemming
+aylardır	aylardır	ay	ADV	1	over-stemming
+üzerimde	üzeri	üzer	NOUN	1	over-stemming
+delirtsem	delir	delirtsem	VERB	1	under-stemming
+kamuoyunu	kamuoy	kamuoyu	NOUN	1	under-stemming
+örtülü	örtülü	örtü	ADJ	1	over-stemming
+belirten	belir	belirt	VERB	1	under-stemming
+kurulu'nun	kurul	kurulu	NOUN	1	under-stemming
+kalkınmanın	kalkın	kalk	VERB	1	over-stemming
+taşınıldığında	taşın	taşı	VERB	1	over-stemming
+muhtarlığa	muhtarlık	muhtar	NOUN	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+doyurana	doyuran	doyur	NOUN	1	over-stemming
+yapın	yapı	yap	VERB	1	over-stemming
+illa	il	illa	ADV	1	under-stemming
+huzursuzluk	huzursuz	huzur	NOUN	1	over-stemming
+ürkütücü	ürkütücü	ürk	ADJ	1	over-stemming
+buluştu	buluş	bul	VERB	1	over-stemming
+dikleniveriyor	diklen	dikleniv	VERB	1	under-stemming
+garip	gar	garip	ADJ	1	under-stemming
+buluşana	buluş	bul	VERB	1	over-stemming
+zevkli	zevk	zevkli	ADJ	1	under-stemming
+panosunda	panos	pano	NOUN	1	over-stemming
+birbirlerine	birbiri	birbir	PRON	1	over-stemming
+enlemesine	enle	en	VERB	1	over-stemming
+güçlendirirken	güç	güçlen	VERB	1	under-stemming
+zihinselliğini	zihinsellik	zihinsel	NOUN	1	over-stemming
+dür	y	i	AUX	1	UD-kopula-parçacığı
+yerüstü	yerüst	yerüstü	NOUN	1	under-stemming
+ayni	ayin	ayni	NOUN	1	fonoloji
+mutasarrıflık	mutasarrıflık	mutasarrıf	NOUN	1	over-stemming
+penisin	penis	peni	NOUN	1	over-stemming
+görüşülüp	görüş	gör	VERB	1	over-stemming
+görüşülmeyeceğine	görüş	gör	VERB	1	over-stemming
+seğirtiyorum	seğir	seğirt	VERB	1	under-stemming
+se	i	y	AUX	1	UD-kopula-parçacığı
+yatçılık	yatçılık	yat	NOUN	1	over-stemming
+denizci	deniz	denizci	ADJ	1	under-stemming
+balıkçılık	balıkçılık	balık	NOUN	1	over-stemming
+gerek	gerek	ger	VERB	1	over-stemming
+belirtilir	belir	belirt	VERB	1	under-stemming
+akşamlan	akşam	akşaml	NOUN	1	under-stemming
+edemem	et	edemem	VERB	1	diğer
+istiyoruz	istiyoruz	iste	VERB	1	belirsizlik (iki geçerli kök)
+londraya	londraya	londra	PROPN	1	over-stemming
+sayfalık	sayfalık	sayfa	NOUN	1	over-stemming
+bölgeciliğin	bölgecilik	bölge	NOUN	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+konuma	konum	konu	NOUN	1	over-stemming
+altını	alt	altın	ADJ	1	under-stemming
+kartı"na	kartı"n	kartı"na	NOUN	1	under-stemming
+özürlü	özürlü	özür	ADJ	1	over-stemming
+ysa	i	y	AUX	1	UD-kopula-parçacığı
+suyuyla	su	suyu	NOUN	1	under-stemming
+kalacaktır	i	kal	AUX	1	UD-kopula-parçacığı
+tersinedir	ters	tersine	NOUN	1	under-stemming
+sarar	sarar	sar	VERB	1	over-stemming
+dörtlü	dörtlü	dört	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+yesevilerin	yesevi	yesevilerin	PROPN	1	under-stemming
+tır	y	i	AUX	1	UD-kopula-parçacığı
+taşıma	taşı	taş	NOUN	1	over-stemming
+harcı	har	harc	NOUN	1	under-stemming
+giyinen	giyin	giy	VERB	1	over-stemming
+belirleme	belirleme	belirle	NOUN	1	over-stemming
+çarpıtıyorlar	çarpıt	çarp	VERB	1	over-stemming
+deyip	dey	de	VERB	1	over-stemming
+türlüsünün	türlü	tür	NOUN	1	over-stemming
+işadamları	işadamı	işadamlar	NOUN	1	belirsizlik (iki geçerli kök)
+kısacık	kısacık	kısa	ADJ	1	over-stemming
+rusyası"nın	rusya	rusyası"nın	PROPN	1	under-stemming
+dikensiz	dikensiz	diken	ADJ	1	over-stemming
+insan	insan	in	VERB	1	over-stemming
+mafyalaşmış	mafyalaş	mafya	VERB	1	over-stemming
+derebeyleriyle	derebeyi	derebeyleri	NOUN	1	diğer
+kabahatli	kabahatli	kabahat	ADJ	1	türetim-fazla-soyuldu (over; gold lemma'yı korur)
+azından	azı	az	NOUN	1	over-stemming
+bi	bir	bi	DET	1	over-stemming
+hacca	hacc	hac	NOUN	1	over-stemming
+giderler	gider	git	VERB	1	belirsizlik (iki geçerli kök)
+yarım	y	yarım	ADJ	1	under-stemming
+şahsen	şah	şahsen	ADV	1	under-stemming
+ufaklık	ufak	ufaklık	NOUN	1	under-stemming
+yazınız	yazın	yazı	NOUN	1	over-stemming
+yazında	yazın	yazı	NOUN	1	over-stemming
+maliki	maliki	mali	PROPN	1	over-stemming
+başkadılığı'na	başkadılık	başkadılığı	PROPN	1	OOV-kök
+kuru	kur	kuru	ADJ	1	under-stemming
+düğmenin	düğ	düğme	NOUN	1	under-stemming
+boyunda	boy	boyun	NOUN	1	under-stemming
+yatçılığının	yatçılık	yat	NOUN	1	over-stemming
+kapatıncaya	kapa	kapatınca	VERB	1	under-stemming
+uyurken	uyur	uyu	VERB	1	over-stemming
+sessiz	ses	sessiz	ADJ	1	türetim-soyulmadı (under)
+resimsellik	resimsellik	resim	PROPN	1	over-stemming
+ersin	ersin	er	PROPN	1	over-stemming
+karşılıklı	karşılıklı	karşı	ADV	1	over-stemming

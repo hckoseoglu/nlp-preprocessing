@@ -1,0 +1,8 @@
+# Gerçek gürültülü test seti — normalization (elle hazırlanır, Ecem)
+# Format: her satır bir token: gürültülü<TAB>doğru   — cümleler arasında boş satır.
+# '#' ile başlayan satırlar yorumdur. Doğru form birden çok kelime olabilir (herşey<TAB>her şey).
+# Kaynak: gerçek insanların yazdığı metinler (mesaj, yorum, forum vb.); kaynağı burada not et.
+# Örnek (yorum olarak, ölçüme girmez):
+#   bugun<TAB>bugün
+#   cooook<TAB>çok
+#   guzeldi<TAB>güzeldi
