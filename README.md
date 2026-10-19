@@ -50,6 +50,7 @@ src/                   TÜM KOD
     stem_gold.py             gold tanımı (UD lemma + tutarlı DerivedFrom) — diğer stem_* scriptlerinin ortak modülü
     stem_evaluate.py         results/tables_{split}.md, errors_{split}.tsv  (--split dev [--ablation] [--pos gold])
     stem_figures.py          reports/stemming_*.png + results/figures_data.json
+    stem_pseudocode.py       reports/stemming_pseudocode.png (rapor figürü: yöntemin sözde kodu; eval çalıştırmaz)
     stopword_evaluate.py     static/dynamic/union/∩ karşılaştırması → reports/stopword_system_comparison.png
     stopword_analyze.py      K-vs-F1, TF-IDF dağılımı → reports/stopword_{k_vs_f1,tfidf_curve}.png
     stopword_extrinsic.py    genre sınıflandırma testi (scikit-learn) → reports/stopword_extrinsic.png
