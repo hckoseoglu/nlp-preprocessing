@@ -11,6 +11,8 @@ Bir cümle, bir dosya ya da UD Turkish-BOUN'un bir split'i üzerinde istenen ad�
   python3 run.py split     --text "Dr. Ali geldi. Sonra gitti."    # cümle bölme (--method rule|nb), satır başına cümle
   python3 run.py split     --file belge.txt --method nb             # dosyanın TAMAMI tek doküman
   python3 run.py split     --split dev --eval                       # sahte paragraflarda aday doğruluğu / macro-F1
+  python3 run.py pipeline  --doc belge.txt                          # DOKÜMAN: split → tokenize → normalize → stopword → stem
+  python3 run.py stem      --doc - < belge.txt --format tsv         # stdin'den doküman; her görev --doc alır
   python3 run.py stem      --file cumleler.txt                      # her satır bir cümle
   python3 run.py stem      --split dev --eval [--pos]               # gold token'lar, kök doğruluğu
   python3 run.py stopword  --split test --eval --list union         # UPOS-proxy P/R/F1
@@ -58,6 +60,9 @@ def load_items(args) -> tuple[list[Item], list]:
         if args.task == "split":
             return [Item([], text=args.text)], []
         return [Item(tokenize(args.text), text=args.text)], []
+    if args.doc:                          # doküman: önce splitter cümlelere böler (main'de), sonra her cümle ayrı işlenir
+        text = sys.stdin.read() if args.doc == "-" else Path(args.doc).read_text(encoding="utf-8")
+        return [Item([], text=text)], []
     if args.file:
         if args.task == "split":          # split: dosyanın tamamı tek doküman
             return [Item([], text=Path(args.file).read_text(encoding="utf-8"))], []
@@ -291,6 +296,7 @@ def build_parser() -> argparse.ArgumentParser:
     src = ap.add_mutually_exclusive_group(required=True)
     src.add_argument("--text", help="tek cümle / metin (regex tokenizer ile bölünür)")
     src.add_argument("--file", help="metin dosyası, her satır bir cümle (split: dosyanın tamamı tek doküman)")
+    src.add_argument("--doc", help="ham doküman dosyası ('-' = stdin): splitter cümlelere böler, sonra görev her cümlede çalışır")
     src.add_argument("--split", choices=("train", "dev", "test"), help="UD Turkish-BOUN split'i (gold token'lar)")
     src.add_argument("--conllu", help="herhangi bir CoNLL-U dosyası (gold token'lar)")
     ap.add_argument("--format", choices=("text", "tsv", "json"), default="text")
@@ -316,6 +322,8 @@ def main(argv: list[str] | None = None) -> None:
     items, sents = load_items(args)
     dataset_mode = bool(sents)
     steps = Steps(args, dataset_mode)
+    if args.doc and args.task != "split":   # doküman modu: cümlelere böl, her cümle bir Item
+        items = [Item(tokenize(s), text=s, sent_id=f"s{i + 1}") for i, s in enumerate(steps.split(items[0].text))]
     shown = items if (not dataset_mode or args.limit < 0) else items[:args.limit]
     records = [process(it, steps, args.task) for it in shown]
     if records:
