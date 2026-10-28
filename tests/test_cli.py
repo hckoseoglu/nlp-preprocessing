@@ -40,6 +40,12 @@ class CliTests(unittest.TestCase):
             self.assertIn(keep, out)
         self.assertEqual(run("tokenize", "--text", "olur zaten ...... bilginize ?!").split(), ["olur", "zaten", "......", "bilginize", "?!"])
 
+    def test_split_text(self):
+        out = run("split", "--text", 'Dr. Ahmet geldi. "Neden gelmedin?" diye sordu. Cevap veremedim.', "--method", "rule")
+        self.assertEqual(out.splitlines(), ["Dr. Ahmet geldi.", '"Neden gelmedin?" diye sordu.', "Cevap veremedim."])
+        recs = json.loads(run("split", "--text", "Ali geldi. Sonra gitti.", "--format", "json"))
+        self.assertEqual(recs[0]["output"], ["Ali geldi.", "Sonra gitti."])
+
     def test_tokenize_and_tsv(self):
         self.assertEqual(run("tokenize", "--text", "Merhaba, dünya!").split(), ["Merhaba", ",", "dünya", "!"])
         tsv = run("stem", "--text", "evlerimizden", "--format", "tsv").splitlines()

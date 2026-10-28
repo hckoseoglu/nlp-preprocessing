@@ -328,6 +328,141 @@ kullanmaz" tanımına ve Eryiğit&Adalı yaklaşımına sadık).
 
 ---
 
+# PLAN — FAZ 2: FİNAL TESLİM (28 Eki → 3 Kas 2026, 23:59 Moodle)
+
+> Durum 28 Eki: progress report gönderildi (bölüm 4'teki tasarım başlangıç noktası; kötü karar varsa değiştirilir,
+> değişiklik paper'da bir cümleyle gerekçelendirilir). Kalan: tokenization +
+> sentence splitting (rule + ML), 5 görevde kapsamlı test + ablation, system paper (4–6 sayfa, kurs şablonu),
+> work-sharing dokümanı, kod zip'i, demo. **6 iş günü var → kapsam disiplini şart.**
+
+## Rapordaki tasarım (bölüm 4) — başlangıç noktası
+- Tokenization: rule-based (URL, e-mail, hashtag, sayı `19.30'da`, kısaltma `Dr.`, kesmeli `Ankara'ya` tek token;
+  gerisi ayrılır; kısaltma listesi TDK Yazım Kılavuzu, MWE listesi UD-BOUN) + **Logistic Regression (scikit-learn)**,
+  3 feature seti: (1) sınıra komşu karakterler, (2) geniş karakter penceresi, (3) kısaltma/sayı/URL bilgisi.
+  Metrik P/R/F1; 3 test case: tüm UD test · zor durumlar · URL/e-mail/hashtag (UD'de yok → kendimiz ekleriz).
+- Splitting: rule-based (kısaltma / baş harf / sıra sayısı sonrası bölme yok; tırnak içi noktalamadan sonra küçük
+  harfle devam ediyorsa bölme yok; aksi halde sonraki kelime büyükse böl) + **Naïve Bayes (kendi implementasyonumuz)**,
+  3 feature seti: (1) noktalama + sonraki kelime büyük/küçük, (2) önceki kelime kısaltma/sayı mı, (3) önceki kelimenin
+  son karakterleri (-dı, -yor). Metrik P/R/F1; 3 test case: tüm UD test · zor durumlar · tamamı küçük harf.
+- Korpus: raporda "train'den 7 610 splitting + 22 713 tokenization aday noktası" dendi → aynı tanımla yeniden üretilir.
+
+## Rapor kararlarının değerlendirmesi (28 Eki) — KORUNAN / DEĞİŞEN
+- **KORUNDU: LR → tokenization, NB → splitting.** Tokenization'da aday çok (on binlerce) ve karakter özellikleri
+  birbirine bağımlı → NB'nin bağımsızlık varsayımı bozulur, LR doğru; splitting'de aday az, özellikler kategorik ve
+  sayıca az → kendi yazacağımız NB için en güvenli görev. Ters çevirmenin kazancı yok.
+- **DEĞİŞTİ (metrik, splitting):** train'de aday noktaların %89'u "böl" (7 161 cümle-sonu vs 906 cümle-içi; içlerinin
+  412'si `:`/`;`, 143'ü tırnak-içi `."`/`?"`/`!"`). "Böl" sınıfının P/R/F1'i "her noktada böl" baseline'ında bile ~0.94
+  → raporda yalnız o verilirse anlamsız. Yeni rapor biçimi: her iki sınıfın P/R/F1 + **macro-F1** + cümle-bazında
+  exact match, ve **"her noktalamada böl" baseline'ı** tabloda. Zor-durum seti (tırnak-içi EOS, kısaltma, sıra sayısı)
+  başlık sonuç olarak öne çıkar.
+- **DEĞİŞTİ (MWE kaynağı):** "MWE listesi UD-BOUN'dan" → UD'de boşluklu token yok; liste **deprel'lerden** üretilir:
+  `fixed` (ya da, hem de, ne var ki; 15 tip), `compound:redup` (yavaş yavaş; 395), `compound:lvc` (yardım et; 1 015),
+  isteğe bağlı `flat` (çok parçalı özel ad; 1 617). MWE birleştirme **ayrı, isteğe bağlı katman** (`--mwe`): UD token
+  eval'inde kapalı, kendi P/R/F1'i gold deprel span'larına karşı ayrı tabloda. Dış liste gerekmez (cite: UD-BOUN).
+- **DEĞİŞTİ (feature setleri iç içe):** her görevde set 1 ⊂ set 2 ⊂ set 3 (kümülatif) → ablation "bilgi eklendikçe"
+  okunur; raporda "üç set karşılaştırılacak" sözü aynen tutulur.
+- **KORUNDU:** test case'ler (UD test · zor durumlar · URL/e-mail/hashtag sentetik; splitting'de · tamamı küçük harf),
+  rule-based tanımlar, kısaltma listesi TDK. Tokenization zor-durum seti **gerçek** (UD'deki `."`, `.)`, `2.`,
+  `yerde"nin`, `G.Saray`), sentetik değil.
+
+## Veriden gelen tasarım gerçekleri (28 Eki ölçümleri)
+- `src/tokenizer_baseline.py` dev'de **cümle-bazında %95.8 birebir** (938/979). Kalan hatalar UD-BOUN sözleşmeleri:
+  `."` ve `.)` tek token, sıra sayısı `2.` tek token, `G.Saray`, `yerde"nin` gibi tırnak-içi ek. → Rule-based tokenizer =
+  baseline + bu sözleşmeler + kısaltma/URL/e-mail/hashtag katmanı. %90–95 hedefi zaten aşılıyor; iş, özel varlıklar +
+  ML karşılaştırmasında.
+- Tokenization gold = `Sentence.tokens` (yüzey token; MWT'ler birleşik: `yılındayız` tek token, 2 914 MWT train'de).
+  Aday nokta tanımı: `# text` içinde boşluk olmayan iki komşu karakter arasında, en az biri harf/rakam olmayan her
+  konum → etiket = gold token sınırı mı. Boşluk her zaman sınır (UD'de boşluklu token YOK → MWE birleştirme UD
+  eval'inde KAPALI; MWE lexicon'u ayrı küçük elle test setiyle gösterilir, raporda "UD'de yok" notuyla).
+- Splitting: UD `sent_id`'leri tür/doküman bakımından karışık sıralı (`bio_9, ins_1282, ess_1145, …`) → ardışık
+  cümleler doküman oluşturmaz. **Sahte paragraf**: seed'li karıştırma + ardışık 5 cümleyi birleştir (gold sınırlar
+  bilinir). Aday = `. ! ? … : ;` + isteğe bağlı kapanış tırnağı/parantez, ardından boşluk. Noktalamasız biten cümleler
+  (dev'de ~%1: `ler`, `yor`) ve `:`/`,` ile bitenler (dev 26/979) aday dışı → recall kaybı olarak **dürüstçe sayılır**,
+  ayrıca "noktalamayla biten" alt kümesi raporlanır. Tırnaklı cümle train'de 1 091 (zor-durum seti için yeterli).
+  UD'de nokta ile biten kısaltma çok az (gr., kg., vs.) → kısaltma zor-durum seti TDK listesiyle **sentetik** eklenir.
+- Metrikler: her iki görevde aday-nokta sınıflaması için boundary P/R/F1 (pozitif sınıf = böl) + tokenization için
+  token-span F1, splitting için cümle-bazında exact match. Dev'de ayar, **test bir kez**.
+
+## Kod planı (hepsi `src/`, stdlib + scikit-learn yalnız LR için)
+```
+src/tokenization/           rules.py (RuleTokenizer: regex + kısaltma/MWE lexicon)  features.py (3 feature seti)
+                            ml.py (LRTokenizer: aday nokta → böl/bölme; sklearn LogisticRegression)  corpus.py (aday çıkarımı)
+src/splitting/              rules.py (RuleSplitter)  features.py (3 feature seti)  ml.py (NBSplitter)  corpus.py (sahte paragraf)
+src/ml/naive_bayes.py       kendi Multinomial/Bernoulli NB (Laplace, log-uzay) — splitting'de kullanılır
+src/scripts/tok_evaluate.py / split_evaluate.py   results/tables_tok_*.md, tables_split_*.md (+ ablation = feature setleri)
+src/scripts/tok_build_special.py                  URL/e-mail/hashtag sentetik test seti (UD cümlelerine ekleme)
+resources/abbreviations_tr.txt (TDK, cite)  resources/mwe_tr.txt (UD-BOUN `# text`/dış kaynak, cite)
+tests/test_tokenizer.py  tests/test_splitter.py  tests/test_naive_bayes.py
+```
+- **Sıra kararı (28 Eki): önce splitter, sonra tokenizer.** Splitter ham metinde çalışır (aday = noktalama + boşluk;
+  önceki/sonraki kelime = boşluk sınırlarıyla), tokenizer her cümleyi ayrı tokenize eder. Gerekçe: iki görev bağımsız
+  ölçülür (tokenizer hatası cümle sınırına sızmaz), tokenizer zaten cümle-düzeyi `# text` üzerinde eğitilir/ölçülür,
+  iki kişi paralel başlar. Paylaşılan parçalar yalnız `resources/abbreviations_tr.txt` ve `src/textutil.py`
+  (Türkçe büyük/küçük harf, `is_abbreviation`, `is_number`); bunlar ilk gün yazılır, iki taraf da import eder.
+- CLI: `run.py tokenize --method rule|ml`, yeni `run.py split --text|--file [--method rule|nb]`, ve **doküman modu**
+  `run.py pipeline --doc dosya.txt` = split → tokenize → normalize → stopword → stem (demo "dokümanı girdi alır" diyor).
+  `--eval` her ikisinde de çalışır.
+- Ortak dosyalara (cli.py, io_conllu.py, evaluate.py) dokunan not düşer; `src/ml/` ve eval tabloları Hikmet'in.
+
+## İş bölümü (ÖNERİ — Ecem onaylayınca [x] yapılır)
+- [ ] **Hikmet → sentence splitting** (rule + NB kendi implementasyonu) + sahte paragraf korpusu + `run.py split`/
+      `--doc` pipeline + demo dosyası + tüm görevlerin final tablolarını toplama + paper iskeleti/stemming/stopword/
+      splitting bölümleri + zip.
+- [ ] **Ecem → tokenization** (rule + LR) + kısaltma/MWE lexicon'ları + URL/e-mail/hashtag sentetik seti + paper
+      normalization/tokenization bölümleri + work-sharing dokümanı taslağı.
+- Gerekçe: NB'yi sıfırdan yazmak + korpus kurmak altyapı işi (CLI/eval zaten Hikmet'te); tokenization'ın regex tabanı
+  hazır ve LR sklearn ile hızlı, Ecem'in token-düzeyi normalizer'ıyla doğal komşu. Tersi de olur; önemli olan bugün
+  karar verip başlamak.
+
+## Literatür — hangi çalışma ne için (28 Eki, sabitlendi; paper'da bu rollerle cite edilir)
+**Sentence splitting (Hikmet)**
+| Çalışma | Kullanım |
+|---|---|
+| Reynar & Ratnaparkhi 1997 (ANLP) | Problem çerçevesi: her `. ? !` aday, ikili sınıflandırma; Candidate/Prefix/Suffix + sol/sağ kelime özellikleri; kısaltma listesinin **train'den otomatik türetilmesi** (feature set 2'nin veri-güdümlü alternatifi) |
+| Gillick 2009 (NAACL) | `L. R` biçimi; `len(L)` ve `cap(R)` özellikleri (set 1–2); **NB'nin yeterliliği** (NB %0.35 vs SVM %0.25 hata); elle kısaltma listesinin ML'de zarar verebileceği uyarısı; kümülatif ablation tablo biçimi; çoğunluk-sınıfı baseline |
+| Güz, Favre, Hakkani-Tür & Tur 2009 (IEEE TASLP) | Türkçe'de **morfolojik özelliklerin** cümle bölmeye katkısı → feature set 3'ün (önceki kelimenin son harfleri) gerekçesi |
+| Bektaş & Özel 2018 (ASYU) | Türkçe emsal: TNC'den 30 000 aday, NB dahil 5 klasik sınıflandırıcı; sonuç kıyası ve "kural tabanlı çalışmalardan özellik türetme" gerekçesi |
+| Kiss & Strunk 2006 (CL) — Punkt | Related work (kısaltma = ana zorluk; gözetimsiz alternatif). **NLTK Punkt Türkçe modeli = dış baseline** (kod kopyalanmaz, araç olarak cite) |
+| Palmer & Hearst 1997 (CL) — SATZ | Related work: POS/sözlük tabanlı yaklaşım; bizde POS yok, gerekçe |
+| Safaya et al. 2022 — Mukayese (TRSEG-41) | Related work: Türkçe modern benchmark; derin modeller kapsam dışı (spec yasağı). Zaman kalırsa ek "başka genel-domain metin" testi |
+| Jurafsky & Martin, SLP3 böl. 2 ve 4 | NB tanımı, Laplace, log-uzay; cümle bölmenin sınıflandırma olarak kurulması — **kendi NB implementasyonunun referansı** |
+| McCallum & Nigam 1998 | Bernoulli vs multinomial NB (ikili özelliklerle Bernoulli/kategorik seçimi) — opsiyonel |
+| Read et al. 2012 (COLING) | Related work: "çözülmüş problem mi?" → zor durum/tür bazlı değerlendirme gerekçesi — opsiyonel |
+| TDK Yazım Kılavuzu, Kısaltmalar Dizini | `resources/abbreviations_tr.txt` kaynağı (rule-based'de kural, ML'de özellik) |
+| Türk et al. 2022 (UD-BOUN) | Korpus; cümle/tokenization sözleşmeleri; sahte paragraf kurgusunun dayanağı |
+
+**Tokenization (Ecem) — şimdiden sabitlenen**
+| Çalışma | Kullanım |
+|---|---|
+| Jurafsky & Martin SLP3 böl. 2 | Regex tabanlı tokenization, Treebank tarzı sözleşmeler; ML tokenization'ın sınır sınıflandırması olarak kurulması |
+| Türk et al. 2022 + UD v2 kılavuzu (Nivre et al. 2020) | Gold token tanımı, MWT/klitik, `SpaceAfter`; `fixed`/`flat`/`compound` → MWE lexicon'u |
+| Sag et al. 2002 | MWE tanımı ve neden ayrı katman ("pain in the neck") |
+| Pedregosa et al. 2011 | scikit-learn LogisticRegression (zaten referansta) |
+| Akın & Akın 2007 — Zemberek | Türkçe kural tabanlı tokenizer emsali; opsiyonel dış baseline |
+| Gimpel et al. 2011 / O'Connor et al. 2010 (twokenize) | URL/hashtag/mention regex sözleşmeleri için related work — opsiyonel |
+
+Kural: tablo dışına çıkan cite gerekiyorsa önce buraya eklenir. Dış araç yalnız **baseline** olarak (NLTK Punkt, Snowball gibi), kod kopyalanmaz.
+
+## Takvim
+| Gün | İş |
+|---|---|
+| **28 Eki (bugün)** | Plan onayı (Ecem). `hikmet` → `main` merge, Ecem `main`'den yeni branch. Paket iskeletleri + aday-nokta/sahte-paragraf korpus kodu + sayıların rapordaki 7 610 / 22 713 ile tutması. Paper şablonunu Moodle'dan indir (Overleaf). |
+| **29 Eki** | Rule-based tokenizer (UD sözleşmeleri + kısaltma/URL/e-mail/hashtag) ve rule-based splitter; dev tabloları. Kısaltma listesi (TDK). |
+| **30 Eki** | ML: NB sınıfı + NB splitter 3 feature seti; LR tokenizer 3 feature seti; dev'de karşılaştırma + hata analizi. |
+| **31 Eki** | Zor-durum setleri (tırnak, kısaltma, sıra sayısı, küçük harf; URL/e-mail/hashtag; MWE mini set). CLI `split` + `--doc` pipeline + testler. **Test split bir kez** (tok + split). |
+| **1 Kas** | Kapsamlı test + ablation tabloları 5 görev için (normalization bayrak ablation'ı dahil), **uçtan uca satır** (UD test ham `# text` → kendi splitter+tokenizer → normalize → stopword → stem, gold'a hizalanıp ölçülür; görev tabloları gold token'da kalır — spec görev başına metrik istiyor), figürler, demo metni (genel-domain haber + URL/hashtag) ile uçtan uca prova. **Kod dondurulur**, README güncellenir, zip. |
+| **2 Kas** | System paper (4–6 sayfa, şablon): progress report'tan sıkıştırma + yeni iki görev + ablation; work-sharing dokümanı; LLM acknowledgment. |
+| **3 Kas** | Son okuma, sayfa sınırı, referans kontrolü, 3 dosya Moodle'a **23:59'dan önce** (öğleden sonra hedef). |
+
+## Riskler / kısıtlar
+- Zaman: ML kısmı 30 Eki'de kapanmazsa feature seti 3'ü "basit sürüm"le kapat, ablation'ı tablo olarak yine ver.
+- Paper 4–6 sayfa (ek hariç): progress report ~10 sayfa → tablolar birleştirilmeli, sözde kod figürleri ek'e.
+- Demo hocanın kendi metinleriyle: `--doc` modu ham metinde (kesme/tırnak/URL) sağlam olmalı; ek-fiil tablosu yalnız
+  dataset modunda (zaten böyle).
+- Ecem'in branch'i 18 Ekim'den beri `hikmet`'in gerisinde → merge önce yapılmalı, yoksa iki tokenizer/CLI çakışır.
+
+---
+
 # ORTAK ÇALIŞMA PROTOKOLÜ (Hikmet & Ecem session'ları)
 - **Branch kuralı (ZORUNLU):** Hikmet her zaman `hikmet` branch'inde çalışır, Ecem kendi
   branch'inde — conflict olmasın. `main`'e doğrudan commit yok; işler branch'te yapılır,
@@ -345,7 +480,33 @@ kullanmaz" tanımına ve Eryiğit&Adalı yaklaşımına sadık).
 > Her progress sonrası güncelle. Tarih ekle. Agent'lar bu alanlara bakarak devam eder.
 
 ## Hikmet
-- **Next task:** (1) Progress report'a stemming bölümünü `results/progress_report_section.md`'den kendi
+- **Next task (28 Eki, FAZ 2):** Hikmet'in onayı bekleyen kararlar (aşağıda), sonra: `hikmet` → `main` merge; Ecem'e tokenization
+  başlangıcı (textutil + abbreviations_tr hazır); `pipeline --doc` doküman modu; test split **bir kez** (31 Eki); tablolar + paper.
+- **SPLITTING DURUMU (28 Eki) — ilk sürüm çalışıyor, dev ölçüldü, commit edilmedi.** Kod: `src/splitting/` (corpus, features,
+  rules, ml), `src/ml/naive_bayes.py` (kendi NB), `src/textutil.py`, `src/scripts/split_evaluate.py`, `split_build_abbrev.py`,
+  `resources/abbreviations_tr.txt` (TDK dizininden 159 noktalı kısaltma), `resources/splitter_nb.json` (set 3 modeli),
+  `data/splitting/challenging_abbrev.txt` (elle, 41 paragraf), `tests/test_{naive_bayes,splitter}.py` (20 test OK), CLI `run.py split`.
+  Dev (sahte paragraf 5 cümle, seed 2; aday 809, böl 714 / bölme 95), aday acc / macro-F1 / cümle exact:
+  always-split 0.917 / 0.752 / 0.799 · rule 0.910 / 0.798 / 0.766 · NB1 0.926 / 0.787 / 0.805 · **NB2 0.942 / 0.841 / 0.815** ·
+  NB3 0.925 / 0.816 / 0.788. Zor durum (170 aday): rule 0.835, NB2 0.841. **Küçük harf:** rule 0.151 (hiç bölmez), NB1 0.206,
+  NB2 0.733, **NB3 0.786** → ek bilgisi (set 3) büyük harf olmayınca tek sinyal. Elle kısaltma seti (87 aday): rule 0.954, NB3 0.954,
+  always 0.494. NB α taraması (dev): set 2 duyarsız; set 3 α=2 → 0.934 / 0.835.
+  **TEST (28 Eki, BİR KEZ çalıştırıldı; sahte paragraf 5, seed 3; aday 838, böl 718 / bölme 120; erişilemeyen sınır 65/783 = %8.3;
+  şüpheli negatif 34):** aday acc / macro-F1 / cümle exact — always 0.911 / 0.788 / 0.789; NB1 0.928 / 0.819 / 0.822; NB3 0.916 / 0.825 / 0.787; **rule 0.918 / 0.835 / 0.775 · NB2 0.932 / 0.843 / 0.816 ·
+  Punkt 0.890 / 0.778 / 0.754**. Zor durum (184): rule 0.842, NB2 0.848, Punkt 0.652. Küçük harf: rule 0.172, NB2 0.723,
+  Punkt 0.878. Tam tablo `results/tables_split_test.md`; tekrar çalıştırma gerekirse paper'da belirt.
+  **Bulgular / Hikmet'in karar vereceği noktalar:**
+  (a) Gold gürültüsü: dev'de 31 negatif (train'de 293/906) `. ! ?` + büyük harfle devam ediyor — UD iki cümleyi tek birimde
+      tutmuş ("nelerdir? Tartışınız."). Dahil mi, "şüpheli gold" alt kümesi olarak ayrı mı raporlanır? (şimdilik dahil, sayı tabloda)
+  (b) Gold sınırların %8.8'i (69/783) noktalamasız/virgülle biten UD cümleleri (tarif malzeme satırları, başlıklar) → hiçbir
+      noktalama tabanlı splitter bulamaz; sınır-düzeyi recall'da FN sayılıyor, tabloda ayrıca belirtiliyor.
+  (c) [KARAR 28 Eki] CLI dev'de macro-F1'i en yüksek seti kullanır (şu an **set 2**; `split_evaluate.py` kaydeder); set 3'ün küçük
+      harf kazancı ve α duyarlılığı paper'da discussion'a.
+  (d) [28 Eki] NLTK Punkt (tr) dış baseline kuruldu: proje venv'i `.venv/` (gitignore'da; `python3 -m venv .venv &&
+      .venv/bin/python3 -m pip install -r requirements.txt`, Punkt verisi `nltk.download('punkt_tab')`, ~/nltk_data, Türkçe 640K).
+      `split_evaluate.py` nltk bulursa Punkt satırını ekler, bulamazsa sessizce atlar. Punkt tırnaklı cümleleri parçalıyor
+      (`"Neden gelmedin?" | diye sordu.`) — paper'da kısa bir not.
+  Önceki liste (arşiv): (1) Progress report'a stemming bölümünü `results/progress_report_section.md`'den kendi
   kelimelerimizle aktar (Google Doc), tabloları `results/tables.md`'den al; (2) stopword static+union+metrik
   tartışmasını bitir; (3) tokenization/splitting tasarım kararları (NB vs LR). Stemming'de küçük kalanlar: `suy→su`
   istisnası, kesmesiz büyük harfli OOV özel adlar (dev'de 45 token), isteğe bağlı POS girdisi.
@@ -368,7 +529,7 @@ kullanmaz" tanımına ve Eryiğit&Adalı yaklaşımına sadık).
     rapor figürü (Tablo 7'nin yerine, yalnız test): `reports/stemming_test_breakdown.png`. Google Doc'ta Tablo 6 → tek cümle, Tablo 7 → Figure 1 (görsel elle eklenecek).
   - **Kural-only + POS deneyi** (`Stemmer.rule_stem`, sözlüksüz): Snowball 53.9 → +fiil kuralı POS'suz 57.6 → +gold POS 63.4
     (dev). POS 4–6 puan, sözlük+skor ~30 puan katıyor → Snowball'un zayıflığı POS'suzluktan değil sözlüksüzlükten.
-- **Son güncelleme:** 2026-10-19
+- **Son güncelleme:** 2026-10-28
 
 ### Stemming komutları
 ```
@@ -377,12 +538,12 @@ python3 run.py stem --split dev --eval [--pos]                 # gold token'lard
 python3 src/scripts/stem_build_gold.py                             # lexicon/derived.tsv + results/gold_stats.md
 python3 src/scripts/stem_build_roots.py --trmorph <TRmorph klonu>   # lexicon/roots.tsv (+ budama listesi results/roots_pruned.tsv)
 python3 src/scripts/stem_build_fragments.py                        # lexicon/copula_fragments.tsv
-<venv>/python3 src/scripts/stem_evaluate.py --split dev --ablation  # results/tables_dev.md, errors_dev.tsv (baseline için snowballstemmer, TurkishStemmer)
+.venv/bin/python3 src/scripts/stem_evaluate.py --split dev --ablation  # results/tables_dev.md, errors_dev.tsv (baseline için snowballstemmer, TurkishStemmer)
 python3 -m src.stemmer.stemmer kitabı gidiyordum                   # aday analizleri
-<venv>/python3 src/scripts/stem_evaluate.py --split dev --pos gold  # isteğe bağlı gold-POS girdisiyle karşılaştırma (üst sınır)
-<venv>/python3 src/scripts/stem_figures.py                         # reports/stemming_*.png (9 figür) + results/figures_data.json
-<venv>/python3 src/scripts/stem_pseudocode.py                      # reports/stemming_pseudocode.png (sözde kod figürü)
-<venv>/python3 src/scripts/stopword_pseudocode.py                  # reports/stopword_pseudocode.png (sözde kod figürü)
+.venv/bin/python3 src/scripts/stem_evaluate.py --split dev --pos gold  # isteğe bağlı gold-POS girdisiyle karşılaştırma (üst sınır)
+.venv/bin/python3 src/scripts/stem_figures.py                         # reports/stemming_*.png (9 figür) + results/figures_data.json
+.venv/bin/python3 src/scripts/stem_pseudocode.py                      # reports/stemming_pseudocode.png (sözde kod figürü)
+.venv/bin/python3 src/scripts/stopword_pseudocode.py                  # reports/stopword_pseudocode.png (sözde kod figürü)
 python3 -m unittest tests.test_stemmer tests.test_cli          # testler
 ```
 TRmorph klonu depoda değil (`git clone https://github.com/coltekin/TRmorph`, commit fbceb11); roots.tsv üretilmiş halde depoda.

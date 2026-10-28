@@ -1,0 +1,164 @@
+# Nokta ile biten Türkçe kısaltmalar — sentence splitter (kural: nokta sonrası cümle sonu değil; NB: özellik).
+# Kaynak: Türk Dil Kurumu, Yazım Kılavuzu, "Kısaltmalar Dizini" (tdk.gov.tr/wp-content/uploads/2019/01/Kısaltmalar_Dizini.pdf,
+# erişim Ekim 2026). Dizinden yalnız sonu nokta ile yazılan girişler otomatik süzüldü (src/scripts/split_build_abbrev.py);
+# nokta kullanılmayan büyük harf kısaltmaları (TBMM, ABD) bu listeye girmez — cümle sonu belirsizliği yaratmazlar.
+# Biçim: kısaltma<TAB>açılım. Karşılaştırma Türkçe küçük harfe duyarsız yapılır (textutil.is_abbreviation).
+age.	Adı geçen eser
+agm.	Adı geçen makale
+agy.	Adı geçen yayın
+Alb.	Albay
+Alm.	Almanca
+anat.	Anatomi
+ant.	Antropoloji
+Apt.	Apartman, apartmanı
+Ar.	Arapça
+ark.	Arkeoloji
+As.	Asker, askerî, askerlik
+Asb.	Astsubay
+astr.	Astronomi
+astrol.	Astroloji
+Atğm.	Asteğmen
+atm.	Atmosfer
+Av.	Avukat
+bağ.	Bağlaç
+Bçvş.	Başçavuş
+biy.	Biyoloji
+bk.	Bakınız
+bl.	Bilişim
+Bl.	Bölük
+Bn.	Bayan
+Bnb.	Binbaşı
+bot.	bk. bit. b.
+Böl.	Bölüm
+bs.	Baskı, basım
+Bşk.	Başkan, başkanlık, başkanı, başkanlığı
+Bul.	Bulvar, bulvarı
+Bulg.	Bulgarca
+Cad.	Cadde, caddesi
+coğ.	Coğrafya
+çev.	Çeviren
+Çvş.	Çavuş
+db.	Dil bilgisi
+dk.	Dakika
+Doç.	Doçent
+doğ.	Doğum tarihi
+Dr.	Doktor
+drl.	Derleyen
+dzl.	Düzenleyen
+Ecz.	Eczacı
+ed.	1. Edebiyat 2. Editör
+ekon.	Ekonomi
+Ens.	Enstitü, enstitüsü
+Erm.	Ermenice
+f.	Fiil
+Fak.	Fakülte
+Far.	Farsça
+fel.	Felsefe
+Fr.	Fransızca
+Gen.	General
+geom.	Geometri
+gn.	Genel
+Gnkur.	Genelkurmay
+Gön.	Gönderen
+gr.	Gramer
+haz.	Hazırlayan
+hek.	Hekimlik, hekim, hekimi
+hlk.	Halk ağzı
+huk.	Hukuk
+Hz.	1. Hazret, Hazreti 2. Hizmet, hizmette
+İbr.	İbranice
+İng.	İngilizce
+is.	İsim
+İsp.	İspanyolca
+işl.	İşleyen
+İt.	İtalyanca
+Jap.	Japonca
+jeol.	Jeoloji
+kim.	Kimya
+koor.	Koordinasyon
+Kor.	Kolordu
+Kora.	Koramiral
+Korg.	Korgeneral
+kr.	Kuruş
+krş.	Karşılaştırınız
+Kur.	Kurmay
+Lat.	Latince
+Ltd.	Limitet
+Mac.	Macarca
+Mah.	1. Mahalle, mahallesi 2. Mahkeme, mahkemesi
+man.	Mantık
+mat.	Matematik
+Md.	Müdür, müdürlük, müdürlüğü
+mec.	Mecaz
+mim.	Mimarlık
+min.	Mineraloji
+Müh.	Mühendis, mühendisi, mühendislik
+Mür.	Müracaat
+müz.	Müzik
+No.	Numara
+Nö.	Nöbetçi
+Okt.	Okutman
+Onb.	Onbaşı
+Opr.	Operatör
+Or.	Ordu
+Ora.	Oramiral
+Ord.	Ordinaryüs
+Org.	Orgeneral
+Ort.	Ortaklık, ortakları, ortaklığı
+öl.	Ölüm tarihi
+ör.	Örnek
+öz.	Özel
+ped.	Pedagoji
+Port.	Portekizce
+Prof.	Profesör
+psikol.	Psikoloji
+Rum.	Rumca
+Rus.	Rusça
+s.	Sayfa
+sa.	Saat
+Sb.	Subay
+sf.	Sıfat
+Sl.	Slavca
+Sn.	Sayın
+sn.	Saniye
+snt.	Santral
+Sok.	Sokak
+sos.	Sosyoloji
+sp.	Spor
+Srp.	Sırpça
+Şb.	Şube
+T.	Türkçe
+T.C.	Türkiye Cumhuriyeti
+tar.	Tarih
+Tb.	Tabur
+tek.	Teknik, teknoloji
+tel.	Telefon
+telg.	Telgraf
+Tğm.	Teğmen
+tic.	Ticaret
+tiy.	Tiyatro
+tlks.	Teleks
+tls.	Telsiz
+Top.	Topçu
+Tug.	Tugay
+Tuğa.	Tuğamiral
+Tuğg.	Tuğgeneral
+Tüm.	Tümen
+Tüma.	Tümamiral
+Tümg.	Tümgeneral
+Uzm.	Uzman
+Üçvş.	Üstçavuş
+ünl.	Ünlem
+Ütğm.	Üsteğmen
+vb.	Ve başkası, ve başkaları, ve benzeri, ve benzerleri, ve bunun gibi
+vd.	Ve devamı, ve diğerleri
+Vet.	Veteriner
+vs.	Vesaire
+Yay.	Yayını, yayınları
+Yb.	Yarbay
+Yun.	Yunanca
+yy.	Yüzyıl
+Yzb.	Yüzbaşı
+zf.	Zarf
+zm.	Zamir
+zool.	Zooloji
