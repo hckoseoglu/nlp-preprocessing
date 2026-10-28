@@ -8,6 +8,9 @@ Bir cümle, bir dosya ya da UD Turkish-BOUN'un bir split'i üzerinde istenen ad�
   python3 run.py pipeline  --text "..."                             # normalize → stopword → stem
   python3 run.py normalize --text "..."                             # Ecem'in modülü (src/normalization.py)
   python3 run.py tokenize  --text "..."                             # basit regex tokenizer
+  python3 run.py split     --text "Dr. Ali geldi. Sonra gitti."    # cümle bölme (--method rule|nb), satır başına cümle
+  python3 run.py split     --file belge.txt --method nb             # dosyanın TAMAMI tek doküman
+  python3 run.py split     --split dev --eval                       # sahte paragraflarda aday doğruluğu / macro-F1
   python3 run.py stem      --file cumleler.txt                      # her satır bir cümle
   python3 run.py stem      --split dev --eval [--pos]               # gold token'lar, kök doğruluğu
   python3 run.py stopword  --split test --eval --list union         # UPOS-proxy P/R/F1
@@ -34,7 +37,7 @@ from tokenizer_baseline import tokenize  # noqa: E402
 DATA_DIR = ROOT / "data" / "UD_Turkish-BOUN"
 RESOURCES = ROOT / "resources"
 STOPWORD_FILES = {"static": RESOURCES / "stopwords_tr.txt", "dynamic": RESOURCES / "stopwords_dynamic_boun.txt"}
-TASKS = ("tokenize", "normalize", "stopword", "stem", "pipeline")
+TASKS = ("tokenize", "split", "normalize", "stopword", "stem", "pipeline")
 
 
 @dataclass
@@ -52,14 +55,22 @@ class Item:
 def load_items(args) -> tuple[list[Item], list]:
     """--text / --file ham metin (regex tokenizer); --split / --conllu gold token'lar. Sentence listesi eval için."""
     if args.text is not None:
+        if args.task == "split":
+            return [Item([], text=args.text)], []
         return [Item(tokenize(args.text), text=args.text)], []
     if args.file:
+        if args.task == "split":          # split: dosyanın tamamı tek doküman
+            return [Item([], text=Path(args.file).read_text(encoding="utf-8"))], []
         lines = [ln.strip() for ln in Path(args.file).read_text(encoding="utf-8").splitlines() if ln.strip()]
         return [Item(tokenize(ln), text=ln) for ln in lines], []
     path = Path(args.conllu) if args.conllu else DATA_DIR / f"tr_boun-ud-{args.split}.conllu"
     if not path.exists():
         sys.exit(f"CoNLL-U bulunamadı: {path}")
     sents = read_conllu(path)
+    if args.task == "split":              # split: cümleler sahte paragraflara birleştirilir (gold sınırlar bilinir)
+        from splitting import build_paragraphs
+        paras = build_paragraphs([s.text for s in sents], args.para_size, {"train": 1, "dev": 2, "test": 3}.get(args.split, 0))
+        return [Item([], text=t, sent_id=f"para_{i}") for i, (t, _) in enumerate(paras)], sents
     items = [Item([w.form for w in s.words], [w.upos for w in s.words], s.words, s.sent_id, s.text) for s in sents]
     return items, sents
 
@@ -73,6 +84,7 @@ class Steps:
         self.args = args
         self.dataset_mode = dataset_mode
         self._stemmer = None
+        self._splitter = None
         self._stopset = None
         self._normalize = None
         self._norm_warned = False
@@ -91,6 +103,27 @@ class Steps:
                 print(f"[uyarı] normalization atlandı: {e}", file=sys.stderr)
                 self._norm_warned = True
             return tokens
+
+    # split -------------------------------------------------------------------
+    @property
+    def splitter(self):
+        if self._splitter is None:
+            from splitting import NBSplitter, RuleSplitter
+            from splitting.ml import DEFAULT_MODEL
+            if self.args.method == "rule":
+                self._splitter = RuleSplitter()
+            elif DEFAULT_MODEL.exists():
+                self._splitter = NBSplitter.load(DEFAULT_MODEL)
+            else:
+                train = DATA_DIR / "tr_boun-ud-train.conllu"
+                if not train.exists():
+                    sys.exit(f"NB splitter modeli yok ({DEFAULT_MODEL}) ve train verisi bulunamadı: {train}")
+                print("[bilgi] NB splitter train'den eğitiliyor (src/scripts/split_evaluate.py modeli kaydeder)", file=sys.stderr)
+                self._splitter = NBSplitter.train_from_conllu(train, level=3)
+        return self._splitter
+
+    def split(self, text: str) -> list[str]:
+        return self.splitter.split(text)
 
     # stopword ----------------------------------------------------------------
     @property
@@ -133,6 +166,10 @@ def process(item: Item, steps: Steps, task: str) -> dict:
     if task == "tokenize":
         rec["output"] = toks
         return rec
+    if task == "split":
+        rec["sentences"] = steps.split(item.text)
+        rec["output"] = rec["sentences"]
+        return rec
     if task == "normalize":
         rec["normalized"] = steps.normalize(toks)
         rec["output"] = rec["normalized"]
@@ -164,11 +201,21 @@ def emit(records: list[dict], task: str, fmt: str) -> None:
     if fmt == "text":
         for r in records:
             prefix = f"{r['sent_id']}\t" if r["sent_id"] else ""
+            if task == "split":
+                for s in r["output"]:
+                    print(prefix + s)
+                continue
             if task == "stopword" and "kept" in r:
                 shown = [t if k else f"[{t}]" for t, k in zip(r["tokens"], r["kept"])]
                 print(prefix + " ".join(shown))
             else:
                 print(prefix + " ".join(r["output"]))
+        return
+    if task == "split":                     # tsv: cümle başına satır
+        print("doc_id\tidx\tsentence")
+        for r in records:
+            for i, s in enumerate(r["output"]):
+                print(f"{r['sent_id']}\t{i}\t{s}")
         return
     # tsv: token başına satır
     cols = ["sent_id", "token"]
@@ -197,6 +244,18 @@ def emit(records: list[dict], task: str, fmt: str) -> None:
 # ----------------------------------------------------------------------------- değerlendirme
 
 def evaluate(task: str, items: list[Item], sents: list, steps: Steps, args) -> None:
+    if task == "split":
+        from splitting import build_paragraphs, labeled_candidates
+        sys.path.insert(0, str(ROOT / "src" / "scripts"))
+        from split_evaluate import boundary_metrics, candidate_metrics
+        paras = build_paragraphs([s.text for s in sents], args.para_size, {"train": 1, "dev": 2, "test": 3}.get(args.split, 0))
+        cands = [c for t, b in paras for c in labeled_candidates(t, b)]
+        m = candidate_metrics(steps.splitter.decide, cands)
+        bm = boundary_metrics(steps.splitter, paras)
+        print(f"\n[eval] split ({args.method}) — aday={m['n']} acc={m['acc']:.3f} S-F1={m['S_F']:.3f} N-F1={m['N_F']:.3f} "
+              f"macro-F1={m['macro_F']:.3f} | sınır F1={bm['B_F']:.3f} cümle exact={bm['sent_exact']:.3f}   "
+              f"(tam tablo: src/scripts/split_evaluate.py --split {args.split})")
+        return
     if task == "stopword":
         from stopword import evaluate_list
         p, r, f = evaluate_list(steps.stopset, sents)
@@ -231,12 +290,15 @@ def build_parser() -> argparse.ArgumentParser:
     ap.add_argument("task", choices=TASKS, help="çalıştırılacak adım")
     src = ap.add_mutually_exclusive_group(required=True)
     src.add_argument("--text", help="tek cümle / metin (regex tokenizer ile bölünür)")
-    src.add_argument("--file", help="metin dosyası, her satır bir cümle")
+    src.add_argument("--file", help="metin dosyası, her satır bir cümle (split: dosyanın tamamı tek doküman)")
     src.add_argument("--split", choices=("train", "dev", "test"), help="UD Turkish-BOUN split'i (gold token'lar)")
     src.add_argument("--conllu", help="herhangi bir CoNLL-U dosyası (gold token'lar)")
     ap.add_argument("--format", choices=("text", "tsv", "json"), default="text")
     ap.add_argument("--limit", type=int, default=10, help="dataset modunda yazdırılacak cümle sayısı (0: hiç, -1: hepsi)")
     ap.add_argument("--eval", action="store_true", help="dataset modunda gold ile karşılaştır (stem: kök doğruluğu, stopword: P/R/F1)")
+    # split
+    ap.add_argument("--method", choices=("rule", "nb"), default="nb", help="split: rule-based ya da Naïve Bayes (dev'de en iyi set; resources/splitter_nb.json)")
+    ap.add_argument("--para-size", type=int, default=5, help="split --split: sahte paragraf uzunluğu (cümle)")
     # stem
     ap.add_argument("--pos", action="store_true", help="dataset modunda gold UPOS'u stemmer'a ver (üst sınır deneyi)")
     ap.add_argument("--lexicon", help="farklı bir lexicon/ klasörü (varsayılan: repo lexicon/)")

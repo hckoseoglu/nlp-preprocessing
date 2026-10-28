@@ -6,7 +6,8 @@ Türkçe için preprocessing toolkit: tokenization, sentence splitting, normaliz
 ## Kurulum
 Çekirdek kod yalnız standart kütüphane kullanır. Figürler, baseline'lar ve stopword dış-değerlendirmesi için:
 ```bash
-python3 -m pip install -r requirements.txt     # matplotlib, scikit-learn, snowballstemmer, TurkishStemmer
+python3 -m venv .venv && .venv/bin/python3 -m pip install -r requirements.txt   # matplotlib, scikit-learn, snowballstemmer, TurkishStemmer, nltk
+.venv/bin/python3 -c "import nltk; nltk.download('punkt_tab')"               # sentence splitting dış baseline'ı (Punkt, Türkçe)
 ```
 Veri: `data/UD_Turkish-BOUN/` (CoNLL-U train/dev/test) repo kökünde beklenir.
 
@@ -16,6 +17,9 @@ python3 run.py stem      --text "Kitapları okuyordum."          # kitap oku .
 python3 run.py stopword  --text "Bu bir deneme cümlesidir."     # [Bu] [bir] deneme cümlesidir .
 python3 run.py pipeline  --text "Bu kitapları okuyordum."       # normalize → stopword → stem
 python3 run.py tokenize  --text "Merhaba, dünya!"
+python3 run.py split     --text 'Dr. Ali geldi. "Neden?" diye sordu. Gitti.'   # cümle bölme: NB (varsayılan) | --method rule
+python3 run.py split     --file belge.txt --format tsv            # dosyanın TAMAMI tek doküman; satır başına cümle
+python3 run.py split     --split dev --eval                       # sahte paragraflarda aday acc / macro-F1 / cümle exact
 python3 run.py stem      --file cumleler.txt --format tsv       # her satır bir cümle; token başına satır
 python3 run.py stem      --split dev --eval                     # UD gold token'ları, kök doğruluğu (dev %94.1)
 python3 run.py stem      --split dev --eval --pos               # gold POS ile üst sınır
@@ -36,6 +40,10 @@ src/                   TÜM KOD
   cli.py                 CLI uygulaması (yukarıdaki görevler)
   io_conllu.py           CoNLL-U okuyucu (Sentence/Token/Word, SpaceAfter, MISC)
   tokenizer_baseline.py  ham metin için basit regex tokenizer (runtime)
+  textutil.py            ortak yardımcılar: Türkçe küçük/büyük harf, sayı / baş harf / kısaltma testleri (splitting + tokenization)
+  ml/                    kendi ML sınıflandırıcılarımız: naive_bayes.py (kategorik NB, Laplace, log-uzay; JSON kaydet/yükle)
+  splitting/             sentence splitting: corpus.py (aday çıkarımı, sahte paragraf, etiket) features.py (3 iç içe set)
+                         rules.py (RuleSplitter, AlwaysSplit baseline) ml.py (NBSplitter; model resources/splitter_nb.json)
   normalization.py       normalization (Ecem): Normalizer, normalize / normalize_tokens
   noise.py               sentetik gürültü üretici (normalization eval)
   real_data.py           gerçek gürültülü test setleri (MultiLexNorm test, OSCAR-GEC test)
@@ -50,6 +58,11 @@ src/                   TÜM KOD
     stem_gold.py             gold tanımı (UD lemma + tutarlı DerivedFrom) — diğer stem_* scriptlerinin ortak modülü
     stem_evaluate.py         results/tables_{split}.md, errors_{split}.tsv  (--split dev [--ablation] [--pos gold])
     stem_figures.py          reports/stemming_*.png + results/figures_data.json
+    stem_pseudocode.py       reports/stemming_pseudocode.png (rapor figürü: yöntemin sözde kodu; eval çalıştırmaz)
+    stopword_pseudocode.py   reports/stopword_pseudocode.png (rapor figürü: stopword sözde kodu)
+    split_evaluate.py        sentence splitting tablosu: `--split dev|test` → results/tables_split_{split}.md, errors_split_{split}.tsv,
+                             resources/splitter_nb.json (4 test case: full · challenging · lowercase · abbrev; NB set 1/2/3 + rule + baseline)
+    split_build_abbrev.py    resources/abbreviations_tr.txt ← TDK Kısaltmalar Dizini PDF (nokta ile biten kısaltmalar)
     stopword_evaluate.py     static/dynamic/union/∩ karşılaştırması → reports/stopword_system_comparison.png
     stopword_analyze.py      K-vs-F1, TF-IDF dağılımı → reports/stopword_{k_vs_f1,tfidf_curve}.png
     stopword_extrinsic.py    genre sınıflandırma testi (scikit-learn) → reports/stopword_extrinsic.png

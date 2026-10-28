@@ -4,3 +4,4 @@ matplotlib
 scikit-learn
 snowballstemmer
 TurkishStemmer
+nltk            # sentence splitting dış baseline'ı (Punkt, Türkçe modeli: python3 -c "import nltk; nltk.download('punkt_tab')")

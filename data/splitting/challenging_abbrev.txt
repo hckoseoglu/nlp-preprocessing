@@ -1,0 +1,125 @@
+# Elle hazırlanmış zor-durum seti — sentence splitting (Hikmet, 28 Eki 2026).
+# UD-BOUN'da nokta ile biten kısaltma neredeyse yok; bu set TDK Kısaltmalar Dizini'ndeki kısaltmalar, baş harfler,
+# sıra sayıları, saat/tarih ve tırnak içi noktalama ile yazıldı. Blok = paragraf (boş satırla ayrılır), satır = gold cümle.
+# Yalnız test; geliştirmede kullanılmaz.
+
+Dr. Ahmet Yılmaz toplantıya geç kaldı.
+Herkes onu bekliyordu.
+
+Prof. Dr. Ayşe Kaya dersi iptal etti.
+Öğrenciler sınıftan çıktı.
+
+Toplantı 19.30'da başlayacak.
+Lütfen geç kalmayın.
+
+Kitabın 3. bölümü en zor kısımdı.
+Yine de hepsini okudum.
+
+Elma, armut, muz vb. meyveler masada duruyordu.
+Çocuklar hemen yemeye başladı.
+
+Bu konuda bkz. 2. bölüm.
+Orada ayrıntılı bir açıklama var.
+
+Ofis Atatürk Cad. No. 12'de bulunuyor.
+Kapı kodu girişte yazıyor.
+
+Av. Mehmet Demir davayı kazandı.
+Müvekkili çok sevindi.
+
+T.C. Sağlık Bakanlığı yeni bir genelge yayımladı.
+Hastaneler hemen uygulamaya geçti.
+
+Yzb. Kemal birliğe döndü.
+Askerler onu karşıladı.
+
+19. yüzyılda şehir hızla büyüdü.
+Nüfus iki katına çıktı.
+
+Hz. Mevlâna Konya'da yaşadı.
+Türbesi bugün müze olarak kullanılıyor.
+
+"Yarın gelirim." dedi ve kapıyı kapattı.
+Bir daha onu görmedik.
+
+"Neden gelmedin?" diye sordu annem.
+Cevap veremedim.
+
+"Dikkat et!" diye bağırdı.
+Ama artık çok geçti.
+
+Toplantı saat 14.00'te bitti.
+Ardından yemeğe çıktık.
+
+Sınav 08.11.2026 tarihinde yapılacak.
+Hazırlıklar devam ediyor.
+
+A. Hamdi Tanpınar romanlarıyla tanınır.
+Huzur en bilinen eseridir.
+
+Ürün 2 kg. olarak satılıyor.
+Fiyatı 50 lira.
+
+Dersler Pzt. ve Çar. günleri yapılıyor.
+Diğer günler boş.
+
+Sok. sonundaki ev satıldı.
+Yeni sahipleri gelecek ay taşınıyor.
+
+Alb. Hasan emekli oldu.
+Törende konuşma yaptı.
+
+Yarışmada 1. olan öğrenci ödülünü aldı.
+2. ve 3. olanlar da kutlandı.
+
+Mehmet, "Bu iş olmaz." dedi.
+Sonra odadan çıktı.
+
+Bunu daha önce de söylemiştim...
+Kimse dinlemedi.
+
+Hava çok soğuktu...
+Yine de dışarı çıktık.
+Parkta kimse yoktu.
+
+Ne yapacağımı bilemedim; sonunda eve döndüm.
+Annem beni bekliyordu.
+
+Şunları alın: ekmek, süt ve peynir.
+Akşam yemeği için yeterli.
+
+Doç. Dr. Ali Vural yeni bir makale yayımladı.
+Makale dergide 5. sayfada yer aldı.
+
+Yrd. Doç. Zeynep Aksoy seminere katıldı.
+Sunumu çok beğenildi.
+
+M.Ö. 5. yüzyılda yazılmış bir metin bulundu.
+Araştırmacılar heyecanlandı.
+
+İng. ve Alm. dersleri seçmeli oldu.
+Fr. dersi zorunlu kaldı.
+
+Gör. Mustafa Kaya laboratuvarı açtı.
+Deneyler başladı.
+
+"Hadi gidelim!" dedi Ayşe.
+Biz de peşinden gittik.
+
+Yemek listesinde pilav, çorba vs. vardı.
+Tatlı yoktu.
+
+Sorunun yanıtı 4. sayfada.
+Oradan kontrol edebilirsiniz.
+
+Dz. Kuvvetleri tatbikata başladı.
+Gemiler limandan ayrıldı.
+
+Bu yıl %25 artış bekleniyor.
+Geçen yıl artış %10'du.
+
+Proje Haz. ayında teslim edilecek.
+Ekip yoğun çalışıyor.
+
+Toplantının 2. gününde karar alındı.
+Herkes memnun ayrıldı.

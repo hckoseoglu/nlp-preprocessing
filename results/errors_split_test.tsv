@@ -1,0 +1,140 @@
+system	gold	pred	punct	close	left	right	context
+rule	1	0	.		Türk	-	e geçmeyi çok denemiş bir Türk. - Batı'nın, özellikle İngiliz
+rule	0	1	?		yutacağız	Milletçe,	rını daha kaç yüzyıl yutacağız? Milletçe, topyekûn, her kesim
+nb3	0	1	?		yutacağız	Milletçe,	rını daha kaç yüzyıl yutacağız? Milletçe, topyekûn, her kesim
+rule	1	0	:		öğrenmemiş	Erdoğan,	, Türkçeyi lügattan öğrenmemiş: Erdoğan, Amerika'daki gibi da
+nb3	1	0	?		mu	Duş	engelliyor mu, engellemiyor mu? Duş veya banyo esnasında su k
+rule	1	0	:		çalışır	Internet	özlerle teselli etmeye çalışır: Internet Security Systems'a (
+rule	1	0	:		Hazırlanışı	Böyle	aka teşekkür edin. Hazırlanışı: Böyle düşünüyormuşum. Büyüdük
+rule	1	0	:		üsteledim	Ve	ı gibi gelmişti. Ben üsteledim: Ve İspanyolların yaşlı serser
+rule	1	0	.		elbet!)	-	(gidecek şehir bulunur elbet!). - Ne imiş o prensip, söyle de
+nb3	0	1	:		Yansıması	Beden	İç Dünyamızın Dışa Yansıması: Beden Dili Velhasıl üşümek ka
+nb3	1	0	?		mı	Çünkü	terbiye ve saygı gibisi var mı? Çünkü bende olduğu gibi, bir 
+rule	1	0	.		girmesin	-	 kaldı. Hiçbir avukat girmesin. - Kurusun, bu senin, dedi yan
+rule	1	0	.		yapmıştı	-	enimle olabilmek için yapmıştı. - Açılın, çekilin, gazetecile
+rule	0	1	!		geliyor	Güçlükle	, çekilin, gazeteciler geliyor! Güçlükle doğruldu Süpermen, s
+nb3	0	1	!		geliyor	Güçlükle	, çekilin, gazeteciler geliyor! Güçlükle doğruldu Süpermen, s
+rule	1	0	:		şöyleydi	Başkaldırı	ıkmadım TRT'ye. Cevap şöyleydi: Başkaldırı dediğim şey... Ara
+rule	1	0	:		annem	Çünkü,	abah alışverişe çıkarken annem: Çünkü, tatlı ve tuzlu hiçbir 
+nb3	1	0	:		annem	Çünkü,	abah alışverişe çıkarken annem: Çünkü, tatlı ve tuzlu hiçbir 
+rule	0	1	?		asayım	Kıbrıs	 Meydanı'nda kendimi mi asayım? Kıbrıs Rumları için yapabilec
+nb3	0	1	?		asayım	Kıbrıs	 Meydanı'nda kendimi mi asayım? Kıbrıs Rumları için yapabilec
+nb3	1	0	?		kumarhanede	1.5	lidir. Ne işin var kumarhanede? 1.5 su bardağı su Haldun Sima
+nb3	0	1	:		Arketipler	Yaramaz	3 adet marul Arketipler: Yaramaz kedi, öğrenci, geveze
+rule	1	0	.		sormasa	-	Kimse bana bir şey sormasa. - Hayır, demiş çocuk. Kendisi
+rule	0	1	...		"Aaa	Çok	nyada ve onun düşmanıdır. "Aaa... Çok teşekkür ederim. Bütün ge
+rule	1	0	.		G	Babadan,	nkara ekibi, Ayhan Şahenk'te G. Babadan, ağabeyden döküntü ne
+nb3	1	0	.		G	Babadan,	nkara ekibi, Ayhan Şahenk'te G. Babadan, ağabeyden döküntü ne
+rule	0	1	?		bunlar	Hayır.	ya yani halka ulaştı mı bunlar? Hayır.
+nb3	0	1	?		bunlar	Hayır.	ya yani halka ulaştı mı bunlar? Hayır.
+rule	0	1	!		Acaba	Yolculuk	Acaba! Yolculuk çok iyi geçiyor. Yan
+rule	1	0	.		erecek	iyi	rjik" senfonisiyle sona erecek. iyi de Yalova'da Koruköyü'ne 
+nb3	1	0	.		erecek	iyi	rjik" senfonisiyle sona erecek. iyi de Yalova'da Koruköyü'ne 
+nb3	1	0	.		suç	Teröristler	aşağılayan özveri, cezasız suç. Teröristler iki kişiyi kaçırd
+rule	0	1	?		olacak	Onun	onunla tanıştıysanız ne olacak? Onun için bu satırları dikkat
+nb3	0	1	?		olacak	Onun	onunla tanıştıysanız ne olacak? Onun için bu satırları dikkat
+nb3	1	0	?		yoksa	Bizim	n farkında değil misiniz yoksa? Bizim yazıhanenin yanında da 
+nb3	0	1	:		işte	Hiç	miş olduğu şey, tam buydu işte: Hiç sonu gelmeyecek bir öykü!
+rule	0	1	!		öykü	Kitapların	: Hiç sonu gelmeyecek bir öykü! Kitapların kitabı! İki takım,
+rule	0	1	!		Bakınız	Birdenbire	en de öyle sanıyordum. Bakınız! Birdenbire bu yeşil kubbede y
+nb3	0	1	!		Bakınız	Birdenbire	en de öyle sanıyordum. Bakınız! Birdenbire bu yeşil kubbede y
+nb3	0	1	;		başladı	4-5	 1,5 yaşında konuşmaya başladı; 4-5 yaşına gelince de utandığ
+rule	1	0	:		şuydu	Bu	. Olayın gerçek yanı ise şuydu: Bu yeni gelişen makarna sevda
+nb3	0	1	:		DÜŞÜYOR	2005'te	 İHRACATIN PERFORMANSI DÜŞÜYOR: 2005'te ihracat kârlarında ar
+rule	1	0	.		değildir	-	ekleştirmemesi mümkün değildir. - Düzenli cilt, saç ve tırnak
+rule	0	1	?		mi	Kahvehaneden,	felsefe de bunu gerektirmez mi? Kahvehaneden, internet kafeye
+rule	0	1	!		din-le-mi-yor	Yalova...	Beni din-le-mi-yor! Yalova... Meral'in mezarına b
+nb3	0	1	!		din-le-mi-yor	Yalova...	Beni din-le-mi-yor! Yalova... Meral'in mezarına b
+nb3	0	1	:		bağlıyorum	Geçmişin	. Bir tek umuda bel bağlıyorum: Geçmişin ve geleceğin akışını
+rule	1	0	.		gezinir	-	k karışımı bir dünyada gezinir. - Mermi kaldırma vinci bozulm
+nb3	1	0	?		mı	Burada	ma vinci bozulmuş bir topla mı? Burada bir haksızlık vardı. A
+rule	0	1	.		II	GENÇ:	k. Hatta hiçbir şey olmadı. II. GENÇ: Tut onu. - Öğretmen old
+nb3	0	1	.		II	GENÇ:	k. Hatta hiçbir şey olmadı. II. GENÇ: Tut onu. - Öğretmen old
+rule	1	0	.		onu	-	 şey olmadı. II. GENÇ: Tut onu. - Öğretmen olduğunuza göre, t
+rule	0	1	?		diyorduk	Her	ir müze. Daha önce ne diyorduk? Her Avrupalı, Kıbrıs Türk dev
+nb3	0	1	?		diyorduk	Her	ir müze. Daha önce ne diyorduk? Her Avrupalı, Kıbrıs Türk dev
+rule	0	1	?		mı	Almayalım	Test kitabı alalım mı? Almayalım mı? Peki efendim...
+rule	0	1	?		mı	Peki	kitabı alalım mı? Almayalım mı? Peki efendim... Sevdiğin insa
+rule	1	0	.		değerlendiriliyor	-	aracı olarak değerlendiriliyor. - Eğer senin de yirmi, otuz r
+rule	1	0	:		AÇLIK	Ama	rmadığını savundu. SIFIR AÇLIK: Ama bütün marifetlerine rağme
+nb3	1	0	:		AÇLIK	Ama	rmadığını savundu. SIFIR AÇLIK: Ama bütün marifetlerine rağme
+nb3	1	0	...		Ya	2-3	 çok zor olduğunu söylüyor. Ya... 2-3 sap dereotu Beyaz dediğim
+nb3	0	1	:		yazıyordu	"Bir	asıyla köşe yazıları yazıyordu: "Bir toplumda oruçlular da bu
+rule	1	0	.		içiyoruz	-	asında dikilmiş kahve içiyoruz. - Geçmişyaşamdaki arkadaşları
+nb3	1	0	?		mı	1	aşlarından hayatta olan var mı? 1 çay kaşığı krema Bu konunun
+rule	0	1	?		pişiriyoruz	Bunun	Peki öyleyse neden pişiriyoruz? Bunun iki nedeni var. "Koşma 
+nb3	0	1	?		pişiriyoruz	Bunun	Peki öyleyse neden pişiriyoruz? Bunun iki nedeni var. "Koşma 
+rule	0	1	!		terleyeceksin	Terliyken	. "Koşma yavrum, terleyeceksin! Terliyken su içme!" Ah şu büy
+nb3	0	1	!		terleyeceksin	Terliyken	. "Koşma yavrum, terleyeceksin! Terliyken su içme!" Ah şu büy
+rule	0	1	!	"	içme	Ah	rleyeceksin! Terliyken su içme!" Ah şu büyükleriniz! Bir türlü
+rule	0	1	!		büyükleriniz	Bir	n su içme!" Ah şu büyükleriniz! Bir türlü vazgeçmezler sizler
+nb3	0	1	!		büyükleriniz	Bir	n su içme!" Ah şu büyükleriniz! Bir türlü vazgeçmezler sizler
+rule	1	0	...		de	-	uğun pençesinde. Türkiye'ye de... - Mannesheim'a, dedim.
+rule	1	0	.		12	Üç	yından iki yüzyıl öncesine, 12. Üç beş kişiden ibaret oldukla
+nb3	1	0	.		12	Üç	yından iki yüzyıl öncesine, 12. Üç beş kişiden ibaret oldukla
+nb3	0	1	:		edindik	Güçlünün	duk? Başka değerler de edindik: Güçlünün yanında olma, zayıfı
+rule	0	1	...		Faraş	Faraş...	de geçebilirmiş bu felç. Faraş... Faraş... Günümüzde verdiği ra
+nb3	1	0	...		Faraş	Günümüzde	lirmiş bu felç. Faraş... Faraş... Günümüzde verdiği rahatlığa a
+rule	1	0	:		duygu	Diyelim	luş. Yine Guatemala'daki duygu: Diyelim Bünye; (büyük olduğu 
+nb3	1	0	:		duygu	Diyelim	luş. Yine Guatemala'daki duygu: Diyelim Bünye; (büyük olduğu 
+nb3	0	1	:		aldık	Üniversitenin	areket edilmesi kararını aldık: Üniversitenin yapacağı artırm
+rule	1	0	:		annesi	Gün	a iletişim gelir. O gün annesi: Gün olur, Köprü ortasında dur
+rule	1	0	;		düşenleri	Van	e üretilmiş. Oluktan düşenleri; Van kedisi heykeline baktık. 
+nb3	1	0	;		düşenleri	Van	e üretilmiş. Oluktan düşenleri; Van kedisi heykeline baktık. 
+rule	0	1	?		mi	Bendeki	r çiftlik sahibi çıkagelmez mi? Bendeki münasebetsizliğe de b
+nb3	0	1	:		sürüyor	46	ak, daha da yozlaşarak sürüyor: 46 yıldan bu yana durup dinle
+rule	0	1	?		mu	ABD'li	endromunun sebebini buluyor mu? ABD'li bilim insanları, bu ra
+rule	1	0	.		olurdu	-	 damla bembeyaz bir süt olurdu. - Annen öldü, gel cenazesine 
+nb3	1	0	!		çık	Yemeğin	 gel cenazesine bari sahip çık! Yemeğin yanına (üzüm zamanı i
+nb3	1	0	?		fasulye	Karol	ini unutuyor. Ama niye fasulye? Karol Medvecky isminde bir ta
+nb3	0	1	:		yazıyor	"1614	 adlı eserinde şunları yazıyor: "1614 yılında Telegedy ismind
+nb3	1	0	...		sonra	"Dışişleri	İşe dalıyorum sonra... "Dışişleri Bakanımızın adını 
+rule	0	1	...		misiniz	"Kısacası	kanımızın adını söyler misiniz... " Kısacası savaş sizin bölgen
+nb3	0	1	...		misiniz	"Kısacası	kanımızın adını söyler misiniz... " Kısacası savaş sizin bölgen
+rule	1	0	:		sesle	Bir	 tıka basa öfke dolu bir sesle: Bir teknenin manevrada dönebi
+nb3	1	0	:		sesle	Bir	 tıka basa öfke dolu bir sesle: Bir teknenin manevrada dönebi
+nb3	0	1	:		KİŞİLİK	4	rasa (beyaz kısmı) KAÇ KİŞİLİK: 4 Sonunda çaresizlikten rastg
+nb3	0	1	:		var	Panathinaikos.	zin önünde yine aynı engel var: Panathinaikos.
+nb3	1	0	?		mu	SAVAŞIN	nlerindeki gerçek, bir olur mu? SAVAŞIN EN AĞIR ETKİSİ: AÇLIK
+nb3	1	0	!		kötülüğümüzden	Komutanlarımız	kularımız kendi kötülüğümüzden! Komutanlarımız Afgan Köyleri'
+rule	1	0	.		inanıyorum	ayında	nsiyeli bulunduğuna inanıyorum. ayında tamamlanacak yeni hast
+nb3	0	1	:		Kürkler	Isı	Kürkler: Isı izolasyonu yapma bakımınd
+rule	0	1	!		dinlensin	Çocuğun	 Kızı al, eve götür, dinlensin! Çocuğun ödü patladı. Benjamin
+nb3	0	1	!		dinlensin	Çocuğun	 Kızı al, eve götür, dinlensin! Çocuğun ödü patladı. Benjamin
+rule	1	0	.		yazı	-	 neticelerini anlatan bir yazı. - Yukarıda deri tüccarı Holla
+rule	1	0	:		çekti	Ağzı	duna döner. Meryem içini çekti: Ağzı var, gözü yok Ben, kendi
+rule	1	0	:		geçirdi	Onur	utanaklara şu sözlerle geçirdi: Onur Bağı'm olan kent. Ancak 
+nb3	1	0	.		kent	Ancak	geçirdi: Onur Bağı'm olan kent. Ancak insanlar yazıyı birdenb
+rule	0	1	?		yaptın	Ne	. Mahkemeden sonra, "Ne yaptın? Ne işe yaradı? Şimdi cezaevin
+nb3	0	1	?		yaptın	Ne	. Mahkemeden sonra, "Ne yaptın? Ne işe yaradı? Şimdi cezaevin
+rule	0	1	?		yaradı	Şimdi	nra, "Ne yaptın? Ne işe yaradı? Şimdi cezaevinde yatacaksın,"
+nb3	0	1	?		yaradı	Şimdi	nra, "Ne yaptın? Ne işe yaradı? Şimdi cezaevinde yatacaksın,"
+nb3	0	1	:		ediyor	"Bir	an sanatçı, şöyle devam ediyor: "Bir defa, ben çok pratiğimdi
+rule	0	1	!		öteden	"Sahnesi	ştin binlerce kilometre öteden! "Sahnesi iyi" derler ya...
+rule	1	0	.		G	Yine	i mücadelede ise grup lideri G. Yine Selçuk'un sesi. Üçüncü, 
+nb3	1	0	.		G	Yine	i mücadelede ise grup lideri G. Yine Selçuk'un sesi. Üçüncü, 
+rule	1	0	:		bahsetmektedir	Bu	ıtasından şöyle bahsetmektedir: Bu camia onun için sıcak bir 
+rule	0	1	...		yok	"İşte	ın banştan başka panzehiri yok... " İşte Yunanlıların ve diğer 
+nb3	0	1	...		yok	"İşte	ın banştan başka panzehiri yok... " İşte Yunanlıların ve diğer 
+rule	1	0	:		Malzemeler	Süzme	şında içki içmiyor. Malzemeler: Süzme yoğurt, çırpılmış yumur
+nb3	1	0	?		mu	Anlayışlısınız.	akıllı bir çocuğa yakışıyor mu? Anlayışlısınız. Akrep, sanki 
+nb3	0	1	:		haykırdım	"Bu	da, sinirden köpürüp haykırdım: "Bu yasadışı işlemlerinizin b
+rule	0	1	?		boğulursa	Zavallılar,	 o derin nehre düşüp boğulursa? Zavallılar, biricik çocukları
+nb3	1	0	?		mi	Kabak	sapısiliğin heykeli dikilir mi? Kabak mücveri, pırasa mücveri
+rule	1	0	.		koydunuz	-	tur diyerek bir kural koydunuz. - İstanbul size neyi hatırlat
+rule	1	0	:		gururlanırmış	Bulak,	an kova durmadan gururlanırmış: Bulak, Avrupa Şampiyonu gibi 
+nb3	1	0	.		gerekirse	"Bugün	llarca bekleyeceksin gerekirse. "Bugün 29 Ekim, Cumhuriyet Ba
+nb3	1	0	...		girebilirdik."	1996'da	elden içeri zor girebilirdik."... 1996'da içtüzüğe "Temel kanun
+nb3	1	0	!		Çeto	Küçük	ve çok iyi bir muhabirdin Çeto! Küçük kızları Çiğdem, Bodrum 
+rule	0	1	?		yapıldı	Evet.	kât 1994 Nisanı'nda mı yapıldı? Evet. Burada kimse kimsenin d
+nb3	0	1	?		yapıldı	Evet.	kât 1994 Nisanı'nda mı yapıldı? Evet. Burada kimse kimsenin d
+rule	0	1	.		gülmüş	Çevresindekilere:	Atatürk gülmüş. Çevresindekilere: Helikopterl
+nb3	0	1	.		gülmüş	Çevresindekilere:	Atatürk gülmüş. Çevresindekilere: Helikopterl
+rule	1	0	:		Çevresindekilere	Helikopterler	atürk gülmüş. Çevresindekilere: Helikopterler ve uçaklar da g
+nb3	1	0	:		Çevresindekilere	Helikopterler	atürk gülmüş. Çevresindekilere: Helikopterler ve uçaklar da g
+rule	0	1	.	"	oturmuştur	Bunu,	acak bu isim yerine oturmuştur." Bunu, Ahmet Dursun hakkında s
+nb3	0	1	.	"	oturmuştur	Bunu,	acak bu isim yerine oturmuştur." Bunu, Ahmet Dursun hakkında s
+nb3	0	1	:		izliyor	"...	 hakkında söyledikleri izliyor: "... Ülkemi aydınlatan; meden
+nb3	1	0	...		"	Ülkemi	kkında söyledikleri izliyor: "... Ülkemi aydınlatan; medeniyet,
+nb3	0	1	.		anlatayım	dedi.	zel, koşup anneme de anlatayım. dedi. Olay bundan ibaret. Anc
+nb3	0	1	:		etmişlerdi	"Kar	nörleri bize tembih etmişlerdi: "Kar tipisinde çok üşüyüp yor

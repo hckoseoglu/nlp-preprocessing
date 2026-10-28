@@ -1,0 +1,135 @@
+system	gold	pred	punct	close	left	right	context
+nb3	1	0	.		adam	"Ben	arıyla bitirmiş bir güzel adam. "Ben değişim hedefiyle yola ç
+rule	1	0	.		değilim	-	ruz. Onun kadar renkli değilim. - Duygusal, sezgisel temel, e
+rule	0	1	.		kararı	"Demek	iği gibi,"Bu, hükümetin kararı. " Demek ki, Silahlı Kuvvetler
+nb3	0	1	.		kararı	"Demek	iği gibi,"Bu, hükümetin kararı. " Demek ki, Silahlı Kuvvetler
+nb3	1	0	!	"	boş	Öyle	"Abla, boş inanç bunlar boş!" Öyle bir dönerlerki, akabinde
+rule	0	1	?		alacaktım	Bir	derler. Sana mı rakı alacaktım? Bir süre akü taşımaktan kurtu
+nb3	0	1	?		alacaktım	Bir	derler. Sana mı rakı alacaktım? Bir süre akü taşımaktan kurtu
+rule	1	0	.		kurtulmuştum	yarım	re akü taşımaktan kurtulmuştum. yarım bardak kuşüzümü * Uzakt
+rule	0	1	?		miydi	Ağlayarak,	değerlendirmekti. Gerçek miydi? Ağlayarak, "Neden aramadın, b
+nb3	0	1	?		miydi	Ağlayarak,	değerlendirmekti. Gerçek miydi? Ağlayarak, "Neden aramadın, b
+rule	1	0	:		sormuşlar	"Benim	ler Nasrettin Hocaya sormuşlar: "Benim forsum hiçbir çağda ge
+nb3	1	0	:		sormuşlar	"Benim	ler Nasrettin Hocaya sormuşlar: "Benim forsum hiçbir çağda ge
+rule	0	1	.		uçuşuyor	"Bazen,	Ve "yanıtlar rüzgârda uçuşuyor. " Bazen, o rahatsızlık, Böcek
+nb3	0	1	.		uçuşuyor	"Bazen,	Ve "yanıtlar rüzgârda uçuşuyor. " Bazen, o rahatsızlık, Böcek
+rule	0	1	!		ölüyorlarmış	Birimizin	 yemez zehirlenip ölüyorlarmış! Birimizin kalbi ötekinde acı 
+nb3	0	1	!		ölüyorlarmış	Birimizin	 yemez zehirlenip ölüyorlarmış! Birimizin kalbi ötekinde acı 
+nb3	1	0	...		kap	Savaşa	Ödülü'nü aldı. Üç kap, beş kap... Savaşa girer gibi yetiş bize!
+nb3	1	0	!		bize	Sarı-Kırmızılı	. Savaşa girer gibi yetiş bize! Sarı-Kırmızılı ekip ileride G
+rule	0	1	!	"	kıramam	Frezecilik	r. "Valla yumurta bile kıramam!" Frezecilik yaptığım Tasviri E
+rule	1	0	.		dağıtır	*	de vücut hücrelerimize dağıtır. * Kalbin karıncık ve kapakçık
+rule	1	0	.		Ulusoy	haftada	caktı. Ve gitti diyelim Ulusoy. haftada seyircimizle buluşana
+nb3	1	0	.		Ulusoy	haftada	caktı. Ve gitti diyelim Ulusoy. haftada seyircimizle buluşana
+nb3	0	1	:		verildi	"Sağlık	yrıca şu ifadelere yer verildi: "Sağlık Kurulu Raporu alınmas
+rule	0	1	!		sıra	Haklısın,	yle ya, gökyüzü alemdir o sıra! Haklısın, diyor sözü alan. Tü
+nb3	0	1	:		edebilirim	Savaş,	mü size şöyle ifade edebilirim: Savaş, tabii bir felaketten f
+rule	1	0	.		almıştı	-	vermişti, çoğu da bunu almıştı. - Çünkü onlar, senin gibi gel
+rule	1	0	.		sağlamasıdır	-	ve para tasarrufu sağlamasıdır. - Çocuklar, gördüğünüz gibi d
+rule	1	0	.		vermedim	-	n numaramı istedi ama vermedim. - Bir defa da sen idare etsey
+rule	1	0	.		etseydin	-	Bir defa da sen idare etseydin. - Hiçbirimizle konuşmuyor, ke
+rule	0	1	?		mi	Bu	nra da sen beni." dedi öyle mi? Bu sözle o "Biraz ben dereden
+rule	1	0	.		başlar	*	rtuluş Savaşı'ndan önce başlar. * Platform ayakkabı. yılını k
+rule	1	0	.		ayakkabı	yılını	ce başlar. * Platform ayakkabı. yılını kutluyor. Daha sonra b
+nb3	1	0	.		ayakkabı	yılını	ce başlar. * Platform ayakkabı. yılını kutluyor. Daha sonra b
+nb3	0	1	:		kuyusu	Oylum,	sınadıkları bir mimesis kuyusu: Oylum, hareket, ışık estetik 
+rule	0	1	!		Ah	Bilseniz,	t açıklamalar bekleniyordu? Ah! Bilseniz, ne kadar güzel, ayd
+nb3	1	0	!	"	ol	Timsah	Kırmızı; "Cesur ol!" Timsah gözyaşı döküyorlar. Ze
+rule	1	0	.		karşısındayım	-	şhirinin tümüyle karşısındayım. - Oğlum, dedi. İlişkiler sosy
+nb3	1	0	...		ve	Ama	O da beni duymuyor ve... Ama aynı kamera mesela Abi'ni
+rule	0	1	?		çağırıyordu	Ama	z. Çekemoğlu'nu mu çağırıyordu? Ama kısa sürede, Çekemoğlu se
+nb3	0	1	?		çağırıyordu	Ama	z. Çekemoğlu'nu mu çağırıyordu? Ama kısa sürede, Çekemoğlu se
+rule	0	1	?		nelerdir	Tartışınız.	değiştiren dinamikler nelerdir? Tartışınız.
+nb3	0	1	?		nelerdir	Tartışınız.	değiştiren dinamikler nelerdir? Tartışınız.
+nb3	0	1	:		dikleniveriyor	"Sanki,"	zetir benzetmez dikleniveriyor: "Sanki," diyor bana, "aşkını 
+rule	0	1	?		nedir	Karısını	e gömdüğünüz Oktay Rıfat nedir? Karısını herkesten kıskanıyor
+nb3	0	1	?		nedir	Karısını	e gömdüğünüz Oktay Rıfat nedir? Karısını herkesten kıskanıyor
+nb3	0	1	:		Gezegenler	Bugün	ervesi * Sayılar ve Gezegenler: Bugün doğanları "6" sayısı ve
+nb3	0	1	:		sorar	Çukurova	Venüs" yönetir. Yaklaşıp sorar: Çukurova Üniversitesi'nde... 
+nb3	0	1	:		etti	"Ama	en Demirören, şöyle devam etti: "Ama 20 yılı aşkın süredir ya
+rule	1	0	?		kendinizi	*	ffedebilecek misiniz kendinizi? * iş hedefleri Fener forvet k
+rule	1	0	.		arttı	hindistancevizi	'nın okumaya olan ilgisi arttı. hindistancevizi tozu Konya Se
+nb3	1	0	?		mi	Maksadı	e gelmez öyle şeyler" demez mi? Maksadı beni tahrik ederek ol
+nb3	0	1	:		gösteriyor	Cennet	t, kesin olmadığını gösteriyor: Cennet levhasında cennet imge
+rule	1	0	:		ekmeği	-	sli ve yumurtalı çavdar ekmeği: - Evet, gayet basit. Aşağı ba
+rule	1	0	.		bilirdi	*	lüğünü, aileyi çok iyi bilirdi. * Tekne karaya oturtulacaksa 
+rule	0	1	?		misiniz	Lütfen	eyenlere yardım önerir misiniz? Lütfen bana önce Venüs'ü değe
+nb3	0	1	?		misiniz	Lütfen	eyenlere yardım önerir misiniz? Lütfen bana önce Venüs'ü değe
+rule	1	0	.		sarıldı	-	ilir. Usulca boynumuza sarıldı. - Cenazemi önce evden camiye 
+rule	1	0	.		dolayında	a.	üye sayısı 60 milyon dolayında. a. Teknolojik alanda ilerleme
+rule	0	1	.		a	Teknolojik	 sayısı 60 milyon dolayında. a. Teknolojik alanda ilerlemeler
+rule	0	1	.		kımıldamadı	Kadına:	Adam yerinden kımıldamadı. Kadına: Bana şahsen "tsunami 
+nb3	0	1	.		kımıldamadı	Kadına:	Adam yerinden kımıldamadı. Kadına: Bana şahsen "tsunami 
+rule	1	0	:		Kadına	Bana	m yerinden kımıldamadı. Kadına: Bana şahsen "tsunami abi" fal
+rule	1	0	.		bende	-	r? Onun bir birikimi var bende. - Şişli'de iken ne gibi dersl
+rule	0	1	?	"	mi	29	le özetliyor "Gaz mı, Gazze mi?" 29 Mart yerel seçimlerinden ö
+rule	1	0	.		is	Ruhsal	erimizin dış kısmı simsiyah is. Ruhsal dengesi bozuk işsiz Ru
+nb3	1	0	.		is	Ruhsal	erimizin dış kısmı simsiyah is. Ruhsal dengesi bozuk işsiz Ru
+nb3	0	1	.		Prof	Hiroyasu	çiliği'nin önünde vuruldu Prof. Hiroyasu İso, "çeşitli aile r
+rule	1	0	.		Prof	İkram	i Birliği Derneği Başkanı Prof. İkram edilen çikolataları alm
+nb3	1	0	.		galiba	Karikatür	p seni merakta bıraktım galiba. Karikatür bir eleştiri. Yönet
+nb3	0	1	:		Benzerlik	Her	ı alıp gitti. Fiziki Benzerlik: Her ikisinin yüz hatları ve e
+rule	1	0	:		üzgündü	Eğer	tates Hoş Erdal Bey de üzgündü: Eğer geniş bir toplumsal uzla
+rule	0	1	?		istiyorsunuz	Neden?	üyüyünce ne olmak istiyorsunuz? Neden?
+nb3	0	1	?		istiyorsunuz	Neden?	üyüyünce ne olmak istiyorsunuz? Neden?
+rule	1	0	.		idi	-	eş mavi kubbenin ortasında idi. - Takım arkadaşlarınla olan i
+nb3	1	0	?		nasıl	Ben	larınla olan ilişkilerin nasıl? Ben Mahir'im, Sinan'ım, Deniz
+nb3	1	0	?		mu	Onu	ekliye ayrılması gerekmiyor mu? Onu önce mahalle mektebine ka
+nb3	0	1	:		diyordu	Hangi	urun. İçinden de şöyle diyordu: Hangi ilim adamı üniversitede
+rule	1	0	.		16	-	16. - Doktor ne dedi? PARANOYANIN
+nb3	1	0	.		16	-	16. - Doktor ne dedi? PARANOYANIN
+rule	1	0	:		Malzemeler	*	N FARKINDA MISINIZ? Malzemeler: * Dünyadaki trendleri ve eğil
+rule	1	0	.		2	Edebiyatta	nur. 2 tatlı kaşığı sıvı yağ 2. Edebiyatta yerel ağızları dil
+nb3	1	0	.		2	Edebiyatta	nur. 2 tatlı kaşığı sıvı yağ 2. Edebiyatta yerel ağızları dil
+rule	0	1	.	"	çok	Resim	r. Öğrenciler geliyor daha çok." Resim alıcılarını da sınıflan
+nb3	0	1	.	"	çok	Resim	r. Öğrenciler geliyor daha çok." Resim alıcılarını da sınıflan
+rule	1	0	:		aldım	Burada	ife Hanım'dan bir mektup aldım: Burada toplanan yurttaşların 
+rule	1	0	:		Malzemeler	"Piyano	delesi yaşayabilir. Malzemeler: "Piyano ile anlat bakalım, bu
+rule	0	1	?	"	gördün	Ben	ım, bugün sokakta neler gördün?" Ben de piyanoda "arabalar gör
+rule	1	0	.		ederim	başka	 sakin olacak. Teşekkür ederim. başka biri olarak döneceksind
+rule	1	0	.		vb	Her	ni "Müslim", "Gayri müslim" vb. Her söz, her davranış, her ba
+nb3	1	0	...		olsa	Bu	yonuna dönülür. Bir gemim olsa... Bu sayıya ulaşılamazsa, paket
+nb3	1	0	?		ÇEVREME	Her	ZLERLE BAKABİLİR MİYİM ÇEVREME? Her yer teneke kutularla dolu
+rule	1	0	.		çıkışırlar	-	yen karılarına sert çıkışırlar. - Fabrikayı gezdik, üretim ha
+rule	1	0	:		Malzemeler	Özellikle	iz rahat." demişti. Malzemeler: Özellikle de Ayasofya ve Topk
+rule	0	1	.		söyledim	Emine:	r. Bunu arkadaşlarıma söyledim. Emine:
+nb3	0	1	.		söyledim	Emine:	r. Bunu arkadaşlarıma söyledim. Emine:
+rule	1	0	:		geçirdi	Genel	ölüğü yeniden harekete geçirdi: Genel yapısı içerisinde ihrac
+rule	1	0	.		karıştırıyorum	)	alıdır. Hepsini karıştırıyorum. ) Her şeye bakıyorum.
+rule	0	1	?		biliyorlar	Onların	düşündüğünü nereden biliyorlar? Onların duygu ve düşüncelerin
+nb3	0	1	?		biliyorlar	Onların	düşündüğünü nereden biliyorlar? Onların duygu ve düşüncelerin
+rule	0	1	?		okuyorlar	Çocuk	 düşüncelerini nasıl okuyorlar? Çocuk niçin annesinin evi ter
+nb3	0	1	?		okuyorlar	Çocuk	 düşüncelerini nasıl okuyorlar? Çocuk niçin annesinin evi ter
+rule	0	1	?		uyurken	Britanya'da	ıyor olabilir, peki ya uyurken? Britanya'da yapılan araştırma
+rule	1	0	.		1	Yarım	ü 1284'de Selçuklu Hükümdarı 1. Yarım demet maydanoz Şehirde 
+nb3	1	0	.		1	Yarım	ü 1284'de Selçuklu Hükümdarı 1. Yarım demet maydanoz Şehirde 
+rule	1	0	.		Hz	Gerektiğinde	ın odağında, Beytüllahim'de Hz. Gerektiğinde çok katı ve disi
+nb3	1	0	.		Hz	Gerektiğinde	ın odağında, Beytüllahim'de Hz. Gerektiğinde çok katı ve disi
+rule	1	0	.		2	Bağırsak	en hafta bu köşede, doğrudan 2. Bağırsak iltihaplarını tedavi
+nb3	1	0	.		2	Bağırsak	en hafta bu köşede, doğrudan 2. Bağırsak iltihaplarını tedavi
+rule	1	0	.		çıktılar	maddesi,	sonra iki sekreter de çıktılar. maddesi, çocukların eğitim ha
+rule	1	0	:		Malzemeler	Valla	odaya giriyorsunuz. Malzemeler: Valla öyle korkan bir halleri
+rule	0	1	!		ay	Gelip	Ağaç dikerdim de "Hayır ay! Gelip de buralarda perişan mı
+nb3	1	0	...		"	Bebeler	 Bazı dinleyiciler neşelendi "... Bebeler sacdan inince daha üs
+nb3	1	0	?		dersem	Arkada	andan sonra, neden öykü dersem? Arkada kalanlar.
+nb3	1	0	...		yaka	Bir	nmıştı. Kara önlük, beyaz yaka... Bir keresinde de bir gay arka
+nb3	0	1	;		değindi	Türk	ç bölümünde bu noktaya değindi; Türk siyaseti ve kültüründe b
+rule	1	0	:		çizdi	Bilim	a sahip olduğunun altını çizdi: Bilim insanları galaksideki e
+rule	1	0	:		Pakdemirli	Kanal	an Yardımcısı Ekrem Pakdemirli: Kanal açalım, İstanbul’a iki 
+nb3	1	0	:		Pakdemirli	Kanal	an Yardımcısı Ekrem Pakdemirli: Kanal açalım, İstanbul’a iki 
+rule	0	1	.	"	coşturur	Yani	 susturur ama korkağı coşturur." Yani şişede durduğu gibi durm
+nb3	0	1	.	"	coşturur	Yani	 susturur ama korkağı coşturur." Yani şişede durduğu gibi durm
+rule	0	1	?		mi	Bana	tülük yapması gerekir değil mi? Bana hiçbir şey yapmıyordu.
+nb3	1	0	?		değerlendiriyorsunuz	"Ne	arı nasıl değerlendiriyorsunuz? "Ne lan bu?" demiş Ferhan Şen
+rule	1	0	!		Kemallerin	*	En büyüğü Mustafa Kemallerin! * Oduncu gömleklerinize bunda
+nb3	0	1	:		SÜRESİ	30	PİŞME SÜRESİ: 30 dk - Bayan Zombi, lütfen k
+nb3	0	1	:		Gelince	Bu	üz. Nutriyen Etkenlere Gelince: Bu isim altında toplanan etke
+nb3	1	0	...		elzem	Sadece	 ve boyalardan" arınması elzem... Sadece birkaç güvenlikçi, kaç
+rule	1	0	.		getirilmişti	hafta	 arabayla bir mal getirilmişti. hafta değerlendirme raporunu 
+rule	0	1	.		akıyorduk	Annem:	ımda, dik bir yokuşu akıyorduk. Annem: Yine bizimle beraber h
+nb3	0	1	.		akıyorduk	Annem:	ımda, dik bir yokuşu akıyorduk. Annem: Yine bizimle beraber h
+rule	1	0	:		Annem	Yine	ik bir yokuşu akıyorduk. Annem: Yine bizimle beraber her yerd
+nb3	1	0	:		Annem	Yine	ik bir yokuşu akıyorduk. Annem: Yine bizimle beraber her yerd
+rule	0	1	?		söylemedim	Siz	 Nasıl kim olduğunu söylemedim? Siz dinlemek ve inanmak istem
+nb3	0	1	?		söylemedim	Siz	 Nasıl kim olduğunu söylemedim? Siz dinlemek ve inanmak istem
+nb3	1	0	...		ki	Bu	emek ve inanmak istemediniz ki... Bu dönemde İnan Kıraç da yine
