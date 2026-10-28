@@ -38,8 +38,8 @@ Diğer kaynaklar (slaytlar, makaleler) `~/Desktop/cmpe561/` altındadır.
 
 ### ML kısıtı
 - Tokenization ve sentence splitting için: biri **Naïve Bayes** (kendimiz implement edeceğiz),
-  diğeri **Logistic Regression** (scikit-learn kullanılabilir). Hangi görevde hangisi? → **KARAR
-  BEKLİYOR**, rapor yazımından hemen önce netleşecek (ön eğilim: NB→splitting, LR→tokenization).
+  diğeri **Logistic Regression** (scikit-learn kullanılabilir). Hangi görevde hangisi? →
+  **NB → sentence splitting, LR → tokenization** (2026-10-19 kararı, rapora girdi; 28 Eki'de korundu — bkz. FAZ 2).
 - Başka klasik ML veya deep learning YASAK. Her iki görev de farklı feature set'lerle test
   edilip başarı oranları karşılaştırılacak.
 
@@ -312,7 +312,7 @@ kullanmaz" tanımına ve Eryiğit&Adalı yaklaşımına sadık).
   Not: F1 %90 değil; UPOS-proxy + sadece-dynamic sınırı. static + union + metrik tartışması kaldı.
 
 ## Açık kararlar (netleşince buraya işaretle)
-- [ ] NB vs LR hangi task'ta (ön eğilim: NB→splitting, LR→tokenization)
+- [x] NB vs LR → **NB → splitting, LR → tokenization** (2026-10-19; 28 Eki'de korundu).
 - [x] Stopword sırası → **normalize → stopword → stem** (stem öncesi, yüzey-form). Dynamic
       listeyi stem'lenmiş korpustan üretirsek tekrar gözden geçir.
 - [x] İş bölümü: **Hikmet → stemming**, **Ecem → normalization**, **stopword → paylaşımlı**.
@@ -404,11 +404,11 @@ tests/test_tokenizer.py  tests/test_splitter.py  tests/test_naive_bayes.py
   `--eval` her ikisinde de çalışır.
 - Ortak dosyalara (cli.py, io_conllu.py, evaluate.py) dokunan not düşer; `src/ml/` ve eval tabloları Hikmet'in.
 
-## İş bölümü (ÖNERİ — Ecem onaylayınca [x] yapılır)
-- [ ] **Hikmet → sentence splitting** (rule + NB kendi implementasyonu) + sahte paragraf korpusu + `run.py split`/
+## İş bölümü (ONAYLANDI — Ecem, 28 Eki)
+- [x] **Hikmet → sentence splitting** (rule + NB kendi implementasyonu) + sahte paragraf korpusu + `run.py split`/
       `--doc` pipeline + demo dosyası + tüm görevlerin final tablolarını toplama + paper iskeleti/stemming/stopword/
       splitting bölümleri + zip.
-- [ ] **Ecem → tokenization** (rule + LR) + kısaltma/MWE lexicon'ları + URL/e-mail/hashtag sentetik seti + paper
+- [x] **Ecem → tokenization** (rule + LR) + kısaltma/MWE lexicon'ları + URL/e-mail/hashtag sentetik seti + paper
       normalization/tokenization bölümleri + work-sharing dokümanı taslağı.
 - Gerekçe: NB'yi sıfırdan yazmak + korpus kurmak altyapı işi (CLI/eval zaten Hikmet'te); tokenization'ın regex tabanı
   hazır ve LR sklearn ile hızlı, Ecem'in token-düzeyi normalizer'ıyla doğal komşu. Tersi de olur; önemli olan bugün
@@ -561,15 +561,18 @@ python3 -m unittest tests.test_stemmer tests.test_cli          # testler
 TRmorph klonu depoda değil (`git clone https://github.com/coltekin/TRmorph`, commit fbceb11); roots.tsv üretilmiş halde depoda.
 
 ## Ecem
-- **Next task:** (1) Rapor 3.1'e gerçek gürültü satırlarını ekle (Ecem yazıyor). (2) Hikmet'le
-  main'de: kararların onayı (eval yöntemi + gerçek gürültü setleri, Türkçe küçük harf çıktı,
-  lexicon kaynağı, plandaki test türleri için eklenen harf tekrarı + typo adımları).
-  (3) Opsiyonel / final'e: elle düzeltilmiş küçük haber seti (`data/normalization/real_noisy.tsv`);
-  iyileştirmeler yalnız MultiLexNorm **train**'de geliştirilir (yarım Türkçe karakter `bır`/
-  `Gecmiş`, kelime bölme `oteldede → otelde de`, sözlüğü diğer UD Türkçe setleriyle büyütme) →
-  UD tablosu düşmemeli; gerçek test setleri yeniden çalıştırılırsa raporda belirtilir.
-  (4) Lexicon'daki 3 `#?` satırı — opsiyonel.
-- **Left off here:** NORMALIZATION çalışıyor + test edildi (`ecem` branch, yerel).
+- **Next task (FAZ 2, 28 Eki):** **TOKENIZATION** (iş bölümü onaylandı). Plan: yukarıdaki "PLAN — FAZ 2" →
+  `src/tokenization/` (rules.py RuleTokenizer, features.py 3 kümülatif feature seti, ml.py LRTokenizer — sklearn,
+  corpus.py aday çıkarımı; train'de raporlanan 22 713 aday tutmalı), `src/scripts/tok_evaluate.py`,
+  `src/scripts/tok_build_special.py` (URL/e-mail/hashtag sentetik), `resources/mwe_tr.txt` (UD deprel'lerinden).
+  Ortak, Hikmet'in yazdığı: `resources/abbreviations_tr.txt` (TDK, 159 kısaltma) + `src/textutil.py` — import edilir.
+  Takvim: 29 Eki rule-based + dev tablosu · 30 Eki LR 3 set · 31 Eki zor durum / özel varlık / MWE setleri + test
+  bir kez · 1 Kas kod dondurma. Paper: normalization + tokenization bölümleri, work-sharing taslağı.
+  Normalization iyileştirmeleri (yarım Türkçe karakter, kelime bölme, büyük sözlük) kapsam dışı — vakit kalırsa.
+- **Left off here:** (2026-10-28) Progress report gönderildi. `main` (Hikmet'in merge'ü, aac13bd) `ecem`'e
+  fast-forward edildi; yerel 19.10 CLAUDE.md notları `git stash`'te (FAZ 2 planıyla büyük ölçüde örtüşüyor).
+  Normalization grafikleri (rapor) `reports/figures/` (henüz commit edilmedi).
+  NORMALIZATION çalışıyor + test edildi.
   `python src/scripts/norm_evaluate.py test` (Windows'ta `PYTHONUTF8=1`). UD-BOUN **test** sonuçları
   (sistem accuracy / bozulan tokenları düzeltme):
   temiz 98.3% · diakritik(tümü) 96.3% / 94.9% · diakritik(%30) 97.7% / 95.2% ·
@@ -592,4 +595,4 @@ TRmorph klonu depoda değil (`git clone https://github.com/coltekin/TRmorph`, co
   +0.2, tweet +0.8 puan. Hata dağılımı (web): Türkçe karakter %32 (gerçek metinde `bır`,
   `gerçegı` gibi yarım/yanlış Türkçe harf), typo/kısaltma/konuşma dili %31, doğruyu bozma %21,
   kelime bölme %16 (sistem bölmüyor). Tweet: konuşma dili/kısaltma %55, kelime bölme %17.
-- **Son güncelleme:** 2026-10-18
+- **Son güncelleme:** 2026-10-28
