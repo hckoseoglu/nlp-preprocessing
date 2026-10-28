@@ -20,6 +20,8 @@ python3 run.py tokenize  --text "Merhaba, dünya!"
 python3 run.py split     --text 'Dr. Ali geldi. "Neden?" diye sordu. Gitti.'   # cümle bölme: NB (varsayılan) | --method rule
 python3 run.py split     --file belge.txt --format tsv            # dosyanın TAMAMI tek doküman; satır başına cümle
 python3 run.py split     --split dev --eval                       # sahte paragraflarda aday acc / macro-F1 / cümle exact
+python3 run.py pipeline  --doc belge.txt                          # DOKÜMAN modu: split → tokenize → normalize → stopword → stem (demo)
+python3 run.py stem      --doc - < belge.txt --format tsv         # stdin'den doküman; her görev --doc alır
 python3 run.py stem      --file cumleler.txt --format tsv       # her satır bir cümle; token başına satır
 python3 run.py stem      --split dev --eval                     # UD gold token'ları, kök doğruluğu (dev %94.1)
 python3 run.py stem      --split dev --eval --pos               # gold POS ile üst sınır

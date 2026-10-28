@@ -46,6 +46,18 @@ class CliTests(unittest.TestCase):
         recs = json.loads(run("split", "--text", "Ali geldi. Sonra gitti.", "--format", "json"))
         self.assertEqual(recs[0]["output"], ["Ali geldi.", "Sonra gitti."])
 
+    def test_doc_mode_pipeline(self):
+        doc = ROOT / "results" / "_tmp_doc.txt"
+        doc.write_text('Dr. Ahmet toplantıya geç kaldı. "Neden gelmedin?" diye sordu. Cevap veremedim.', encoding="utf-8")
+        try:
+            lines = run("pipeline", "--doc", str(doc), "--method", "rule").splitlines()
+        finally:
+            doc.unlink(missing_ok=True)
+        self.assertEqual(len(lines), 3)                                   # üç cümle, satır başına bir cümle
+        self.assertTrue(lines[0].startswith("s1\t") and lines[2].startswith("s3\t"))
+        self.assertIn("kal", lines[0].split())
+        self.assertIn("cevap", lines[2].split())
+
     def test_tokenize_and_tsv(self):
         self.assertEqual(run("tokenize", "--text", "Merhaba, dünya!").split(), ["Merhaba", ",", "dünya", "!"])
         tsv = run("stem", "--text", "evlerimizden", "--format", "tsv").splitlines()

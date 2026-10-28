@@ -443,6 +443,15 @@ tests/test_tokenizer.py  tests/test_splitter.py  tests/test_naive_bayes.py
 
 Kural: tablo dışına çıkan cite gerekiyorsa önce buraya eklenir. Dış araç yalnız **baseline** olarak (NLTK Punkt, Snowball gibi), kod kopyalanmaz.
 
+## System paper — durum (28 Eki)
+- Overleaf: hocanın şablonu (ERMI, COLING 2020 stili) `https://www.overleaf.com/project/6ae1dd4fad641ed99b5e0fa4` projesine
+  taşındı (`main.tex`, `coling2020.sty`, `coling.bst`, `coling2020.bib`, `ERMI.png` bağlı kopya, `README.txt`). `\bibliography{coling2020}`
+  aktif; kaynaklar `.bib`'e eklenir (ilk giriş `turk2022boun`).
+- Yazılan: başlık, yazarlar (Ecem e-posta TODO), abstract, Introduction (etiketler `sec:resources/system/results/discussion/conclusion`
+  şablonun eski bölümlerine iliştirildi; bölümler yeniden yazılınca etiketler taşınır). Abstract'ta `[TOKENIZATION RESULT]` yer tutucu.
+- Sıradaki: 2 Corpora and Resources, 3 System (5 görev), 4 Results + ablation, 5 Discussion, 6 Conclusion, Acknowledgment (LLM kullanımı:
+  metin taslakları Claude ile yazıldı, spec gereği açıkça belirtilecek), 4–6 sayfa sınırı.
+
 ## Takvim
 | Gün | İş |
 |---|---|
@@ -480,8 +489,11 @@ Kural: tablo dışına çıkan cite gerekiyorsa önce buraya eklenir. Dış ara�
 > Her progress sonrası güncelle. Tarih ekle. Agent'lar bu alanlara bakarak devam eder.
 
 ## Hikmet
-- **Next task (28 Eki, FAZ 2):** Hikmet'in onayı bekleyen kararlar (aşağıda), sonra: `hikmet` → `main` merge; Ecem'e tokenization
-  başlangıcı (textutil + abbreviations_tr hazır); `pipeline --doc` doküman modu; test split **bir kez** (31 Eki); tablolar + paper.
+- **Next task (28 Eki akşam, FAZ 2):** paper 3 Experimental Setup + 4 Results; Ecem: tokenization + paper 2.2/2.3.
+  YAPILDI 28 Eki: `hikmet`→`main` merge + push; test split bir kez; **`--doc` doküman modu** (`run.py <görev> --doc dosya|-`:
+  splitter → cümle başına tokenize → ...; `tests/test_cli.py::test_doc_mode_pipeline`). **AÇIK KARAR:** doküman modunda
+  varsayılan NB (set 2) `Dr. Ahmet` → `Dr. | Ahmet` diye bölüyor (elle kısaltma setinde NB2 0.816 vs rule 0.954); demo için
+  `--method rule` varsayılan mı, yoksa hibrit (kısaltma/sayı/baş harf kuralı + NB) mi? Spec hibrite izin veriyor (ikisi ayrı da çalışmalı).
 - **SPLITTING DURUMU (28 Eki) — ilk sürüm çalışıyor, dev ölçüldü, commit edilmedi.** Kod: `src/splitting/` (corpus, features,
   rules, ml), `src/ml/naive_bayes.py` (kendi NB), `src/textutil.py`, `src/scripts/split_evaluate.py`, `split_build_abbrev.py`,
   `resources/abbreviations_tr.txt` (TDK dizininden 159 noktalı kısaltma), `resources/splitter_nb.json` (set 3 modeli),
