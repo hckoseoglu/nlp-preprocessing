@@ -28,6 +28,8 @@ class Word:
     feats: str = "_"
     space_after: bool = True  # MISC'te SpaceAfter=No yoksa True
     misc: str = "_"           # ham MISC kolonu (DerivedFrom vb. için; stemming gold)
+    head: int = 0             # HEAD kolonu (0 = kök) — tokenization MWE gold'u için (Ecem)
+    deprel: str = "_"         # DEPREL kolonu (fixed, compound:redup, compound:lvc, ...) — MWE gold'u
 
 
 @dataclass
@@ -85,7 +87,7 @@ def iter_conllu(path: str | Path) -> Iterator[Sentence]:
             cols = line.split("\t")
             if len(cols) < 10:
                 continue
-            tid, form, lemma, upos, _xpos, feats, _head, _deprel, _deps, misc = cols[:10]
+            tid, form, lemma, upos, _xpos, feats, head, deprel, _deps, misc = cols[:10]
             space_after = _misc_space_after(misc)
 
             if "-" in tid:  # çoklu-sözcük token satırı
@@ -98,7 +100,8 @@ def iter_conllu(path: str | Path) -> Iterator[Sentence]:
                 continue
 
             word = Word(idx=int(tid), form=form, lemma=lemma, upos=upos,
-                        feats=feats, space_after=space_after, misc=misc)
+                        feats=feats, space_after=space_after, misc=misc,
+                        head=int(head) if head.isdigit() else 0, deprel=deprel)
             words.append(word)
 
             if mwt_remaining > 0 and mwt_token is not None:

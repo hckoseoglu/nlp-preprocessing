@@ -38,8 +38,8 @@ Diğer kaynaklar (slaytlar, makaleler) `~/Desktop/cmpe561/` altındadır.
 
 ### ML kısıtı
 - Tokenization ve sentence splitting için: biri **Naïve Bayes** (kendimiz implement edeceğiz),
-  diğeri **Logistic Regression** (scikit-learn kullanılabilir). Hangi görevde hangisi? → **KARAR
-  BEKLİYOR**, rapor yazımından hemen önce netleşecek (ön eğilim: NB→splitting, LR→tokenization).
+  diğeri **Logistic Regression** (scikit-learn kullanılabilir). Hangi görevde hangisi? →
+  **NB → sentence splitting, LR → tokenization** (2026-10-19 kararı, rapora girdi; 28 Eki'de korundu — bkz. FAZ 2).
 - Başka klasik ML veya deep learning YASAK. Her iki görev de farklı feature set'lerle test
   edilip başarı oranları karşılaştırılacak.
 
@@ -312,7 +312,7 @@ kullanmaz" tanımına ve Eryiğit&Adalı yaklaşımına sadık).
   Not: F1 %90 değil; UPOS-proxy + sadece-dynamic sınırı. static + union + metrik tartışması kaldı.
 
 ## Açık kararlar (netleşince buraya işaretle)
-- [ ] NB vs LR hangi task'ta (ön eğilim: NB→splitting, LR→tokenization)
+- [x] NB vs LR → **NB → splitting, LR → tokenization** (2026-10-19; 28 Eki'de korundu).
 - [x] Stopword sırası → **normalize → stopword → stem** (stem öncesi, yüzey-form). Dynamic
       listeyi stem'lenmiş korpustan üretirsek tekrar gözden geçir.
 - [x] İş bölümü: **Hikmet → stemming**, **Ecem → normalization**, **stopword → paylaşımlı**.
@@ -361,6 +361,11 @@ kullanmaz" tanımına ve Eryiğit&Adalı yaklaşımına sadık).
   eval'inde kapalı, kendi P/R/F1'i gold deprel span'larına karşı ayrı tabloda. Dış liste gerekmez (cite: UD-BOUN).
 - **DEĞİŞTİ (feature setleri iç içe):** her görevde set 1 ⊂ set 2 ⊂ set 3 (kümülatif) → ablation "bilgi eklendikçe"
   okunur; raporda "üç set karşılaştırılacak" sözü aynen tutulur.
+- **DEĞİŞTİ (tokenization gold'u, nokta sözleşmesi — Ecem, Hikmet onayladı 28 Eki):** UD-BOUN kısaltma ve sıra
+  sayısının noktasını çoğunlukla ayırıyor (train: kısaltma 28/30, sıra sayısı 41/47 → `Dr` `.`, `3` `.`). Rapordaki gibi
+  **TDK yazımına uyduk**: cümle devam ediyorsa nokta sözcüğe aittir (`Dr.` `Ahmet`, `3.` `sınıf`); cümlenin en sonundaki
+  nokta ayrı kalır (`1923` `.`). Gold bu iki durumda dönüştürülür (`tokenization/corpus.py`, convention `"tdk"`), LR de bu
+  gold'la eğitilir; tablolarda ana skor "tdk", şeffaflık için düz UD skoru da verilir. Paper'da bir cümleyle gerekçelendirilir.
 - **KORUNDU:** test case'ler (UD test · zor durumlar · URL/e-mail/hashtag sentetik; splitting'de · tamamı küçük harf),
   rule-based tanımlar, kısaltma listesi TDK. Tokenization zor-durum seti **gerçek** (UD'deki `."`, `.)`, `2.`,
   `yerde"nin`, `G.Saray`), sentetik değil.
@@ -404,11 +409,11 @@ tests/test_tokenizer.py  tests/test_splitter.py  tests/test_naive_bayes.py
   `--eval` her ikisinde de çalışır.
 - Ortak dosyalara (cli.py, io_conllu.py, evaluate.py) dokunan not düşer; `src/ml/` ve eval tabloları Hikmet'in.
 
-## İş bölümü (ÖNERİ — Ecem onaylayınca [x] yapılır)
-- [ ] **Hikmet → sentence splitting** (rule + NB kendi implementasyonu) + sahte paragraf korpusu + `run.py split`/
+## İş bölümü (ONAYLANDI — Ecem, 28 Eki)
+- [x] **Hikmet → sentence splitting** (rule + NB kendi implementasyonu) + sahte paragraf korpusu + `run.py split`/
       `--doc` pipeline + demo dosyası + tüm görevlerin final tablolarını toplama + paper iskeleti/stemming/stopword/
       splitting bölümleri + zip.
-- [ ] **Ecem → tokenization** (rule + LR) + kısaltma/MWE lexicon'ları + URL/e-mail/hashtag sentetik seti + paper
+- [x] **Ecem → tokenization** (rule + LR) + kısaltma/MWE lexicon'ları + URL/e-mail/hashtag sentetik seti + paper
       normalization/tokenization bölümleri + work-sharing dokümanı taslağı.
 - Gerekçe: NB'yi sıfırdan yazmak + korpus kurmak altyapı işi (CLI/eval zaten Hikmet'te); tokenization'ın regex tabanı
   hazır ve LR sklearn ile hızlı, Ecem'in token-düzeyi normalizer'ıyla doğal komşu. Tersi de olur; önemli olan bugün
@@ -573,15 +578,54 @@ python3 -m unittest tests.test_stemmer tests.test_cli          # testler
 TRmorph klonu depoda değil (`git clone https://github.com/coltekin/TRmorph`, commit fbceb11); roots.tsv üretilmiş halde depoda.
 
 ## Ecem
-- **Next task:** (1) Rapor 3.1'e gerçek gürültü satırlarını ekle (Ecem yazıyor). (2) Hikmet'le
-  main'de: kararların onayı (eval yöntemi + gerçek gürültü setleri, Türkçe küçük harf çıktı,
-  lexicon kaynağı, plandaki test türleri için eklenen harf tekrarı + typo adımları).
-  (3) Opsiyonel / final'e: elle düzeltilmiş küçük haber seti (`data/normalization/real_noisy.tsv`);
-  iyileştirmeler yalnız MultiLexNorm **train**'de geliştirilir (yarım Türkçe karakter `bır`/
-  `Gecmiş`, kelime bölme `oteldede → otelde de`, sözlüğü diğer UD Türkçe setleriyle büyütme) →
-  UD tablosu düşmemeli; gerçek test setleri yeniden çalıştırılırsa raporda belirtilir.
-  (4) Lexicon'daki 3 `#?` satırı — opsiyonel.
-- **Left off here:** NORMALIZATION çalışıyor + test edildi (`ecem` branch, yerel).
+- **Next task (FAZ 2, 28 Eki):** **TOKENIZATION** (iş bölümü onaylandı). Plan: yukarıdaki "PLAN — FAZ 2" →
+  `src/tokenization/` (rules.py RuleTokenizer, features.py 3 kümülatif feature seti, ml.py LRTokenizer — sklearn,
+  corpus.py aday çıkarımı; train'de raporlanan 22 713 aday tutmalı), `src/scripts/tok_evaluate.py`,
+  `src/scripts/tok_build_special.py` (URL/e-mail/hashtag sentetik), `resources/mwe_tr.txt` (UD deprel'lerinden).
+  Ortak, Hikmet'in yazdığı: `resources/abbreviations_tr.txt` (TDK, 159 kısaltma) + `src/textutil.py` — import edilir.
+  Takvim: 29 Eki rule-based + dev tablosu · 30 Eki LR 3 set · 31 Eki zor durum / özel varlık / MWE setleri + test
+  bir kez · 1 Kas kod dondurma. Paper: normalization + tokenization bölümleri, work-sharing taslağı.
+  Normalization iyileştirmeleri (yarım Türkçe karakter, kelime bölme, büyük sözlük) kapsam dışı — vakit kalırsa.
+- **Left off here:** (2026-10-28, `ecem` branch, henüz commit edilmedi) TOKENIZATION adım 1–2 tamam:
+  (1) aday nokta korpusu `src/tokenization/corpus.py` — train 22 713 aday / 16 701 bölünür (UD, rapordaki sayılar);
+  "tdk" gold'da 22 713 / 16 647. (2) kural tabanlı tokenizer `src/tokenization/rules.py` (baseline + train'den bulunan UD
+  sözleşmeleri `''` `%25` `."` `G.Saray` `vodka.com` `!..` + TDK noktası), ölçüm `src/tokenization/metrics.py` +
+  `src/scripts/tok_evaluate.py`. **Dev** (token F1 / cümle exact): tdk gold → regex baseline 99.27% / 95.10%, **rule-based
+  99.55% / 97.04%**; düz UD → baseline 99.36% / 95.81%, rule 99.46% / 96.32%. Kalan hatalar UD tutarsızlıkları
+  (`"Venüs"`, `Zeki"yi`, `2 .9`) ve UD'nin ortadan kestiği cümleler (`... Hükümdarı 1.`). Testler: `tests/test_tokenizer.py`.
+  (3) LR tokenizer `src/tokenization/ml.py` (sklearn LogisticRegression, DictVectorizer) + 3 kümülatif feature seti
+  `features.py` (1 komşu karakter+sınıf · 2 +2/3 karakter pencere, parçadaki yer · 3 +kısaltma/sayı/baş harf, kesme+ek,
+  URL/e-mail/hashtag deseni, cümle devam ediyor mu). Eğitim: train + %20'sinin yapay varlıklı kopyası (`special.py`,
+  seed 0; UD'de URL/e-mail/hashtag yok). Kural tabanlıya **dokunulmadı**. **Dev** (tdk, F1 / cümle exact): LR1 99.43 / 96.22 ·
+  LR2 99.58 / 97.14 · **LR3 99.59 / 97.14** (rule 99.55 / 97.04). Geçici kontrol (dev + her cümleye yapay varlık, rapora
+  girmez): LR1 cümle exact 49.7 (e-mail/hashtag bölüyor), LR2 96.4, LR3 97.1, rule 97.0. sklearn 1.9.1 kuruldu (Ecem PC).
+  (4a, 2026-10-29) Test case'ler hazır, **yalnız dev'de** ölçüldü; `python src/scripts/tok_evaluate.py dev` →
+  `results/tables_tok_dev.md`. (i) **Zor durumlar** `tokenization/hard_cases.py`: gerçek UD parçaları, metinden (gold'a
+  bakmadan) 4 tür: kesme/tırnak + ek, ayraçlı sayı, cümle ortasında kelime + nokta (Dr./3./T.C./G.Saray), noktalama
+  kümesi (`."` `.)` `!..`); yalnız bu parçalardaki token'lar puanlanır. Dev 357 parça: parça exact rule 93.3 · LR3 92.7 ·
+  baseline 87.7. (ii) **Yapay varlık seti** `src/scripts/tok_build_special.py` → `data/tokenization/special_{dev,test}.conllu`
+  (her cümleye bir varlık, seed dev 1 / test 2, eğitimden **farklı kelime/hashtag listesi** `TEST_VOCAB` → LR ezber yapamaz;
+  varlık MISC'te `Entity=url`). Dev: rule ve LR3 tüm varlıkları tek parça tutuyor (sentence exact 97.0 / 97.1); LR2 URL
+  86.6, LR1 URL/e-mail 0. (iii) **MWE katmanı** `tokenization/mwe.py` + `resources/mwe_tr.txt` (603 giriş,
+  `src/scripts/tok_build_mwe.py`, train'den: `fixed`, `compound:redup`, `compound:lvc` et/ol/yap; `flat` = çok kelimeli
+  özel adlar **alınmadı**) + "aynı kelime iki kez" tekrar kuralı. Girdi eşiği: ifade train'de görüldüğü yerlerin ≥%20'sinde
+  MWE ise (dev'de seçildi; %50'de "ya da" düşüyordu: UD train'de 29/90 `fixed`, dev'de 7/8). Dev MWE F1 (rule tokenizer
+  üstünde): fixed 78.3 · redup 66.7 · lvc 75.5 · tümü **74.9** (P 83.1 / R 68.2; tekrar kuralı olmadan 72.9). UD token
+  tablolarında MWE kapalı. Ortak dosya notu: `src/io_conllu.Word`'e `head` + `deprel` alanları eklendi (geriye uyumlu,
+  default 0 / "_"; MWE gold'u için). Testler `tests/test_tokenizer.py` (tüm testler OK).
+  MWE iyileştirmesi ("kelime + etmek" kuralı, `-ar -maz` / `-ip -mA` / m'li tekrar kalıpları; dev tahmini F1 ~80) konuşuldu,
+  **yapılmadı** (Ecem kararı: tokenization hedefi zaten aşılıyor; düşük MWE skoru UD tutarsızlığıyla paper'da açıklanır).
+  (4b, 2026-10-29) **TEST BİR KEZ çalıştırıldı** → `results/tables_tok_test.md` (tekrar çalıştırılırsa paper'da belirt).
+  Token F1 / cümle exact (tdk): baseline 99.34 / 95.20 · **rule 99.58 / 96.94** · LR1 99.59 / 97.04 · LR2 99.54 / 96.53 ·
+  **LR3 99.60 / 97.04** (düz UD: rule 99.54, LR3 99.56). Zor durumlar (372 parça, parça exact): baseline 89.0 · rule 94.1 ·
+  LR1 95.7 · LR2 92.5 · LR3 93.8. Yapay varlık (979 cümle): rule ve LR3 tüm varlıkları tek parça tutuyor (F1 99.61 / 99.63);
+  LR2 URL 77.4; LR1 URL/e-mail 0; baseline URL 38.9. MWE (rule üstünde): fixed 90.9 · redup 73.4 · lvc 71.7 · tümü **74.0**
+  (P 77.2 / R 71.0; tekrar kuralı olmadan 70.3).
+  Sıradaki: adım 5 (CLI/`--doc` bağlantısı, `--mwe`, LR modelini kaydetme) — Ecem onayıyla.
+  Progress report gönderildi. `main` (Hikmet'in merge'ü, aac13bd) `ecem`'e
+  fast-forward edildi; yerel 19.10 CLAUDE.md notları `git stash`'te (FAZ 2 planıyla büyük ölçüde örtüşüyor).
+  Normalization grafikleri (rapor) `reports/figures/` (henüz commit edilmedi).
+  NORMALIZATION çalışıyor + test edildi.
   `python src/scripts/norm_evaluate.py test` (Windows'ta `PYTHONUTF8=1`). UD-BOUN **test** sonuçları
   (sistem accuracy / bozulan tokenları düzeltme):
   temiz 98.3% · diakritik(tümü) 96.3% / 94.9% · diakritik(%30) 97.7% / 95.2% ·
@@ -604,4 +648,4 @@ TRmorph klonu depoda değil (`git clone https://github.com/coltekin/TRmorph`, co
   +0.2, tweet +0.8 puan. Hata dağılımı (web): Türkçe karakter %32 (gerçek metinde `bır`,
   `gerçegı` gibi yarım/yanlış Türkçe harf), typo/kısaltma/konuşma dili %31, doğruyu bozma %21,
   kelime bölme %16 (sistem bölmüyor). Tweet: konuşma dili/kısaltma %55, kelime bölme %17.
-- **Son güncelleme:** 2026-10-18
+- **Son güncelleme:** 2026-10-29
