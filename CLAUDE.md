@@ -449,8 +449,20 @@ Kural: tablo dışına çıkan cite gerekiyorsa önce buraya eklenir. Dış ara�
   aktif; kaynaklar `.bib`'e eklenir (ilk giriş `turk2022boun`).
 - Yazılan: başlık, yazarlar (Ecem e-posta TODO), abstract, Introduction (etiketler `sec:resources/system/results/discussion/conclusion`
   şablonun eski bölümlerine iliştirildi; bölümler yeniden yazılınca etiketler taşınır). Abstract'ta `[TOKENIZATION RESULT]` yer tutucu.
-- Sıradaki: 2 Corpora and Resources, 3 System (5 görev), 4 Results + ablation, 5 Discussion, 6 Conclusion, Acknowledgment (LLM kullanımı:
-  metin taslakları Claude ile yazıldı, spec gereği açıkça belirtilecek), 4–6 sayfa sınırı.
+- Bölüm sırası = şablon (ERMI): 1 Intro · 2 System Description (2.1 Splitting 2.1.1 rule 2.1.2 NB · 2.2 Tok [Ecem] · 2.3 Norm [Ecem] ·
+  2.4 Stem · 2.5 Stopword) · 3 Experimental Setup (3.1 Corpus 3.2 Resources 3.3 Training data 3.4 Metrics + Table 1) · 4 Results and
+  Discussion · 5 Conclusion · Acknowledgements. **YAZILDI (28 Eki):** 1, 2 (Ecem'in 2.2/2.3'ü köşeli parantezli yer tutucu), 3
+  (Ecem yer tutucuları: gerçek gürültü setleri, normalization kaynakları, tokenizer aday noktaları, Table 1 satırları); Figure 1 TikZ
+  pipeline. Kısalık kuralı (Hikmet): abstract+intro ≤ 1 sayfa, her alt bölüm ≤ ~130 kelime, gereksiz ayrıntı yok.
+- **YAZILDI (29 Eki):** 4 Results and Discussion (4.1 Splitting Table 2 · 4.2/4.3 [Ecem] · 4.4 Stemming Table 3 · 4.5 Stopword Table 4 ·
+  4.6 Discussion), 5 Conclusion, Acknowledgements taslağı (LLM kullanımı; Ecem ile son hâl). Derleme temiz, **6 sayfa** (kaynakça dâhil,
+  Ecem'in 4 alt bölümü + tabloları henüz yok) → Ecem'in kısımları girince 7'ye çıkabilir; kırpma adayları: 4.6 Discussion, Table 1,
+  2.1 giriş paragrafı. Bib: turk2022boun reynar1997 gillick2009 guz2009 eryigit2004 oflazer1994 coltekin2010 achsan2023 goksel2005
+  sak2011 cilden2006 stopwordsiso tdkyazim bird2009 lo2005 jurafsky2025 kiss2006 bektas2018. **Appendix A** (29 Eki): Algorithm 1 rule splitter,
+  2 dinamik stopword, 3 stemmer (algpseudocode). 29 Eki son kontrol: sayılar rapor/`results/` ile tutarlı; eklenen kavramlar: kök bayrağı
+  şartlı onarım, gold kök tanımı (DerivedFrom), skor bileşenleri, 20 cümlelik sahte doküman. **Dikkat:** Acknowledgements'ta Hikmet
+  'drafting' ifadesini kaldırdı → metin taslakları Claude ile yazıldığı için spec'in dürüstlük şartı açısından riskli; Ecem'le son hâl.
+  Kalan: Ecem'in bölümleri, [TOKENIZATION RESULT], [Ecem e-mail], guz2009 cilt/sayfa, rapordaki 7 610 vs paper 6 626 aday farkı, sayfa sınırı.
 
 ## Takvim
 | Gün | İş |
