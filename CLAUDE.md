@@ -585,8 +585,7 @@ TRmorph klonu depoda değil (`git clone https://github.com/coltekin/TRmorph`, co
 
 ## Ecem
 - **Next task (29 Eki akşam):** Kod tarafı bitti (tokenization + normalization; CLI bağlantısını Hikmet yaptı).
-  Kalan: (1) **work-sharing** taslağını Hikmet onaylasın → Google Docs → PDF → Moodle (3 Kas); (2) paper'ın **6 sayfa
-  sınırı** — Ecem'in kısımları kısaltıldı, kalan kısaltma Hikmet'in bölümlerinde (öneriler aşağıda, (5)); (3) paper son okuma.
+  Kalan: (1) **work-sharing** taslağını Hikmet onaylasın → Google Docs → PDF → Moodle (3 Kas); (2) paper son okuma.
   Normalization iyileştirmeleri (yarım Türkçe karakter, kelime bölme, büyük sözlük) kapsam dışı — vakit kalırsa.
 - **Left off here:** (2026-10-28 → 29, `ecem` branch; tokenization a4514f9 + grafikler e1cd4ed push'landı, Hikmet `main`'e
   merge etti 2c91334) TOKENIZATION adım 1–2 tamam:
@@ -630,13 +629,6 @@ TRmorph klonu depoda değil (`git clone https://github.com/coltekin/TRmorph`, co
   başlıklarının altında). Abstract'taki `[TOKENIZATION RESULT]` → 99.6%, Ecem e-postası yazıldı; bib'e pedregosa2011, sag2002,
   colakoglu2019, vandergoot2021, ersoy2024 eklendi; Acknowledgements'a "drafting parts of the text" Ecem tarafından geri eklendi.
   → "System paper — durum"daki "Kalan: Ecem'in bölümleri, [TOKENIZATION RESULT], [Ecem e-mail]" ve "drafting" dikkati kapandı.
-  **Sayfa sınırı (29 Eki ölçümü, Ecem'in kısaltmalarından sonra):** kaynakça 6. sayfanın %73'ünde başlıyor, 7. sayfanın ~%85'i
-  kaynakça → ~43 satır fazla. Hikmet'in bölümleri için öneri listesi (Ecem'e sunuldu, karar Hikmet'in): intro 3. paragraf → 2.
-  paragrafın sonuna tek cümle (korpus), yol haritası silinir; 2.1 giriş + NB ilk cümleleri kısalır; 5 `\subsubsection` → satır
-  içi kalın başlık (2.1 ve 2.2 birlikte); Figure 1 alt notları; 3.2'deki stemmer kaynak tekrarı (2.5'te var); 3.3'te Table 1'i
-  tekrar eden metrik cümlesi; 4 girişindeki "reported in Sections 4.2 and 4.3"; Hikmet'in tabloları `\footnotesize`; conclusion
-  ilk cümlesi (conclusion'da tokenization/normalization sonucu yok). Gerekirse Table 1 (ve Figure 1) eke. Tahmin: hepsi +
-  Table 1 eke ≈ 1 sayfa.
   **Work-sharing taslağı hazır** (kişi bazında: kod / progress report / final paper; tablo numarası yazılmadı, kısaltmada
   kayabilir). Progress report'ta Ecem: 1 Introduction, 2'deki "Normalization resources" paragrafı, 3.1 Normalization (+ grafikler),
   4 Design of Remaining Operations (4.1 tok, 4.2 split, NB/LR seçimi), kendi kaynakları + normalization pseudo-code. Hikmet: 2
