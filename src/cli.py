@@ -7,7 +7,7 @@ Bir cümle, bir dosya ya da UD Turkish-BOUN'un bir split'i üzerinde istenen ad�
   python3 run.py stopword  --text "Bu bir deneme cümlesidir."       # → deneme cümlesidir .
   python3 run.py pipeline  --text "..."                             # normalize → stopword → stem
   python3 run.py normalize --text "..."                             # Ecem'in modülü (src/normalization.py)
-  python3 run.py tokenize  --text "..."                             # basit regex tokenizer
+  python3 run.py tokenize  --text "..."                             # kural tabanlı tokenizer (--tokenizer rule|lr|regex, --mwe)
   python3 run.py split     --text "Dr. Ali geldi. Sonra gitti."    # cümle bölme (--method rule|nb), satır başına cümle
   python3 run.py split     --file belge.txt --method nb             # dosyanın TAMAMI tek doküman
   python3 run.py split     --split dev --eval                       # sahte paragraflarda aday doğruluğu / macro-F1
@@ -55,11 +55,9 @@ class Item:
 # ----------------------------------------------------------------------------- girdi
 
 def load_items(args) -> tuple[list[Item], list]:
-    """--text / --file ham metin (regex tokenizer); --split / --conllu gold token'lar. Sentence listesi eval için."""
+    """--text / --file / --doc ham metin (main'de steps.tokenize ile bölünür); --split / --conllu gold token'lar."""
     if args.text is not None:
-        if args.task == "split":
-            return [Item([], text=args.text)], []
-        return [Item(tokenize(args.text), text=args.text)], []
+        return [Item([], text=args.text)], []
     if args.doc:                          # doküman: önce splitter cümlelere böler (main'de), sonra her cümle ayrı işlenir
         text = sys.stdin.read() if args.doc == "-" else Path(args.doc).read_text(encoding="utf-8")
         return [Item([], text=text)], []
@@ -67,7 +65,7 @@ def load_items(args) -> tuple[list[Item], list]:
         if args.task == "split":          # split: dosyanın tamamı tek doküman
             return [Item([], text=Path(args.file).read_text(encoding="utf-8"))], []
         lines = [ln.strip() for ln in Path(args.file).read_text(encoding="utf-8").splitlines() if ln.strip()]
-        return [Item(tokenize(ln), text=ln) for ln in lines], []
+        return [Item([], text=ln) for ln in lines], []
     path = Path(args.conllu) if args.conllu else DATA_DIR / f"tr_boun-ud-{args.split}.conllu"
     if not path.exists():
         sys.exit(f"CoNLL-U bulunamadı: {path}")
@@ -90,6 +88,8 @@ class Steps:
         self.dataset_mode = dataset_mode
         self._stemmer = None
         self._splitter = None
+        self._tokenizer = None
+        self._mwe = None
         self._stopset = None
         self._normalize = None
         self._norm_warned = False
@@ -108,6 +108,38 @@ class Steps:
                 print(f"[uyarı] normalization atlandı: {e}", file=sys.stderr)
                 self._norm_warned = True
             return tokens
+
+    # tokenize ----------------------------------------------------------------
+    @property
+    def tokenizer(self):
+        """rule: RuleTokenizer (stdlib) · lr: LRTokenizer (scikit-learn, train'den ~1 s'de eğitilir) · regex: eski baseline."""
+        if self._tokenizer is None:
+            kind = self.args.tokenizer
+            if kind == "regex":
+                self._tokenizer = tokenize
+            elif kind == "rule":
+                from tokenization import RuleTokenizer
+                self._tokenizer = RuleTokenizer().tokenize
+            else:
+                try:
+                    from tokenization.ml import LRTokenizer
+                except ImportError:
+                    sys.exit("--tokenizer lr için scikit-learn gerekir: python3 -m pip install -r requirements.txt")
+                from tokenization.corpus import load_split
+                train = DATA_DIR / "tr_boun-ud-train.conllu"
+                if not train.exists():
+                    sys.exit(f"LR tokenizer için train verisi bulunamadı: {train}")
+                self._tokenizer = LRTokenizer.train(load_split("train"), level=self.args.lr_level).tokenize
+        return self._tokenizer
+
+    def tokenize(self, text: str) -> list[str]:
+        toks = self.tokenizer(text)
+        if self.args.mwe:
+            if self._mwe is None:
+                from tokenization.mwe import MWEMerger
+                self._mwe = MWEMerger()
+            toks = self._mwe.merge(toks)
+        return toks
 
     # split -------------------------------------------------------------------
     @property
@@ -302,6 +334,11 @@ def build_parser() -> argparse.ArgumentParser:
     ap.add_argument("--format", choices=("text", "tsv", "json"), default="text")
     ap.add_argument("--limit", type=int, default=10, help="dataset modunda yazdırılacak cümle sayısı (0: hiç, -1: hepsi)")
     ap.add_argument("--eval", action="store_true", help="dataset modunda gold ile karşılaştır (stem: kök doğruluğu, stopword: P/R/F1)")
+    # tokenize
+    ap.add_argument("--tokenizer", choices=("rule", "lr", "regex"), default="rule",
+                    help="ham metin tokenizer'ı: rule (kural tabanlı, varsayılan) | lr (Logistic Regression, scikit-learn) | regex (eski baseline)")
+    ap.add_argument("--lr-level", type=int, choices=(1, 2, 3), default=3, help="--tokenizer lr: özellik seti (varsayılan 3)")
+    ap.add_argument("--mwe", action="store_true", help="tokenizer sonrası MWE katmanı: 'ya da', 'kabul etti' tek token")
     # split
     ap.add_argument("--method", choices=("rule", "nb"), default="nb", help="split: rule-based ya da Naïve Bayes (dev'de en iyi set; resources/splitter_nb.json)")
     ap.add_argument("--para-size", type=int, default=5, help="split --split: sahte paragraf uzunluğu (cümle)")
@@ -323,7 +360,10 @@ def main(argv: list[str] | None = None) -> None:
     dataset_mode = bool(sents)
     steps = Steps(args, dataset_mode)
     if args.doc and args.task != "split":   # doküman modu: cümlelere böl, her cümle bir Item
-        items = [Item(tokenize(s), text=s, sent_id=f"s{i + 1}") for i, s in enumerate(steps.split(items[0].text))]
+        items = [Item([], text=s, sent_id=f"s{i + 1}") for i, s in enumerate(steps.split(items[0].text))]
+    if not dataset_mode and args.task != "split":   # ham metin: seçilen tokenizer ile böl
+        for it in items:
+            it.tokens = steps.tokenize(it.text)
     shown = items if (not dataset_mode or args.limit < 0) else items[:args.limit]
     records = [process(it, steps, args.task) for it in shown]
     if records:
