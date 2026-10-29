@@ -584,15 +584,12 @@ python3 -m unittest tests.test_stemmer tests.test_cli          # testler
 TRmorph klonu depoda değil (`git clone https://github.com/coltekin/TRmorph`, commit fbceb11); roots.tsv üretilmiş halde depoda.
 
 ## Ecem
-- **Next task (FAZ 2, 28 Eki):** **TOKENIZATION** (iş bölümü onaylandı). Plan: yukarıdaki "PLAN — FAZ 2" →
-  `src/tokenization/` (rules.py RuleTokenizer, features.py 3 kümülatif feature seti, ml.py LRTokenizer — sklearn,
-  corpus.py aday çıkarımı; train'de raporlanan 22 713 aday tutmalı), `src/scripts/tok_evaluate.py`,
-  `src/scripts/tok_build_special.py` (URL/e-mail/hashtag sentetik), `resources/mwe_tr.txt` (UD deprel'lerinden).
-  Ortak, Hikmet'in yazdığı: `resources/abbreviations_tr.txt` (TDK, 159 kısaltma) + `src/textutil.py` — import edilir.
-  Takvim: 29 Eki rule-based + dev tablosu · 30 Eki LR 3 set · 31 Eki zor durum / özel varlık / MWE setleri + test
-  bir kez · 1 Kas kod dondurma. Paper: normalization + tokenization bölümleri, work-sharing taslağı.
+- **Next task (29 Eki akşam):** Kod tarafı bitti (tokenization + normalization; CLI bağlantısını Hikmet yaptı).
+  Kalan: (1) **work-sharing** taslağını Hikmet onaylasın → Google Docs → PDF → Moodle (3 Kas); (2) paper'ın **6 sayfa
+  sınırı** — Ecem'in kısımları kısaltıldı, kalan kısaltma Hikmet'in bölümlerinde (öneriler aşağıda, (5)); (3) paper son okuma.
   Normalization iyileştirmeleri (yarım Türkçe karakter, kelime bölme, büyük sözlük) kapsam dışı — vakit kalırsa.
-- **Left off here:** (2026-10-28, `ecem` branch, henüz commit edilmedi) TOKENIZATION adım 1–2 tamam:
+- **Left off here:** (2026-10-28 → 29, `ecem` branch; tokenization a4514f9 + grafikler e1cd4ed push'landı, Hikmet `main`'e
+  merge etti 2c91334) TOKENIZATION adım 1–2 tamam:
   (1) aday nokta korpusu `src/tokenization/corpus.py` — train 22 713 aday / 16 701 bölünür (UD, rapordaki sayılar);
   "tdk" gold'da 22 713 / 16 647. (2) kural tabanlı tokenizer `src/tokenization/rules.py` (baseline + train'den bulunan UD
   sözleşmeleri `''` `%25` `."` `G.Saray` `vodka.com` `!..` + TDK noktası), ölçüm `src/tokenization/metrics.py` +
@@ -627,10 +624,27 @@ TRmorph klonu depoda değil (`git clone https://github.com/coltekin/TRmorph`, co
   LR1 95.7 · LR2 92.5 · LR3 93.8. Yapay varlık (979 cümle): rule ve LR3 tüm varlıkları tek parça tutuyor (F1 99.61 / 99.63);
   LR2 URL 77.4; LR1 URL/e-mail 0; baseline URL 38.9. MWE (rule üstünde): fixed 90.9 · redup 73.4 · lvc 71.7 · tümü **74.0**
   (P 77.2 / R 71.0; tekrar kuralı olmadan 70.3).
-  Sıradaki: adım 5 (CLI/`--doc` bağlantısı, `--mwe`, LR modelini kaydetme) — Ecem onayıyla.
+  Adım 5 (CLI bağlantısı) Hikmet yaptı (22c9f27: `--tokenizer rule|lr|regex`, `--lr-level`, `--mwe`).
+  (5, 2026-10-29) **Paper (Overleaf) — Ecem'in kısımları tamam:** 2.2 Tokenization (rule / LR / MWE), 2.3 Normalization,
+  3.1–3.2'deki tokenization/normalization cümleleri, Table 1 satırları, 4.2 ve 4.3 (tablolar `[H]` + `\footnotesize`, kendi
+  başlıklarının altında). Abstract'taki `[TOKENIZATION RESULT]` → 99.6%, Ecem e-postası yazıldı; bib'e pedregosa2011, sag2002,
+  colakoglu2019, vandergoot2021, ersoy2024 eklendi; Acknowledgements'a "drafting parts of the text" Ecem tarafından geri eklendi.
+  → "System paper — durum"daki "Kalan: Ecem'in bölümleri, [TOKENIZATION RESULT], [Ecem e-mail]" ve "drafting" dikkati kapandı.
+  **Sayfa sınırı (29 Eki ölçümü, Ecem'in kısaltmalarından sonra):** kaynakça 6. sayfanın %73'ünde başlıyor, 7. sayfanın ~%85'i
+  kaynakça → ~43 satır fazla. Hikmet'in bölümleri için öneri listesi (Ecem'e sunuldu, karar Hikmet'in): intro 3. paragraf → 2.
+  paragrafın sonuna tek cümle (korpus), yol haritası silinir; 2.1 giriş + NB ilk cümleleri kısalır; 5 `\subsubsection` → satır
+  içi kalın başlık (2.1 ve 2.2 birlikte); Figure 1 alt notları; 3.2'deki stemmer kaynak tekrarı (2.5'te var); 3.3'te Table 1'i
+  tekrar eden metrik cümlesi; 4 girişindeki "reported in Sections 4.2 and 4.3"; Hikmet'in tabloları `\footnotesize`; conclusion
+  ilk cümlesi (conclusion'da tokenization/normalization sonucu yok). Gerekirse Table 1 (ve Figure 1) eke. Tahmin: hepsi +
+  Table 1 eke ≈ 1 sayfa.
+  **Work-sharing taslağı hazır** (kişi bazında: kod / progress report / final paper; tablo numarası yazılmadı, kısaltmada
+  kayabilir). Progress report'ta Ecem: 1 Introduction, 2'deki "Normalization resources" paragrafı, 3.1 Normalization (+ grafikler),
+  4 Design of Remaining Operations (4.1 tok, 4.2 split, NB/LR seçimi), kendi kaynakları + normalization pseudo-code. Hikmet: 2
+  (normalization resources hariç), 3.2 Stemming, 3.3 Stopword, 5 Acknowledgment of Tool Usage, kendi kaynakları + stemmer/stopword
+  pseudo-code. Hikmet'in onayı bekleniyor; Google Docs'ta tutulup PDF alınacak.
   Progress report gönderildi. `main` (Hikmet'in merge'ü, aac13bd) `ecem`'e
   fast-forward edildi; yerel 19.10 CLAUDE.md notları `git stash`'te (FAZ 2 planıyla büyük ölçüde örtüşüyor).
-  Normalization grafikleri (rapor) `reports/figures/` (henüz commit edilmedi).
+  Normalization grafikleri (rapor) `reports/figures/` (commit edildi, e1cd4ed).
   NORMALIZATION çalışıyor + test edildi.
   `python src/scripts/norm_evaluate.py test` (Windows'ta `PYTHONUTF8=1`). UD-BOUN **test** sonuçları
   (sistem accuracy / bozulan tokenları düzeltme):
