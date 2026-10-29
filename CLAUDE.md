@@ -506,6 +506,12 @@ Kural: tablo dışına çıkan cite gerekiyorsa önce buraya eklenir. Dış ara�
 > Her progress sonrası güncelle. Tarih ekle. Agent'lar bu alanlara bakarak devam eder.
 
 ## Hikmet
+- **29 Eki (akşam):** `origin/ecem` (tokenization: rule + LR, MWE, özel varlık seti; test bir kez çalıştırılmış) `hikmet`'e merge
+  edildi (`add6dab`), 54 test OK. **CLI'ya tokenizer bağlandı:** `--tokenizer rule|lr|regex` (varsayılan rule), `--lr-level`, `--mwe`;
+  ham metin modları (`--text/--file/--doc`) artık seçilen tokenizer'ı kullanır, dataset modları gold token. README'ye demo senaryoları
+  bölümü eklendi. Uçtan uca doküman denemesinde görülen iki açık nokta (Hikmet karar verecek): (1) NB splitter `Dr.`/`Prof.`'u
+  ayrı cümle yapıyor (rule doğru) → doküman modunda varsayılan rule mu, hibrit mi; (2) `--doc` satır sonlarını boşluk sayıyor →
+  boş satır = paragraf sınırı kuralı eklenmeli mi. Ayrıca LR tokenizer `T.C.`'yi `T.C` + `.` böldü (rule doğru).
 - **Next task (28 Eki akşam, FAZ 2):** paper 3 Experimental Setup + 4 Results; Ecem: tokenization + paper 2.2/2.3.
   YAPILDI 28 Eki: `hikmet`→`main` merge + push; test split bir kez; **`--doc` doküman modu** (`run.py <görev> --doc dosya|-`:
   splitter → cümle başına tokenize → ...; `tests/test_cli.py::test_doc_mode_pipeline`). **AÇIK KARAR:** doküman modunda
